@@ -1,0 +1,14 @@
+{
+    "userId": "1",
+    "email": "test@gmail.com",
+    "password": "123456",
+    "avator": "https://img.js.design/assets/img/67da66b8429d6bf48999ed57.png#2a0b2e9e240a30ff0ea1bfb2ba0df267",
+    "name": "Genji",
+    "about": "Nice to meet you all.",
+    "coins": 0,
+    "follow": [],
+    "fans": [],
+    "blockList": [],
+    "postLikeIds": [],
+    "isdelete": 0
+}

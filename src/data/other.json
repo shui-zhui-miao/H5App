@@ -1,0 +1,14 @@
+{
+    "postTheme": [
+        "Flow",
+        "Core",
+        "Rest"
+    ],
+    "reportContent": [
+        "Harassment",
+        "Malicious fraud",
+        "Pornography",
+        "Malicious insults",
+        "False Information"
+    ]
+}
