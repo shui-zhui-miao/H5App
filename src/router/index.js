@@ -31,6 +31,12 @@ const router = createRouter({
       component: () => import('../views/postViews/publishVideoPost.vue'),
     },
     {
+      path: '/chat/:chatId',
+      name: 'chat',
+      component: () => import('../views/messageViews/chat.vue'),
+      props: true
+    },
+    {
       path: '/otherHome/:userId',
       name: 'otherHome',
       component: () => import('../views/messageViews/otherHome.vue'),
