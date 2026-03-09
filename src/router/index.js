@@ -15,6 +15,22 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/videoPostDetails/:postId',
+      name: 'videoPostDetails',
+      component: () => import('../views/postViews/videoPostDetails.vue'),
+      props: true
+    },
+    {
+      path: '/publishPicPost',
+      name: 'publishPicPost',
+      component: () => import('../views/postViews/publishPicPost.vue'),
+    },
+    {
+      path: '/publishVideoPost',
+      name: 'publishVideoPost',
+      component: () => import('../views/postViews/publishVideoPost.vue'),
+    },
+    {
       path: '/otherHome/:userId',
       name: 'otherHome',
       component: () => import('../views/messageViews/otherHome.vue'),
@@ -24,11 +40,6 @@ const router = createRouter({
       path: '/report',
       name: 'report',
       component: () => import('../views/messageViews/report.vue'),
-    },
-    {
-      path: '/publishPicPost',
-      name: 'publishPicPost',
-      component: () => import('../views/postViews/publishPicPost.vue'),
     },
     {
       path: '/aiDetails',
