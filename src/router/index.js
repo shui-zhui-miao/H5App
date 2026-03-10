@@ -8,6 +8,7 @@ const router = createRouter({
       name: 'home',
       component: () => import('../views/Home.vue'),
     },
+    //帖子相关
     {
       path: '/picPostDetails/:postId',
       name: 'picPostDetails',
@@ -30,6 +31,7 @@ const router = createRouter({
       name: 'publishVideoPost',
       component: () => import('../views/postViews/publishVideoPost.vue'),
     },
+    //聊天相关
     {
       path: '/chat/:chatId',
       name: 'chat',
@@ -47,6 +49,7 @@ const router = createRouter({
       name: 'report',
       component: () => import('../views/messageViews/report.vue'),
     },
+    //Ai相关
     {
       path: '/aiDetails',
       name: 'aiDetails',
@@ -56,6 +59,47 @@ const router = createRouter({
       path: '/aiChat',
       name: 'aiChat',
       component: () => import('../views/aiViews/aiChat.vue'),
+    },
+    //个人相关
+    {
+      path: '/setting',
+      name: 'setting',
+      component: () => import('../views/mineViews/setting.vue'),
+    },
+    {
+      path: '/edit',
+      name: 'edit',
+      component: () => import('../views/mineViews/edit.vue'),
+    },
+    {
+      path: '/follow',
+      name: 'follow',
+      component: () => import('../views/mineViews/follow.vue'),
+    },
+    {
+      path: '/fan',
+      name: 'fan',
+      component: () => import('../views/mineViews/fan.vue'),
+    },
+    {
+      path: '/block',
+      name: 'block',
+      component: () => import('../views/mineViews/block.vue'),
+    },
+    {
+      path: '/coins',
+      name: 'coins',
+      component: () => import('../views/mineViews/coins.vue'),
+    },
+    {
+      path: '/userAgreement',
+      name: 'userAgreement',
+      component: () => import('../views/mineViews/userAgreement.vue'),
+    },
+    {
+      path: '/privacyPolicy',
+      name: 'privacyPolicy',
+      component: () => import('../views/mineViews/privacyPolicy.vue'),
     },
   ],
 })
