@@ -30,10 +30,15 @@
       <!-- 简介和chat按钮 -->
       <div class="intro-chat">
         <div class="intro-text">{{ currentUser.about }}</div>
-        <div class="chat-btn">
-            <div class="chat-icon"></div>
-            <div class="chat-text">Chat</div>
-        </div>
+        <template v-if="userId !== currentUserStore.currentUser.userId">
+          <div class="chat-btn">
+              <div class="chat-icon"></div>
+              <div class="chat-text">Chat</div>
+          </div>
+        </template>
+        <template v-else>
+          <div class="chat-btn-hidden"></div>
+        </template>
       </div>
       <!-- Post标题 -->
       <div class="post-title">Post</div>
@@ -357,6 +362,11 @@ function toPostDetail(dynamicId, dynamicType) {
   background: rgba(255, 255, 255, 0.1);
   border-radius: calc(100vw * 20 / 375);
   cursor: pointer;
+}
+
+.chat-btn-hidden {
+  width: calc(100vw * 119 / 375);
+  height: calc(100vh * 53 / 812);
 }
 
 .chat-icon {

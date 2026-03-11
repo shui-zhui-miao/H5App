@@ -8,7 +8,7 @@
       <div class="top-content">
         <div class="left-part">
           <BackButton />
-          <div class="user-info">
+          <div class="user-info" @click="goOtherHome(otherUser.userId)">
             <img class="avatar" :src="otherUser.avator" alt="avatar" />
             <span class="username">{{ otherUser.name }}</span>
           </div>
@@ -16,17 +16,18 @@
 
         <div class="right-part">
           <div class="icon-group">
-            <img src="@/assets/chatpicicon.png" class="icon" />
+            <img src="@/assets/chatpicicon.png" class="icon" @click="selectImage" />
+            <input ref="imageInput" type="file" accept="image/*" style="display:none" @change="handleImageChange" />
             <img src="@/assets/chatvideoicon.png" class="icon" @click="openVideoCall" />
           </div>
-          <MoreButton />
+          <MoreButton @click="showReport = true" />
         </div>
       </div>
 
       <!-- 聊天内容 -->
       <div class="chat-content">
         <div v-for="msg in messages" :key="msg.msgId" :class="['chat-item', { 'own-message': msg.userId === currentUserId }]">
-          <img class="chat-avatar" :src="getUserAvatar(msg.userId)" alt="avatar" />
+          <img class="chat-avatar" @click="goOtherHome(msg.userId)" :src="getUserAvatar(msg.userId)" alt="avatar" />
           <div class="chat-right">
             <div v-if="msg.userId === currentUserId && msg.sendPicUrl" class="chat-message-image">
               <div class="image-container">
@@ -50,19 +51,27 @@
         <VideoCall :userId="otherUser.userId" @hangup="closeVideoCall" />
       </div>
     </transition>
+
+    <ReportDialog v-if="showReport" @close="showReport = false" @select="reportSelect" >
+    </ReportDialog>
   </div>
 </template>
 
 <script setup>
 import { defineProps } from 'vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useChatsStore } from '@/stores/chat'
 import { useUserStore } from '@/stores/user'
 import { useMessagesStore } from '@/stores/message'
 import { useCurrentUserStore } from '@/stores/currentUser'
+import { useUIStore } from '@/stores/ui'
 import BackButton from '@/components/back.vue'
 import MoreButton from '@/components/more.vue'
 import VideoCall from '@/views/messageViews/videocall.vue'
-import { ref } from 'vue'
+import ReportDialog from '@/components/reportChoose.vue'
+import { goBackOrClose } from '@/utils/iosBridge'
+import { uploadSingleImage } from '@/utils/ossUpload'
 
 const props = defineProps({
   chatId: String
@@ -71,16 +80,24 @@ const props = defineProps({
 const chatsStore = useChatsStore()
 const userStore = useUserStore()
 const currentUserStore = useCurrentUserStore()
+const messagesStore = useMessagesStore()
+const uiStore = useUIStore()
+const router = useRouter()
 const currentUserId = currentUserStore.currentUser.userId
 
 // 当前聊天室信息
 const currentChat = chatsStore.getChatById(props.chatId)
 
+// 点击用户头像跳转到用户主页
+function goOtherHome(userId) {
+  if (!userId) return
+  router.push({ name: 'otherHome', params: { userId } })
+}
+
 // 获取聊天室中除自己以外的另一个用户信息
 const otherUser = userStore.getOtherUserInChat(currentChat.chatUserIds)
 
-const messagesStore = useMessagesStore()
-const messages = messagesStore.getMessagesByChatId(props.chatId)
+const messages = ref(messagesStore.getMessagesByChatId(props.chatId))
 function getUserAvatar(userId) {
   const user = userStore.getUserById(userId)
   return user?.avator || ''
@@ -94,9 +111,77 @@ function formatTime(timeStr) {
 }
 
 const inputText = ref('')
+
+const imageInput = ref(null)
+
+function selectImage() {
+  imageInput.value && imageInput.value.click()
+}
+
+async function handleImageChange(e) {
+
+  const file = e.target.files[0]
+  if (!file) {
+    return
+  }
+
+  if (uiStore.loading) return
+  uiStore.showLoading()
+  try {
+    const url = await uploadSingleImage(file, 'template_development')
+
+    console.log('uploaded image url:', url)
+
+    // 这里可以创建一条图片消息
+    messagesStore.addMessage?.({
+        msgId: String(messagesStore.message.length + 1),
+        chatId: props.chatId,
+        userId: currentUserStore.currentUser.userId,
+        sendContent: "",
+        sendPicUrl: url,
+        sendTime: new Date().toISOString()
+    })
+
+    chatsStore.updateChat?.(props.chatId, {
+      lastSendContent : '[image message]',
+      lastSendTime : new Date().toISOString(),
+      unreadMsgCount : currentChat.unreadMsgCount + 1,
+      lastSendUserId : currentUserStore.currentUser.userId
+    })
+
+    messages.value = messagesStore.getMessagesByChatId(props.chatId)
+
+  } catch (err) {
+    console.error('upload image failed', err)
+    uiStore.showToast('Upload failed, please check your network.')
+  } finally {
+    uiStore.hideLoading()
+  }
+
+  e.target.value = ''
+}
+
 function sendMessage() {
   if(inputText.value.trim() !== '') {
-    console.log('Send:', inputText.value)
+    // 这里可以创建一条图片消息
+    messagesStore.addMessage?.({
+        msgId: String(messagesStore.message.length + 1),
+        chatId: props.chatId,
+        userId: currentUserStore.currentUser.userId,
+        sendContent: inputText.value,
+        sendPicUrl: '',
+        sendTime: new Date().toISOString()
+    })
+
+    chatsStore.updateChat?.(props.chatId, {
+      lastSendContent : inputText.value,
+      lastSendTime : new Date().toISOString(),
+      unreadMsgCount : currentChat.unreadMsgCount + 1,
+      lastSendUserId : currentUserStore.currentUser.userId
+    })
+
+    messages.value = messagesStore.getMessagesByChatId(props.chatId)
+
     inputText.value = ''
   }
 }
@@ -109,6 +194,39 @@ function openVideoCall() {
 
 function closeVideoCall() {
   showVideoCall.value = false
+}
+
+const showReport = ref(false)
+function reportSelect(value) {
+  showReport.value = false
+  if (value === 0) {
+    router.push({ name: 'report' })
+  } else if (value === 1) {
+    //用户选择屏蔽
+    if (uiStore.loading) return
+    uiStore.showLoading()
+
+    // 用户选择屏蔽时加入 blockList
+    const blockList = currentUserStore.currentUser.blockList || []
+
+    // 不存在才加入，避免重复
+    if (!blockList.includes(otherUser.userId)) {
+      blockList.unshift(otherUser.userId)
+
+      // 使用 userStore 公共方法同步更新当前用户并回传 iOS
+      userStore.updateUser(currentUserStore.currentUser.userId, { blockList: blockList })
+    }
+
+    const delay = Math.floor(Math.random() * 1500) + 500
+
+    setTimeout(() => {
+      uiStore.hideLoading()
+      uiStore.showToast('Blocking successful')
+
+      goBackOrClose()
+
+    }, delay)
+  }
 }
 </script>
 

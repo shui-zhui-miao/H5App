@@ -32,6 +32,40 @@ export function sendPostsToIOS(posts) {
     }
 }
 
+// Send updated chats list to iOS
+export function sendChatsToIOS(chats) {
+    try {
+        if (
+            window.webkit &&
+            window.webkit.messageHandlers &&
+            window.webkit.messageHandlers.chatsUpdate
+        ) {
+            window.webkit.messageHandlers.chatsUpdate.postMessage(chats)
+        } else {
+            console.warn('iOS handler chatsUpdate not found')
+        }
+    } catch (e) {
+        console.error('sendChatsToIOS error', e)
+    }
+}
+
+// Send updated messages list to iOS
+export function sendMessagesToIOS(messages) {
+    try {
+        if (
+            window.webkit &&
+            window.webkit.messageHandlers &&
+            window.webkit.messageHandlers.messagesUpdate
+        ) {
+            window.webkit.messageHandlers.messagesUpdate.postMessage(messages)
+        } else {
+            console.warn('iOS handler messagesUpdate not found')
+        }
+    } catch (e) {
+        console.error('sendMessagesToIOS error', e)
+    }
+}
+
 // Send updated comments list to iOS
 export function sendCommentsToIOS(comments) {
     try {
