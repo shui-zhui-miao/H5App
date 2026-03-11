@@ -6,33 +6,78 @@
     </div>
     <!-- 关注列表 -->
     <div class="container">
-        <div class="follow-list">
-            <div v-for="(item, index) in follows" :key="index" class="follow-item">
-                <div class="follow-left">
-                    <div class="user-info">
-                        <div class="avatar-box">
-                            <div class="avatar-inner">
-                                <img :src="item.avatar" alt="avatar" />
-                            </div>
-                        </div>
-                        <div class="user-name">{{ item.name }}</div>
-                    </div>
-                    <div class="user-intro">{{ item.intro }}</div>
+      <div v-if="follows.length > 0" class="follow-list">
+        <div v-for="(item, index) in follows" :key="index" class="follow-item">
+          <div class="follow-left">
+            <div class="user-info">
+              <div class="avatar-box">
+                <div class="avatar-inner">
+                  <img :src="item.avator" alt="avatar" />
                 </div>
-                <div class="follow-right">Cancel</div>
+              </div>
+              <div class="user-name">{{ item.name }}</div>
             </div>
+            <div class="user-intro">{{ item.about }}</div>
+          </div>
+          <div class="follow-right" @click="cancelFollow(item.userId)">Cancel</div>
         </div>
+      </div>
+      <Empty class="empty" v-else />
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref, computed } from 'vue'
+import { useCurrentUserStore } from '@/stores/currentUser'
+import { useUserStore } from '@/stores/user'
+import { useUIStore } from '@/stores/ui'
 import BackButton from '@/components/back.vue'
-import { ref } from 'vue'
-const follows = ref([
-  { name: 'User One', intro: 'Hello world', avatar: '/src/assets/avataricon.png' },
-  { name: 'User Two', intro: 'This is intro text', avatar: '/src/assets/avataricon.png' },
-])
+import Empty from '@/components/empty.vue'
+
+const currentUserStore = useCurrentUserStore()
+const userStore = useUserStore()
+const uiStore = useUIStore()
+
+const follows = computed(() => {
+  return currentUserStore.currentUser?.follow?.map(userId => {
+    // Here you can map userId to user info if you have a userStore
+    // For now we return placeholder data
+    return userStore.getUserById(userId)
+  }) || []
+})
+
+function cancelFollow(userId) {
+  if (uiStore.loading) return
+  uiStore.showLoading()
+  const currentUserId = currentUserStore.currentUser.userId
+
+  // Remove userId from current user's follow list if it exists
+  const currentUserFollow = currentUserStore.currentUser.follow ? [...currentUserStore.currentUser.follow] : []
+  const index = currentUserFollow.indexOf(userId)
+  if (index !== -1) {
+    currentUserFollow.splice(index, 1)
+  }
+
+  // Update post user's fans list
+  const otherUser = userStore.getUserById(userId)
+  const otherUserFans = otherUser.fans ? [...otherUser.fans] : []
+  const index2 = otherUserFans.indexOf(currentUserId)
+  if (index2 !== -1) {
+    otherUserFans.splice(index2, 1)
+  }
+
+  const delay = Math.floor(Math.random() * 1500) + 500
+
+  setTimeout(() => {
+
+    userStore.updateUser(currentUserStore.currentUser.userId, { follow: currentUserFollow })
+    userStore.updateUser(userId, { fans: otherUserFans })
+
+    uiStore.hideLoading()
+    uiStore.showToast('Unfollow successfully')
+  }, delay)
+}
 </script>
 
 <style scoped>
@@ -163,5 +208,12 @@ const follows = ref([
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 </style>

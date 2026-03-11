@@ -6,17 +6,24 @@
     </div>
     <div class="content">
       <div class="top">
-        <div class="top-block" :style="{ backgroundImage: `url(${topBlockImage})` }">
+        <div class="top-block" :style="{ backgroundImage: `url(${topBlockImage})` }" @click="chooseAvatar">
             <div class="camera-corner">
             <img src="@/assets/cameraicon.png" alt="camera" />
             </div>
         </div>
       </div>
+      <input
+        ref="fileInput"
+        type="file"
+        accept="image/*"
+        style="display:none"
+        @change="onFileChange"
+      />
       <div class="second">
         <div class="second-section">
             <div class="label">Name</div>
             <div class="input-box">
-            <input type="text" placeholder="Please enter" />
+            <input v-model="name" type="text" placeholder="Please enter" />
             </div>
         </div>
       </div>
@@ -24,23 +31,114 @@
         <div class="third-section">
             <div class="label">About me</div>
             <div class="input-box about-me-box">
-            <textarea placeholder="Please enter"></textarea>
+            <textarea v-model="aboutMe" placeholder="Please enter"></textarea>
             </div>
         </div>
       </div>
       <div class="fourth-section">
-        <div class="save-btn">Save</div>
+        <div class="save-btn" @click="saveProfile">Save</div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useCurrentUserStore } from '@/stores/currentUser'
+import { useUIStore } from '@/stores/ui'
+import { useUserStore } from '@/stores/user'
 import BackButton from '@/components/back.vue'
+import { goBackOrClose } from '@/utils/iosBridge'
+import { uploadSingleImage } from '@/utils/ossUpload'
 
 // Use relative path for web build
 const topBlockImage = ref('/src/assets/avataricon.png')
+
+const name = ref('')
+const aboutMe = ref('')
+
+const fileInput = ref(null)
+const avatarFile = ref(null)
+
+const currentUserStore = useCurrentUserStore()
+const uiStore = useUIStore()
+const userStore =  useUserStore()
+
+const chooseAvatar = () => {
+  if (fileInput.value) {
+    fileInput.value.click()
+  }
+}
+
+const onFileChange = (e) => {
+  const file = e.target.files[0]
+  if (!file) return
+
+  avatarFile.value = file
+
+  // 本地预览
+  const reader = new FileReader()
+  reader.onload = (ev) => {
+    topBlockImage.value = ev.target.result
+  }
+  reader.readAsDataURL(file)
+}
+
+const saveProfile = async () => {
+  if (!name.value.trim()) {
+    uiStore.showToast('Please enter name')
+    return
+  }
+
+  if (!aboutMe.value.trim()) {
+    uiStore.showToast('Please enter about me')
+    return
+  }
+
+  if (uiStore.loading) return
+  uiStore.showLoading()
+
+  let avatarUrl = topBlockImage.value
+
+  try {
+    if (avatarFile.value) {
+      avatarUrl = await uploadSingleImage(avatarFile.value, 'template_development')
+    }
+
+    const delay = avatarFile.value ? 0 : Math.floor(Math.random() * 1500) + 500
+
+    setTimeout(() => {
+      userStore.updateUser(currentUserStore.currentUser.userId, { 
+        avator: avatarUrl,
+        name: name.value,
+        about: aboutMe.value
+      })
+
+      uiStore.hideLoading()
+
+      goBackOrClose()
+
+      uiStore.showToast('Profile updated')
+    }, delay)
+
+  } catch (e) {
+    console.error(e)
+    uiStore.hideLoading()
+    uiStore.showToast('Updated failed, please check your network.')
+  }
+}
+
+onMounted(() => {
+  const user = currentUserStore.currentUser
+  if (!user) return
+
+  name.value = user.name || ''
+  aboutMe.value = user.about || ''
+
+  if (user.avator) {
+    topBlockImage.value = user.avator
+  }
+})
 </script>
 
 <style scoped>

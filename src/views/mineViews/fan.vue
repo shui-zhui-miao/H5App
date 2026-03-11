@@ -6,33 +6,81 @@
     </div>
     <!-- 粉丝列表 -->
     <div class="container">
-        <div class="fan-list">
+        <div class="fan-list" v-if="fans.length > 0">
             <div v-for="(item, index) in fans" :key="index" class="fan-item">
                 <div class="fan-left">
                     <div class="user-info">
                         <div class="avatar-box">
                             <div class="avatar-inner">
-                                <img :src="item.avatar" alt="avatar" />
+                                <img :src="item.avator" alt="avatar" />
                             </div>
                         </div>
                         <div class="user-name">{{ item.name }}</div>
                     </div>
-                    <div class="user-intro">{{ item.intro }}</div>
+                    <div class="user-intro">{{ item.about }}</div>
                 </div>
-                <div class="fan-right">Follow</div>
+                <div class="fan-right" @click="addFollow(item.userId)">Follow</div>
             </div>
         </div>
+        <Empty class="empty" v-else />
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref, computed } from 'vue'
+import { useCurrentUserStore } from '@/stores/currentUser'
+import { useUserStore } from '@/stores/user'
+import { useUIStore } from '@/stores/ui'
 import BackButton from '@/components/back.vue'
-import { ref } from 'vue'
-const fans = ref([
-  { name: 'User One', intro: 'Hello world', avatar: '/src/assets/avataricon.png' },
-  { name: 'User Two', intro: 'This is intro text', avatar: '/src/assets/avataricon.png' },
-])
+import Empty from '@/components/empty.vue'
+
+const currentUserStore = useCurrentUserStore()
+const userStore = useUserStore()
+const uiStore = useUIStore()
+
+const fans = computed(() => {
+  return currentUserStore.currentUser?.fans?.map(userId => {
+    // Here you can map userId to user info if you have a userStore
+    // For now we return placeholder data
+    return userStore.getUserById(userId)
+  }) || []
+})
+
+function addFollow(userId) {
+  if (currentUserStore.currentUser.follow?.includes(userId)) {
+    uiStore.showToast('You have already followed this user.')
+    return
+  }
+
+  if (uiStore.loading) return
+  uiStore.showLoading()
+  const currentUserId = currentUserStore.currentUser.userId
+
+  // Update current user's follow list
+  const currentUserFollow = currentUserStore.currentUser.follow ? [...currentUserStore.currentUser.follow] : []
+  if (!currentUserFollow.includes(userId)) {
+    currentUserFollow.unshift(userId)
+  }
+
+  // Update post user's fans list
+  const otherUser = userStore.getUserById(userId)
+  const otherUserFans = otherUser.fans ? [...otherUser.fans] : []
+  if (!otherUserFans.includes(currentUserId)) {
+    otherUserFans.unshift(currentUserId)
+  }
+
+  const delay = Math.floor(Math.random() * 1500) + 500
+
+  setTimeout(() => {
+
+    userStore.updateUser(currentUserStore.currentUser.userId, { follow: currentUserFollow })
+    userStore.updateUser(userId, { fans: otherUserFans })
+
+    uiStore.hideLoading()
+    uiStore.showToast('Followed successfully')
+  }, delay)
+}
 </script>
 
 <style scoped>
@@ -163,5 +211,12 @@ const fans = ref([
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 </style>

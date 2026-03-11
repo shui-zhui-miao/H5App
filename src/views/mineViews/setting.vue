@@ -5,7 +5,7 @@
       <h1 class="title">Setting</h1>
     </div>
     <main class="options-list">
-      <div class="option" v-for="(option, index) in options" :key="index">
+      <div class="option" v-for="(option, index) in options" :key="index" @click="handleOption(index)">
         <span class="option-text">{{ option.text }}</span>
         <div class="option-right">
           <div class="arrow-placeholder"></div>
@@ -13,15 +13,20 @@
       </div>
     </main>
     <div class="footer">
-      <button class="btn delete-btn">Delete account</button>
-      <button class="btn logout-btn">Log out</button>
+      <button class="btn delete-btn" @click="handleAction(true)">Delete account</button>
+      <button class="btn logout-btn" @click="handleAction(false)">Log out</button>
     </div>
   </div>
 </template>
 
 <script setup>
-import BackButton from '@/components/back.vue'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUIStore } from '@/stores/ui'
+import { useUserStore } from '@/stores/user'
+import { useCurrentUserStore } from '@/stores/currentUser'
+import BackButton from '@/components/back.vue'
+import { sendLogoutToIOS } from '@/utils/iosBridge'
 
 const options = ref([
   { text: 'Privacy Policy' },
@@ -30,6 +35,50 @@ const options = ref([
   { text: 'Wallet' },
   { text: 'Edit personal information' }
 ])
+
+const router = useRouter()
+const uiStore = useUIStore()
+const userStore =  useUserStore()
+const currentUserStore = useCurrentUserStore()
+
+function handleOption(index) {
+  switch (index) {
+    case 0:
+      router.push({ name: 'privacyPolicy' })
+      break
+    case 1:
+      router.push({ name: 'userAgreement' })
+      break
+    case 2:
+      router.push({ name: 'block' })
+      break
+    case 3:
+      router.push({ name: 'coins' })
+      break
+    case 4:
+      router.push({ name: 'edit' })
+      break
+    default:
+      break
+  }
+}
+
+function handleAction(isDelete) {
+  if (uiStore.loading) return
+  uiStore.showLoading()
+
+  if (isDelete) {
+    userStore.updateUser(currentUserStore.currentUser.userId, { isdelete: 1 })
+  }
+
+  const delay = Math.floor(Math.random() * 1500) + 500
+
+  setTimeout(() => {
+    uiStore.hideLoading()
+    sendLogoutToIOS(isDelete)
+
+  }, delay)
+}
 </script>
 
 <style scoped>

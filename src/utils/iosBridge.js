@@ -83,6 +83,23 @@ export function sendCommentsToIOS(comments) {
     }
 }
 
+// Notify iOS that user logged out
+export function sendLogoutToIOS(isLogout) {
+    try {
+        if (
+            window.webkit &&
+            window.webkit.messageHandlers &&
+            window.webkit.messageHandlers.logout
+        ) {
+            window.webkit.messageHandlers.logout.postMessage(isLogout)
+        } else {
+            console.warn('iOS handler logout not found')
+        }
+    } catch (e) {
+        console.error('sendLogoutToIOS error', e)
+    }
+}
+
 // Handle page back or close action
 export function goBackOrClose() {
     if (window.history.length > 1) {
@@ -94,5 +111,23 @@ export function goBackOrClose() {
         } else {
             console.warn('WebKit close handler not found')
         }
+    }
+}
+
+// Notify iOS to start in-app purchase
+export function sendPaymentToIOS(payKey, callbackName) {
+    try {
+        if (
+            window.webkit &&
+            window.webkit.messageHandlers &&
+            window.webkit.messageHandlers.payment
+        ) {
+            window.webkit.messageHandlers.payment.postMessage(payKey)
+            // iOS 端回调支付结果会通过 JS 调用 window[callbackName](success)
+        } else {
+            console.warn('iOS handler payment not found')
+        }
+    } catch (e) {
+        console.error('sendPaymentToIOS error', e)
     }
 }

@@ -6,35 +6,69 @@
     </div>
     <!-- 黑名单列表 -->
     <div class="container">
-        <div class="block-list">
+        <div class="block-list" v-if="blocks.length > 0">
             <div v-for="(item, index) in blocks" :key="index" class="block-item">
                 <div class="block-left">
                     <div class="user-info">
                         <div class="avatar-box">
                             <div class="avatar-inner">
-                                <img :src="item.avatar" alt="avatar" />
+                                <img :src="item.avator" alt="avatar" />
                             </div>
                         </div>
                         <div class="user-name">{{ item.name }}</div>
                     </div>
-                    <div class="user-intro">{{ item.intro }}</div>
+                    <div class="user-intro">{{ item.about }}</div>
                 </div>
-                <div class="block-right">Remove</div>
+                <div class="block-right" @click="removeBlock(item.userId)">Remove</div>
             </div>
-            <EmptyView />
         </div>
+        <Empty v-else class="empty" />
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref, computed } from 'vue'
+import { useCurrentUserStore } from '@/stores/currentUser'
+import { useUserStore } from '@/stores/user'
+import { useUIStore } from '@/stores/ui'
 import BackButton from '@/components/back.vue'
-import EmptyView from '@/components/empty.vue'
-import { ref } from 'vue'
-const blocks = ref([
-  { name: 'User One', intro: 'Hello world', avatar: '/src/assets/avataricon.png' },
-  { name: 'User Two', intro: 'This is intro text', avatar: '/src/assets/avataricon.png' },
-])
+import Empty from '@/components/empty.vue'
+
+const currentUserStore = useCurrentUserStore()
+const userStore = useUserStore()
+const uiStore = useUIStore()
+
+const blocks = computed(() => {
+  return currentUserStore.currentUser?.blockList?.map(userId => {
+    // Here you can map userId to user info if you have a userStore
+    // For now we return placeholder data
+    return userStore.getUserById(userId)
+  }) || []
+})
+
+function removeBlock(userId) {
+  const currentUser = currentUserStore.currentUser
+  if (!currentUser || !currentUser.blockList) return
+
+  if (uiStore.loading) return
+  uiStore.showLoading()
+
+  const index = currentUser.blockList.indexOf(userId)
+  
+  const delay = Math.floor(Math.random() * 1500) + 500
+
+  setTimeout(() => {
+
+    if (index !== -1) {
+      currentUser.blockList.splice(index, 1)
+      userStore.updateUser(currentUser.userId, { blockList: currentUser.blockList })
+    }
+
+    uiStore.hideLoading()
+    
+  }, delay)
+}
 </script>
 
 <style scoped>
@@ -165,5 +199,12 @@ const blocks = ref([
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 </style>
