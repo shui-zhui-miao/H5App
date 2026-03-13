@@ -107,7 +107,7 @@ export function goBackOrClose() {
     } else {
         // iOS WKWebView callback to close the page
         if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.close) {
-            window.webkit.messageHandlers.close.postMessage()
+            window.webkit.messageHandlers.close.postMessage({})
         } else {
             console.warn('WebKit close handler not found')
         }
