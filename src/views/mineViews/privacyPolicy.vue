@@ -10,12 +10,12 @@
     <!-- content -->
     <div class="agreement-content">
 
-      <h1>Test1 Privacy Policy</h1>
+      <h1>Luvie Privacy Policy</h1>
       <p class="update-time">Last updated: 2026</p>
 
       <p>
-        Welcome to <strong>Test1</strong>. Your privacy is very important to us.
-        This Privacy Policy explains how Test1 collects, uses, and protects
+        Welcome to <strong>Luvie</strong>. Your privacy is very important to us.
+        This Privacy Policy explains how Luvie collects, uses, and protects
         your information when you use our application and services.
       </p>
 
@@ -35,7 +35,7 @@
       <p>The information we collect may be used to:</p>
 
       <ul>
-        <li>Provide and improve Test1 services</li>
+        <li>Provide and improve Luvie services</li>
         <li>Personalize user experience</li>
         <li>Ensure platform safety and prevent fraud</li>
         <li>Process payments and virtual item purchases</li>
@@ -45,7 +45,7 @@
       <h2>3. Information Sharing</h2>
 
       <p>
-        Test1 does not sell or rent your personal information. We may share
+        Luvie does not sell or rent your personal information. We may share
         information only in the following situations:
       </p>
 
@@ -73,7 +73,7 @@
       <h2>6. Children's Privacy</h2>
 
       <p>
-        Test1 is not intended for individuals under the age required by
+        Luvie is not intended for individuals under the age required by
         applicable law. We do not knowingly collect personal information
         from children.
       </p>
@@ -91,7 +91,7 @@
       <h2>8. Changes to This Policy</h2>
 
       <p>
-        Test1 may update this Privacy Policy from time to time.
+        Luvie may update this Privacy Policy from time to time.
         Continued use of the service after changes indicates
         acceptance of the updated policy.
       </p>
@@ -101,7 +101,7 @@
       <p>
         If you have questions about this Privacy Policy,
         please contact us through the support channel
-        provided within the Test1 application.
+        provided within the Luvie application.
       </p>
 
     </div>
