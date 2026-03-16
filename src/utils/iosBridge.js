@@ -126,19 +126,15 @@ export function goBackOrClose() {
 }
 
 // Notify iOS to start in-app purchase
-export function sendPaymentToIOS(payKey, callbackName) {
+export function sendPaymentToIOS(payKey) {
     try {
         if (
             window.webkit &&
             window.webkit.messageHandlers &&
             window.webkit.messageHandlers.payment
         ) {
-            // 发送支付ID和回调函数名给 iOS
-            window.webkit.messageHandlers.payment.postMessage({
-                payKey: payKey,
-                callbackName: callbackName
-            })
-            // iOS 完成异步支付后会通过 JS 调用 window[callbackName](success)
+            window.webkit.messageHandlers.payment.postMessage({ payKey: payKey })
+            // iOS 端回调支付结果会通过 JS 调用 window[callbackName](success)
         } else {
             console.warn('iOS handler payment not found')
         }
