@@ -58,7 +58,14 @@ function handleCoinClick(item) {
   const payKey = item.key
 
   // 调用 iOS 支付
-  sendPaymentToIOS(payKey)
+  sendPaymentToIOS(payKey, async (success) => {
+    if (success) {
+      // 支付成功，更新当前用户金币数量
+      const currentCoins = currentUserStore.currentUser.coins || 0
+      const addedCoins = item.cions || 0
+      userStore.updateUser(currentUserStore.currentUser.userId, { coins: currentCoins + addedCoins })
+    }
+  })
 }
 </script>
 

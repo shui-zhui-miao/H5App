@@ -126,7 +126,7 @@ export function goBackOrClose() {
 }
 
 // Notify iOS to start in-app purchase
-export function sendPaymentToIOS(payKey) {
+export function sendPaymentToIOS(payKey, callbackName) {
     try {
         if (
             window.webkit &&
@@ -135,7 +135,8 @@ export function sendPaymentToIOS(payKey) {
         ) {
             // 发送支付ID和回调函数名给 iOS
             window.webkit.messageHandlers.payment.postMessage({
-                payKey: payKey
+                payKey: payKey,
+                callbackName: callbackName
             })
             // iOS 完成异步支付后会通过 JS 调用 window[callbackName](success)
         } else {
