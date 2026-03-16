@@ -10,7 +10,7 @@
       <div class="coin-box-header">My diamonds</div>
       <div class="coin-box-content">
         <img src="@/assets/coin.png" alt="coin" class="coin-icon" />
-        <span class="coin-number">999</span>
+        <span class="coin-number">{{ currentUserStore.currentUser.coins }}</span>
       </div>
     </div>
     <div class="coinbgc"></div>
