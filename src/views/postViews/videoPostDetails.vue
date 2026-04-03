@@ -58,7 +58,7 @@
       <div class="action-button" @click="toggleLike">
         <img v-if="currentUserStore.currentUser.postLikeIds.includes(post.dynamicId)" src="@/assets/likepic.png" alt="like" />
         <img v-else src="@/assets/dislikepic.png" alt="like" />
-        <span>{{post.dynamicLikeCount + (currentUserStore.currentUser.postLikeIds.includes(post.dynamicId) ? 1 : 0) }}</span>
+        <span>{{post.dynamicLikeCount}}</span>
       </div>
       <div class="action-button" @click="uiStore.openComment()">
         <img src="@/assets/chaticon.png" alt="comment" />
@@ -223,14 +223,19 @@ function toggleLike() {
   if (likedIndex === -1) {
     // 未点赞，添加postId到postLikeIds
     postLikeIds.push(postId)
+    post.dynamicLikeCount += 1
   } else {
     // 已点赞，移除postId
     postLikeIds.splice(likedIndex, 1)
     // 点赞数不减少，保持原有逻辑
+    post.dynamicLikeCount -= 1
   }
 
   // 同步更新userStore，并回传iOS
   userStore.updateUser(currentUserStore.currentUser.userId, { postLikeIds: postLikeIds })
+  postStore.updatePostById(postId, {
+    dynamicLikeCount: post.dynamicLikeCount
+  })
 }
 
 //评论举报、拉黑显示
