@@ -523,21 +523,21 @@
 
 <script setup>
 import BackButton from '@/components/back.vue'
-const appName = 'Meloz'
+const appName = 'Geime'
 </script>
 
 <style scoped>
 
-/* .agreement-page{
+.agreement-page{
   width:100%;
   height:100vh;
   display:flex;
   flex-direction:column;
-  background-image:url('@/assets/pagebgc.png');
+  /* background-image:url('@/assets/pagebgc.png'); */
   background-size:cover;
   background-position:center;
   color:white;
-} */
+}
 
 /* 顶部 */
 .header{
@@ -563,6 +563,7 @@ const appName = 'Meloz'
 
   .agreement {
     padding: 0px 25px;
+    background-color: white;
   }
   .T_title {
     font-size: 18px;

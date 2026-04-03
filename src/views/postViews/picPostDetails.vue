@@ -50,7 +50,7 @@
           <!-- 点赞内容 -->
           <div class="like-box" @click="toggleLike">
             <img :src="currentUserStore.currentUser.postLikeIds.includes(postId.toString()) ? likeImage : disLikeImage" alt="like" class="like-icon" />
-            <div class="like-count">{{ post.dynamicLikeCount + (currentUserStore.currentUser.postLikeIds.includes(postId.toString()) ? 1 : 0) }}</div>
+            <div class="like-count">{{ post.dynamicLikeCount}}</div>
           </div>
         </div>
       </div>
@@ -200,14 +200,19 @@ function toggleLike() {
   if (likedIndex === -1) {
     // 未点赞，添加postId到postLikeIds
     postLikeIds.push(postId)
+    post.dynamicLikeCount += 1
   } else {
     // 已点赞，移除postId
     postLikeIds.splice(likedIndex, 1)
     // 点赞数不减少，保持原有逻辑
+    post.dynamicLikeCount -= 1
   }
 
   // 同步更新userStore，并回传iOS
   userStore.updateUser(currentUserStore.currentUser.userId, { postLikeIds: postLikeIds })
+  postStore.updatePostById(postId, {
+    dynamicLikeCount: post.dynamicLikeCount
+  })
 }
 
 //评论击败、拉黑

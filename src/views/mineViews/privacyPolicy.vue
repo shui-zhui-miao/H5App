@@ -424,7 +424,7 @@
 
 <script setup>
 import BackButton from '@/components/back.vue'
-const appName = 'Meloz'
+const appName = 'Geime'
 </script>
 
 <style scoped>
@@ -462,10 +462,11 @@ const appName = 'Meloz'
 }
 .protocol {
     font-size: 14px;
-    margin-bottom: 35px;
+    padding-bottom: 35px;
     color: #666;
-    margin-left:20px;
-    margin-right:20px;
+    padding-left:20px;
+    padding-right:20px;
+    background-color: white;
   }
   .bt {
     font-size: 20px;
