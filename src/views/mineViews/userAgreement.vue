@@ -548,15 +548,10 @@ const appName = 'Geime'
 }
 
 .title{
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  background:linear-gradient(
-    135deg,
-    rgba(255,159,142,1),
-    rgba(241,213,160,1),
-    rgba(201,255,221,1),
-    rgba(157,255,255,1)
-  );
+  background:rgba(255,255,255,1);
+  font-weight: 700;
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }

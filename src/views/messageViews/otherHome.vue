@@ -1,35 +1,26 @@
 <template>
   <div class="page">
-    <!-- 头像背景 -->
-    <div class="avatar-bg" :style="{ '--avatar-url': `url(${currentUser.avator})` }"></div>
+    <!-- 头像背景-->
+    <!-- <div class="avatar-bg" :style="{ '--avatar-url': `url(${currentUser.avator})` }"></div> -->
     <!-- 可滑动内容 -->
     <div class="scroll-content">
       <div class="top">
-        <div class="top-avatar" :style="{ '--avatar-url': `url(${currentUser.avator})` }">
-            <div class="follow-btn" v-if="userId !== currentUserStore.currentUser.userId && !currentUserStore.currentUser.follow.includes(userId)" @click="handleFollow" >
-                <div class="follow-icon"></div>
-            </div> 
+        <div class="stat-item">
+          <div class="stat-number">{{ currentUser.fans.length || 0 }}</div>
+          <div class="stat-label">Followers</div>
+        </div>
+        <div class="top-avatar" :style="{ '--avatar-url': `url(${currentUser.avator})` }"></div>
+        <div class="stat-item">
+          <div class="stat-number">{{ currentUser.follow.length || 0 }}</div>
+          <div class="stat-label">Following</div>
         </div>
       </div>
       <div class="top-name">{{ currentUser.name }}</div>
-      <!-- 用户作品数量、粉丝、关注 -->
-      <div class="user-stats">
-        <div class="stat-item">
-          <div class="stat-number">{{ userPosts.length || 0 }}</div>
-          <div class="stat-label">Works</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">{{ currentUser.fans.length || 0 }}</div>
-          <div class="stat-label">Fans</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">{{ currentUser.follow.length || 0 }}</div>
-          <div class="stat-label">Follow</div>
-        </div>
-      </div>
       <!-- 简介和chat按钮 -->
       <div class="intro-chat">
-        <div class="intro-text">{{ currentUser.about }}</div>
+        <div class="follow-btn" v-if="userId !== currentUserStore.currentUser.userId && !currentUserStore.currentUser.follow.includes(userId)" @click="handleFollow" >
+            + Follow
+        </div> 
         <template v-if="userId !== currentUserStore.currentUser.userId">
           <div class="chat-btn" @click="handleChat">
               <div class="chat-icon"></div>
@@ -41,37 +32,17 @@
         </template>
       </div>
       <!-- Post标题 -->
-      <div class="post-title">Post</div>
+      <div class="post-title">POSTS</div>
       <!-- PostList -->
       <div class="post-list">
         <template v-if="userPosts.length > 0">
           <div class="post-item" v-for="post in userPosts" :key="post.dynamicId" @click="toPostDetail(post.dynamicId, post.dynamicType)">
-            <div class="post-content">
+            <div class="post-content" :style="{ backgroundImage: `url(${post.dynamicPic[0]})` }">
               <!-- Top row: avatar + name (left) and report button (right) -->
-              <div class="post-top">
-                  <div class="post-user">
-                  <div class="post-avatar">
-                    <div class="post-avatar-img" :style="{ backgroundImage: `url(${currentUser.avator})` }"></div>
-                  </div>
-                  <div class="post-username" :title="currentUser.name">{{ currentUser.name }}</div>
-                  </div>
-                  <div class="post-report" v-if="userId !== currentUserStore.currentUser.userId" @click="showReport = true"></div>
-              </div>
-              <!-- Middle image -->
-              <div class="post-image" :style="{ backgroundImage: `url(${post.dynamicPic[0]})` }">
-                <div class="post-image-overlay">
-                  <div class="overlay-item">
-                    <div class="overlay-icon overlay-like"></div>
-                    <div class="overlay-count">{{ post.dynamicLikeCount || 0 }}</div>
-                  </div>
-                  <div class="overlay-item">
-                    <div class="overlay-icon overlay-comment"></div>
-                    <div class="overlay-count">{{ post.dynamicCommentCount || 0 }}</div>
-                  </div>
-                </div>
-              </div>
-              <!-- Bottom: post type -->
-              <div class="post-type"># {{ otherStore.getTagByIndex(post.dynamicTitleType) }}</div>
+              <div class="post-report" v-if="userId !== currentUserStore.currentUser.userId" @click="showReport = true"></div>
+              <div class="post-report2" v-else></div>
+              <div class="post-pic-video" v-if="1 === post.dynamicType"></div>
+              <div class="post-report2"></div>
             </div>
           </div>
         </template>
@@ -85,7 +56,7 @@
         <BackButton/>
         <MoreButton v-if="userId !== currentUserStore.currentUser.userId" @click="showReport = true" />
     </div>
-    <ReportDialog v-if="showReport" @close="showReport = false" @select="reportSelect" >
+    <ReportDialog :visible="showReport" @close="showReport = false" @select="reportSelect" >
     </ReportDialog>
   </div>
 </template>
@@ -248,7 +219,6 @@ function toPostDetail(dynamicId, dynamicType) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
   overflow: hidden;
 }
 
@@ -278,16 +248,15 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .top {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: calc(100vh * 38 / 812);;
 }
 
 .top-avatar {
-  width: calc(100vw * 66 / 375); /* 可以根据需要调整 */
-  height: calc(100vw * 66 / 375);
+  width: calc(100vw * 100 / 375); /* 可以根据需要调整 */
+  height: calc(100vw * 100 / 375);
   border-radius: 50%;
-  padding: calc(100vw * 2 / 375); /* 给渐变边框留空间 */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%); /* 外渐变 */
-  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -305,17 +274,19 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .follow-btn {
-  position: absolute;
-  bottom: calc(-100vh * 4 / 812); /* 超出头像底部4 */
-  width: calc(100vw * 36 / 375);
-  height: calc(100vh * 14 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 1);
-  box-shadow: inset -1px -1px 1px rgba(255, 255, 255, 0.6), inset 1px 1px 1px rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
+  width: calc(100vw * 165 / 375);
+  height: calc(100vh * 48 / 812);
+  border-radius: calc(100vw * 24 / 375);
+  background: linear-gradient(180deg, rgba(255, 71, 98, 1) 0%, rgba(255, 87, 219, 1) 100%);
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: calc(100vw * 16 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 23.17 / 375);
+  font-family: 'Lato', sans-serif;
+  color: rgba(255, 255, 255, 1);
+
 }
 
 .follow-icon {
@@ -330,25 +301,17 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .top-name {
   padding: calc(100vh * 12 / 812) calc(100vw * 20 / 375) 0;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
-  font-family: 'YesevaOne', sans-serif;
+  font-size: calc(100vw * 24 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 34.75 / 375);
+  font-family: 'Lato', sans-serif;
   color: rgba(255, 255, 255, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
   text-align: center;
-  margin-top: calc(100vh * 8 / 812); /* 可根据需求调整与头像间距 */
-}
-
-/* 用户作品数量、粉丝、关注样式 */
-.user-stats {
-  display: flex;
-  justify-content: center;
-  gap: calc(100vw * 60 / 375); /* 三个内容间距60 */
-  margin-top: calc(100vh * 16 / 812); /* 顶部间距16 */
+  margin-top: calc(100vh * 6 / 812); /* 可根据需求调整与头像间距 */
 }
 
 .stat-item {
@@ -360,36 +323,36 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .stat-number {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 26 / 375);
   color: rgba(255, 255, 255, 1);
 }
 
 .stat-label {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
-  color: rgba(255, 255, 255, 1);
+  line-height: calc(100vw * 20.27 / 375);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .intro-chat {
   display: flex;
   justify-content: space-between; /* 左右对齐 */
   align-items: center;
-  margin-top: calc(100vh * 32 / 812); /* 顶部间距 */
-  padding-left: calc(100vw * 20 / 375);
-  padding-right: calc(100vw * 20 / 375);
+  margin-top: calc(100vh * 24 / 812); /* 顶部间距 */
+  padding-left: calc(100vw * 16 / 375);
+  padding-right: calc(100vw * 16 / 375);
   width: 100%;
   box-sizing: border-box; /* 确保 padding 生效 */
-  gap: calc(100vw * 20 / 375); /* 左右元素间距 */
+  gap: calc(100vw * 13 / 375); /* 左右元素间距 */
 }
 
 .intro-text {
   flex: 1;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: normal;
   line-height: calc(100vw * 15.23 / 375);
@@ -401,11 +364,11 @@ function toPostDetail(dynamicId, dynamicType) {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: calc(100vw * 10 / 375); /* 两个元素间距10 */
-  width: calc(100vw * 119 / 375);
-  height: calc(100vh * 53 / 812);
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: calc(100vw * 20 / 375);
+  gap: calc(100vw * 8 / 375); /* 两个元素间距10 */
+  width: calc(100vw * 165 / 375);
+  height: calc(100vh * 48 / 812);
+  background: linear-gradient(90deg, rgba(255, 71, 96, 1) 0%, rgba(255, 213, 0, 1) 100%);
+  border-radius: calc(100vw * 24 / 375);
   cursor: pointer;
 }
 
@@ -417,54 +380,54 @@ function toPostDetail(dynamicId, dynamicType) {
 .chat-icon {
   width: calc(100vw * 28 / 375);
   height: calc(100vw * 28 / 375);
-  background-image: url('@/assets/chaticon.png');
+  background-image: url('@/assets/rbjpffosp.png');
   background-size: cover;
   background-position: center;
 }
 
 .chat-text {
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  font-family: 'Lato', sans-serif;
+  font-size: calc(100vw * 16 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 23.17 / 375);
+  background: rgba(255, 255, 255, 1);
   -webkit-background-clip: text;
-  background-clip: text; /* 添加标准属性 */
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .post-title {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 24 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 27.72 / 375);
   color: rgba(255, 255, 255, 1);
   text-align: left; /* 确保左对齐 */
-  margin-top: calc(100vh * 38 / 812);
-  padding-left: calc(100vw * 20 / 375); /* 左间距，与页面内容对齐 */
+  margin-top: calc(100vh * 32 / 812);
+  padding-left: calc(100vw * 16 / 375); /* 左间距，与页面内容对齐 */
   width: 100%;
   box-sizing: border-box;
 }
 
 /* PostList styles */
 .post-list {
-  display: flex;
-  flex-direction: column;
-  padding: calc(100vh * 16 / 812) calc(100vw * 20 / 375) calc(100vh * 34 / 812);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 每行两列，等宽 */
+  gap: calc(100vw * 15 / 375); /* 行列间距均为15px，如需响应式可改为 calc(100vw * 15 / 375) */
+  padding: calc(100vh * 16 / 812) calc(100vw * 16 / 375) calc(100vh * 34 / 812);
   width: 100%;
   box-sizing: border-box;
-  gap: calc(100vh * 16 / 812); /* 项间距16 */
 }
 
 /* Post Item new layout */
 .post-item {
-  width: calc(100vw * 335 / 375);
-  height: calc(100vw * 272 / 375);
+  width: calc(100vw * 164 / 375);
+  height: calc(100vw * 220 / 375);
   border-radius: calc(100vw * 20 / 375);
   background: rgba(255, 255, 255, 0.2);
   position: relative;
   overflow: hidden;
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Lato', sans-serif;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -474,12 +437,12 @@ function toPostDetail(dynamicId, dynamicType) {
   box-sizing: border-box;
 }
 
-.post-item::after {
+/* .post-item::after {
   content: '';
   position: absolute;
-  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  inset: 0;
   border-radius: inherit;
-  padding: calc(100vw * 2 / 375); /* border thickness */
+  padding: calc(100vw * 2 / 375);
   background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
   -webkit-mask: 
     linear-gradient(#fff 0 0) content-box, 
@@ -487,16 +450,21 @@ function toPostDetail(dynamicId, dynamicType) {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
-}
+} */
 
 /* Post item new sections */
 .post-content {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: calc(100vw * 12 / 375);
+  justify-content: space-between;
+  align-items: center;
+  padding: calc(100vw * 8 / 375);
   gap: calc(100vh * 10 / 812);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
 }
 
 .post-top {
@@ -532,7 +500,7 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .post-username {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 16.17 / 375);
@@ -543,13 +511,27 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .post-report {
-  width: calc(100vw * 24 / 375);
-  height: calc(100vw * 24 / 375);
-  background-image: url('@/assets/postpiccommentreport.png');
+  width: calc(100vw * 32 / 375);
+  height: calc(100vw * 32 / 375);
+  background-image: url('@/assets/more.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   cursor: pointer;
+  align-self: flex-end;
+}
+.post-pic-video{
+  width: calc(100vw * 48 / 375);
+  height: calc(100vw * 48 / 375);
+  background-image: url('@/assets/eidnbishvc.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.post-report2 {
+  width: calc(100vw * 32 / 375);
+  height: calc(100vw * 32 / 375);
 }
 
 .post-image {
@@ -600,7 +582,7 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .overlay-count {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 17.41 / 375);
@@ -608,7 +590,7 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .post-type {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Lato', sans-serif;
   text-align: left;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;

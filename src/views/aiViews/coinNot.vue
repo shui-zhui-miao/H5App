@@ -1,5 +1,6 @@
 <template>
-  <div class="coinnot-box">
+  <div class="bg">
+    <div class="coinnot-box"></div>
     <div class="recharge-button" @click="handleRecharge">Recharge</div>
   </div>
 </template>
@@ -15,9 +16,18 @@ function handleRecharge() {
 </script>
 
 <style scoped>
+.bg{
+  width: calc(100vw * 280 / 375);
+  height: calc(100vh * 264 / 812);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: calc(100vh * 20 / 812);
+}
 .coinnot-box {
-  width: calc(100vw * 338.5 / 375);
-  height: calc(100vh * 391 / 812);
+  width: calc(100vw * 280 / 375);
+  height: calc(100vh * 190 / 812);
   background-image: url('@/assets/coinnot.png');
   background-size: cover;
   background-position: center;
@@ -26,25 +36,18 @@ function handleRecharge() {
 }
 
 .recharge-button {
-  position: absolute;
-  bottom: calc(100vh * 34 / 812);
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100vw * 164 / 375);
-  height: calc(100vh * 56 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 0.4);
-  box-shadow: inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
-
+  width: calc(100vw * 235 / 375);
+  height: calc(100vh * 54 / 812);
+  border-radius: calc(100vw * 27 / 375);
+  background: radial-gradient(54.89% 50% at 50.212765957446805% 0%, rgba(255, 213, 0, 0.4) 0%, rgba(255, 213, 0, 0) 100%), rgba(255, 71, 96, 1);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 26.1 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
 }
 </style>

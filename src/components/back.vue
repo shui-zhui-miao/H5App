@@ -20,10 +20,9 @@ function handleBack() {
 
 <style scoped>
 .outer-box {
-  width: calc(100vw * 40 / 375);
-  height: calc(100vw * 40 / 375); /* 使用宽度比例即可，不用 vh，保证圆形或正方形 */
-  border-radius: calc(100vw * 14 / 375);
-  background: rgba(255, 255, 255, 1);
+  width: calc(100vw * 32 / 375);
+  height: calc(100vw * 32 / 375); /* 使用宽度比例即可，不用 vh，保证圆形或正方形 */
+  border-radius: calc(100vw * 16 / 375);
 
   display: flex;
   justify-content: center; /* 水平居中 */
@@ -31,8 +30,8 @@ function handleBack() {
 }
 
 .inner-box {
-  width: calc(100vw * 30 / 375);
-  height: calc(100vw * 30 / 375);
+  width: calc(100vw * 32 / 375);
+  height: calc(100vw * 32 / 375);
   background-size: cover;  /* 图片铺满容器 */
   background-position: center;
   background-repeat: no-repeat;

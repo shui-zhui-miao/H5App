@@ -15,11 +15,12 @@
           <div class="text-count">{{ text.length }}/150</div>
         </div>
         <!-- Theme -->
-        <div class="theme-label">Theme</div>
+        <div class="theme-label">Topic</div>
         <!-- ThemeList -->
         <div class="theme-list">
-          <div v-for="(theme, index) in otherStore.other.postTheme" :key="index" class="theme-item" :class="{ selected: selectedTheme === index }" @click="selectedTheme = index"># {{ theme }}</div>
+          <div v-for="(theme, index) in otherStore.other.postTheme" :key="index" class="theme-item" :class="{ selected: selectedTheme === index }" @click="selectedTheme = index">{{ theme }}</div>
         </div>
+        
         <!-- Upload（Pic） -->
         <div class="theme-label">Upload（Pic）</div>
         <!-- 图片上传 -->
@@ -43,7 +44,8 @@
                 class="upload-image"
                 :style="{ backgroundImage: file ? `url(${file.preview || file._previewUrl || URL.createObjectURL(file)})` : '' }"
               ></div>
-              <van-icon class="upload-remove" name="clear" size="20" @click="handleRemoveImage(index)" color="#fff"/>
+              <div class="upload-remove" @click="handleRemoveImage(index)"></div>
+              <!-- <van-icon class="upload-remove" name="clear" size="24" @click="handleRemoveImage(index)" color="rgba(255, 71, 96, 1)"/> -->
             </label>
           </template>
         </div>
@@ -138,8 +140,6 @@ const handleRelease = async () => {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
@@ -162,12 +162,12 @@ const handleRelease = async () => {
 
 .input-box {
   position: relative;
-  margin-top: calc(100vh * 20 / 812);
+  margin-top: calc(100vh * 10 / 812);
   margin-left: calc(100vw * 20 / 375);
   margin-right: calc(100vw * 20 / 375);
-  height: calc(100vh * 174 / 812);
+  height: calc(100vh * 186 / 812);
   border-radius: calc(100vw * 16 / 375);
-  background: rgba(255, 255, 255, 1);
+  background: rgba(42, 42, 42, 1);
   padding: calc(100vw * 12 / 375);
   box-sizing: border-box;
 }
@@ -178,38 +178,38 @@ const handleRelease = async () => {
   border: none;
   outline: none;
   resize: none;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
+  line-height: calc(100vw * 20.27 / 375);
   background: transparent;
-  color: #000;
+  color: #fff;
 }
 
 .post-textarea::placeholder {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
-  color: rgba(105, 71, 65, 1); /* 颜色可半透明 */
+  line-height: calc(100vw * 20.27 / 375);
+  color: rgba(255, 255, 255, 0.6); /* 颜色可半透明 */
 }
 
 .text-count {
   position: absolute;
-  right: calc(100vw * 14 / 375);
-  bottom: calc(100vh * 19 / 812);
-  font-family: 'Archivo', sans-serif;
+  right: calc(100vw * 12 / 375);
+  bottom: calc(100vh * 12 / 812);
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 14 / 375);
-  font-weight: normal;
-  color: rgba(105, 71, 65, 1);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .theme-label {
   margin-top: calc(100vh * 24 / 812);
   margin-left: calc(100vw * 20 / 375);
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 23.1 / 375);
   color: rgba(255, 255, 255, 1);
   text-align: left;
@@ -227,22 +227,22 @@ const handleRelease = async () => {
   width: calc(100vw * 94 / 375);
   height: calc(100vh * 44 / 812);
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(42, 42, 42, 1);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 14 / 375);
+  font-family: 'Lato', sans-serif;
+  font-size: calc(100vw * 16 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
+  line-height: calc(100vw * 23.17 / 375);
   letter-spacing: 0;
   color: rgba(255, 255, 255, 1);
   cursor: pointer;
 }
 
 .theme-item.selected {
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  color: rgba(74, 32, 25, 1);
+  background: rgba(255, 71, 96, 1);
+  color: rgba(255, 255, 255, 1);
 }
 
 .upload-list {
@@ -271,6 +271,7 @@ const handleRelease = async () => {
   align-items: center;
   cursor: pointer;
   position: relative;
+  margin-top: calc(100vw * 4 / 375);
 }
 
 .upload-image {
@@ -283,8 +284,8 @@ const handleRelease = async () => {
 }
 
 .upload-add {
-  width: calc(100vw * 21 / 375);
-  height: calc(100vw * 21 / 375);
+  width: calc(100vw * 28 / 375);
+  height: calc(100vw * 28 / 375);
   background-image: url('@/assets/uploadpic.png');
   background-size: cover;
   background-position: center;
@@ -293,30 +294,33 @@ const handleRelease = async () => {
 }
 
 .upload-remove {
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
   position: absolute;
-  top: calc(100vh * 8 / 812);
-  right: calc(100vw * 5 / 375);
-  width: calc(100vw * 20 / 375);
-  height: calc(100vw * 20 / 375);
+  background-image: url('@/assets/eiufhvdd.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  top: calc(-100vh * 4 / 812);
+  right: calc(-100vw * 4 / 375);
   cursor: pointer;
   z-index: 10;
 }
 
 /* Release Button Styles */
 .release-button {
-  width: calc(100vw * 229 / 375);
-  height: calc(100vh * 62 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  width: calc(100vw * 235 / 375);
+  height: calc(100vh * 54 / 812);
+  border-radius: calc(100vw * 27 / 375);
+  background: radial-gradient(54.89% 50% at 50.212765957446805% 0%, rgba(255, 213, 0, 0.4) 0%, rgba(255, 213, 0, 0) 100%), rgba(255, 71, 96, 1);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
-  color: rgba(74, 32, 25, 1);
+  font-weight: 700;
+  line-height: calc(100vw * 26 / 375);
+  color: rgba(255, 255, 255, 1);
   cursor: pointer;
   margin: calc(100vh * 117 / 812) auto calc(100vh * 34 / 812) auto;
 }

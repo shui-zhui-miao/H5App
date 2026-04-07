@@ -1,11 +1,11 @@
 <template>
   <div class="page">
     <div class="aiusermodel"></div>
-    <div class="aichatmodel"></div>
     <div class="page-container">
       <!-- top -->
       <div class="top-section">
         <BackButton />
+        <span class="top-section-text">Meko AI</span>
       </div>
       <!-- center -->
       <div class="center-section">
@@ -16,6 +16,7 @@
           @click="handleMessageClick(item)"
         >
           <span>{{ item }}</span>
+          <span class="message-box-img"></span>
         </div>
       </div>
       <!-- bottom -->
@@ -24,9 +25,9 @@
           <div v-for="(item, index) in bottomItems" :key="index" class="chat-item">
             <div class="chat-choose" v-if="item.sendId === '0'">
                 <div class="chat-time">{{ item.time }}</div>
-                    <div class="chat-content">
-                    <img class="chat-avatar" src="@/assets/aiavator.png" alt="AI Avatar" />
-                    <div class="chat-message">{{ item.message }}</div>
+                <div class="chat-content">
+                  <img class="chat-avatar" src="@/assets/aiavator.png" alt="AI Avatar" />
+                  <div class="chat-message">{{ item.message }}</div>
                 </div>
             </div>
             <div class="chat-choose" v-else>
@@ -44,10 +45,13 @@
     </div>
     <!-- 底部输入框 -->
     <!-- bottom input box -->
-    <div class="bottom-input">
-      <input type="text" placeholder="Say something" v-model="chatInput" />
-      <img class="send-icon" src="@/assets/commentsend.png" alt="Send" @click="sendMessage" />
+    <div class="bginput-box">
+      <div class="bottom-input">
+        <input type="text" placeholder="Say something" v-model="chatInput" />
+        <img class="send-icon" src="@/assets/commentsend.png" alt="Send" @click="sendMessage" />
+      </div>
     </div>
+    
   </div>
 </template>
 
@@ -60,9 +64,9 @@ import { aiChat } from '@/utils/ai'
 import { decryptAES } from '@/utils/aes'
 
 const messages = ref([
-  "I'm feeling great today.",
-  "Do you like reading?",
-  "Can you comfort me?"
+  "Cosplay event rules?",
+  "How to make props?",
+  "How to pose for photos?"
 ])
 
 const currentUserStore = useCurrentUserStore()
@@ -178,8 +182,6 @@ async function sendMessage() {
   width: 100vw;
   height: 100vh;
   overflow: hidden; /* prevent scrolling */
-  background-color: #000; /* black background */
-  background-image: url('@/assets/aibgc.png'); /* replace with your asset filename */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -187,46 +189,41 @@ async function sendMessage() {
 
 .aiusermodel {
   position: absolute;
-  left: calc(100vw * 20 / 375);
-  top: calc(100vh * 40 / 812); /* adapt top spacing */
-  width: calc(100vw * 179 / 375);
-  height: calc(100vh * 314 / 812);
+  width: calc(100vw * 375 / 375);
+  height: calc(100vh * 281 / 812);
   opacity: 1;
-  background-image: url('@/assets/aiusermodel.png'); 
+  background-image: url('@/assets/rsnskjss.png'); 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  z-index: 1;
-}
-
-.aichatmodel {
-  position: absolute;
-  left: calc(100vw * 181 / 375);
-  top: calc(100vh * 62 / 812);
-  width: calc(100vw * 104 / 375);
-  height: calc(100vh * 38 / 812);
-  opacity: 1;
-  background-image: url('@/assets/aichatmodel.png'); 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 1;
 }
 
 .top-section {
   position: relative;
   margin-top: calc(100vh * 56 / 812);
-  margin-left: calc(100vw * 20 / 375);
+  margin-left: calc(100vw * 16 / 375);
   z-index: 100;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: calc(100vw * 12 / 375);
+}
+.top-section-text{
+  font-family: 'Lato', sans-serif;
+  font-size: calc(100vw * 20 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 28.96 / 375);
+  color: #fff;
 }
 
 .center-section {
   margin-top: calc(100vh * 41 / 812);
-  margin-left: calc(100vw * 187 / 375);
+  margin-left: calc(100vw * 20 / 375);
   margin-right: calc(100vw * 28 / 375);
   display: flex;
   flex-direction: column;
-  gap: calc(100vh * 12 / 812);
+  gap: calc(100vh * 8 / 812);
+  z-index: 1;
 }
 
 .message-box {
@@ -234,13 +231,13 @@ async function sendMessage() {
   align-items: center;
   height: calc(100vh * 36 / 812);
   padding: 0 calc(100vw * 10 / 375);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(calc(100vw * 4 / 375));
-  font-family: 'Archivo', sans-serif;
+  border-radius: calc(100vw * 18 / 375);
+  background: rgba(13, 8, 13, 0.2);
+  backdrop-filter: blur(calc(100vw * 8 / 375));
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
+  line-height: calc(100vw * 20.27 / 375);
   letter-spacing: 0;
   color: rgba(255, 255, 255, 1);
   white-space: nowrap;
@@ -248,6 +245,15 @@ async function sendMessage() {
   text-overflow: ellipsis;
   width: fit-content; /* Wrap width to content */
   justify-content: flex-start; /* Align content to left */
+  gap: calc(100vw * 16 / 375);
+}
+.message-box-img{
+  background-image: url('@/assets/tuhbdjnfc.png'); 
+  width: calc(100vw * 16 / 375);
+  height: calc(100vw * 16 / 375);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .bottom-section {
@@ -255,9 +261,7 @@ async function sendMessage() {
   left: 0;
   right: 0;
   bottom: 0;
-  top: calc(100vh * 325 / 812); /* adjust top spacing as needed */
-  background: rgba(255, 255, 255, 1);
-  border-radius: calc(100vw * 40 / 375) calc(100vw * 40 / 375) 0 0;
+  top: calc(100vh * 281 / 812); /* adjust top spacing as needed */
   z-index: 2;
 }
 
@@ -289,25 +293,25 @@ async function sendMessage() {
 .chat-choose {
   display: flex;
   flex-direction: column;
-  gap: calc(100vh * 16 / 812);
+  gap: calc(100vh * 12 / 812);
 }
 
 .chat-time {
   text-align: center;
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 16 / 375);
+  font-family: 'Lato', sans-serif;
+  font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 17.41 / 375);
+  line-height: calc(100vw * 20.27 / 375);
   letter-spacing: 0;
-  color: rgba(105, 71, 65, 1);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .chat-content {
   display: flex;
   align-items: flex-start;
   gap: calc(100vw * 12 / 375);
-  margin-left: calc(100vw * 20 / 375);
-  margin-right: calc(100vw * 34 / 375);
+  margin-left: calc(100vw * 16 / 375);
+  margin-right: calc(100vw * 68 / 375);
 }
 
 .chat-content-rigth {
@@ -315,23 +319,21 @@ async function sendMessage() {
   align-items: flex-start;
   justify-content: end;
   gap: calc(100vw * 12 / 375);
-  margin-left: calc(100vw * 34 / 375);
+  margin-left: calc(100vw * 68 / 375);
   margin-right: calc(100vw * 20 / 375);
 }
 
 .chat-avatar {
-  width: calc(100vw * 44 / 375);
-  height: calc(100vw * 44 / 375);
+  width: calc(100vw * 40 / 375);
+  height: calc(100vw * 40 / 375);
   border-radius: 50%;
 }
 
 .chat-avatar-rigth {
-  width: calc(100vw * 44 / 375);
-  height: calc(100vw * 44 / 375);
+  width: calc(100vw * 40 / 375);
+  height: calc(100vw * 40 / 375);
   flex-shrink: 0;
   border-radius: 50%; /* fully circular */
-  padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -350,52 +352,62 @@ async function sendMessage() {
 }
 
 .chat-message {
-  border-radius: 0 calc(100vw * 10 / 375) calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(255, 159, 142, 1);
+  border-radius: calc(100vw * 16 / 375);
+  background: rgba(42, 42, 42, 1);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375);
-  font-family: 'Archivo', sans-serif;
+  padding: calc(100vh * 12 / 812) calc(100vw * 12 / 375);
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
+  line-height: calc(100vw * 20.27 / 375);
   letter-spacing: 0;
   color: rgba(255, 255, 255, 1);
 }
 
 .chat-message-rigth {
-  border-radius: calc(100vw * 10 / 375) 0 calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(201, 255, 221, 1);
+  border-radius: calc(100vw * 16 / 375);
+  background: rgba(255, 71, 96, 1);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375);
-  font-family: 'Archivo', sans-serif;
+  padding: calc(100vh * 12 / 812) calc(100vw * 12 / 375);
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
+  line-height: calc(100vw * 20.27 / 375);
   letter-spacing: 0;
-  color: rgba(105, 71, 65, 1);
+  color: rgba(255, 255, 255, 1);
+}
+
+.bginput-box {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: calc(100vh * 86 / 812);
+  background: rgba(14, 8, 15, 1);
+  z-index: 10; /* 提高层级 */
 }
 
 .bottom-input {
   position: absolute;
-  left: calc(100vw * 20 / 375);
-  right: calc(100vw * 20 / 375);
-  bottom: calc(100vh * 29 / 812);
-  height: calc(100vh * 54 / 812);
+  left: calc(100vw * 16 / 375);
+  right: calc(100vw * 16 / 375);
+  bottom: calc(100vh * 35 / 812);
+  height: calc(100vh * 40 / 812);
   display: flex;
   align-items: center;
   gap: calc(100vw * 10 / 375);
-  background: rgba(201, 255, 221, 1);
-  border-radius: calc(100vw * 40 / 375);
-  backdrop-filter: blur(calc(100vw * 32 / 375));
+  background: rgba(42, 42, 42, 1);
+  border-radius: calc(100vw * 16 / 375);
   box-sizing: border-box;
   padding: 0 calc(100vw * 16 / 375);
-  z-index: 200;
+  z-index: 20;
 }
 
 .bottom-input input {
@@ -407,8 +419,8 @@ async function sendMessage() {
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
-  font-family: 'Archivo', sans-serif;
-  color: rgba(0,0,0,1);
+  font-family: 'Lato', sans-serif;
+  color: rgba(255, 255, 255, 1);
 }
 
 .bottom-input input::placeholder {
@@ -416,13 +428,14 @@ async function sendMessage() {
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
-  font-family: 'Archivo', sans-serif;
-  color: rgba(105, 71, 65, 1);
+  font-family: 'Lato', sans-serif;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .send-icon {
-  width: calc(100vw * 30 / 375);
-  height: calc(100vw * 30 / 375);
+  width: calc(100vw * 32 / 375);
+  height: calc(100vw * 32 / 375);
   cursor: pointer;
 }
+
 </style>

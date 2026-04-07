@@ -1,20 +1,56 @@
 <template>
-  <div class="dialog-mask" @click.self="$emit('close')">
-    <div class="dialog-container" :style="{ backgroundImage: `url(${bgcImage})` }">
-      <div class="dialog-content">
-        <div class="dialog-options" :style="{ backgroundImage: `url(${optionsBgImage})` }">
-          <div class="option" @click="$emit('select', 0)">Report</div>
-          <div class="option" @click="$emit('select', 1)">Shield</div>
+  <Transition name="fade">
+    <div v-if="internalVisible" class="dialog-mask" @click.self="handleClose">
+      <Transition name="slide-up" @after-leave="onContentAfterLeave">
+        <div v-if="contentVisible" class="dialog-container">
+          <div class="dialog-content">
+            <div class="option" @click="handleSelect(0)">Report</div>
+            <div class="option" @click="handleSelect(1)">Shield</div>
+            <div class="cancel" @click="handleClose">Cancel</div>
+          </div>
         </div>
-        <div class="cancel" @click.self="$emit('close')">Cancel</div>
-      </div>
+      </Transition>
     </div>
-  </div>
+  </Transition>
 </template>
 
 <script setup>
-import bgcImage from '@/assets/reportdialogbgc.png'
-import optionsBgImage from '@/assets/reportchoosebgc.png'
+import { ref, watch, nextTick } from 'vue'
+
+const props = defineProps({
+  visible: Boolean
+})
+
+const emit = defineEmits(['close', 'select', 'update:visible'])
+
+const internalVisible = ref(false)
+const contentVisible = ref(false)
+
+watch(() => props.visible, (newVal) => {
+  if (newVal) {
+    internalVisible.value = true
+    nextTick(() => {
+      contentVisible.value = true
+    })
+  } else {
+    contentVisible.value = false
+  }
+}, { immediate: true })
+
+const onContentAfterLeave = () => {
+  internalVisible.value = false
+}
+
+const handleClose = () => {
+  contentVisible.value = false
+  emit('close')
+  emit('update:visible', false)
+}
+
+const handleSelect = (value) => {
+  emit('select', value)
+  handleClose()
+}
 </script>
 
 <style scoped>
@@ -27,85 +63,81 @@ import optionsBgImage from '@/assets/reportchoosebgc.png'
   background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end; /* 底部对齐 */
   z-index: 999;
 }
 
+/* 蒙层淡入淡出 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: background-color 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  background-color: rgba(0, 0, 0, 0);
+}
+
 .dialog-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* 居中 */
-  width: calc(100vw * 313 / 375);
-  height: calc(100vh * 369 / 812);
-  margin-left: calc(100vw * 14 / 375);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  width: 100vw;
+  height: calc(100vh * 267 / 812);
   z-index: 1000;
   display: flex;
-  justify-self: flex-end;
   flex-direction: column;
-  gap: calc(100vh * 26 / 812); /* 上下间距26 */
+  border-radius: 24px 24px 0px 0px;
+  background: radial-gradient(16% 13.86% at 100% 0%, rgba(245, 181, 57, 0.2) 0%, rgba(245, 181, 57, 0) 100%), radial-gradient(20% 18.35% at 33.33333333333333% 0%, rgba(242, 71, 93, 0.2) 0%, rgba(242, 71, 93, 0) 100%), rgba(21, 20, 25, 1);
+  transform: translateY(0);
+}
+
+/* 上滑/下滑动画 */
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.slide-up-enter-from,
+.slide-up-leave-to {
+  transform: translateY(100%);
 }
 
 .dialog-content {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* 底部对齐 */
-  align-items: center;       /* 水平居中 */
+  justify-content: flex-end;
+  align-items: center;
   height: 100%;
   width: auto;
-  margin-right: calc(100vw * 28 / 375);
-  padding-bottom: calc(100vh * 36 / 812); /* 底部间距 */
-  gap: calc(100vh * 26 / 812); /* 上下间距26 */
-}
-
-.dialog-options {
-  width: calc(100vw * 220 / 375);
-  height: calc(100vh * 164 / 812);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: calc(100vh * 26 / 812); /* 上下间距26 */
-  align-items: center;
-  background-image: url(''); /* 先空，实际绑定在模板 */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  padding-bottom: calc(100vh * 36 / 812);
+  gap: calc(100vh * 26 / 812);
 }
 
 .option {
-  width: calc(100vw * 148 / 375);
+  width: calc(100vw * 260 / 375);
   height: calc(100vh * 46 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 1);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
-  font-family: 'Archivo', sans-serif;
+  border-radius: calc(100vw * 23 / 375);
+  background: rgba(42, 42, 42, 1);
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  color: rgba(74, 32, 25, 1);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 1);
   text-align: center;
-
-  display: flex; /* 新增 */
-  justify-content: center; /* 水平居中 */
-  align-items: center; /* 垂直居中 */
-}
-
-.cancel {
-  width: calc(100vw * 164 / 375);
-  height: calc(100vh * 56 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 0.4);
-  box-shadow: inset calc(100vw * -1 / 375) calc(100vw * -1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(calc(100vw * 10 / 375));
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  color: rgba(74, 32, 25, 1);
+  cursor: pointer;
+}
+
+.cancel {
+  width: calc(100vw * 235 / 375);
+  height: calc(100vh * 54 / 812);
+  border-radius: calc(100vw * 27 / 375);
+  background: radial-gradient(54.89% 50% at 50.212765957446805% 0%, rgba(255, 213, 0, 0.4) 0%, rgba(255, 213, 0, 0) 100%), rgba(255, 71, 96, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Lato', sans-serif;
+  font-size: calc(100vw * 18 / 375);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 1);
   text-align: center;
+  cursor: pointer;
 }
 </style>

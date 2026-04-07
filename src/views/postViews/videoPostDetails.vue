@@ -40,16 +40,16 @@
             <div class="avatar" @click="goOtherHome(post.userId)">
               <img :src="postUser && postUser.avator" alt="avatar" />
             </div>
-            <div class="follow" v-if="post.userId !== currentUserStore.currentUser.userId && !currentUserStore.currentUser.follow.includes(post.userId)" @click="handleFollow" >
+            <!-- <div class="follow" v-if="post.userId !== currentUserStore.currentUser.userId && !currentUserStore.currentUser.follow.includes(post.userId)" @click="handleFollow" >
               <img src="@/assets/follow.png" alt="follow" />
-            </div>
+            </div> -->
           </div>
 
           <div class="user-text">
             <div class="username"  @click="goOtherHome(post.userId)">{{ postUser && postUser.name }}</div>
-            <div class="video-desc">{{ post && post.dynamicDesc }}</div>
           </div>
         </div>
+        <div class="video-desc">{{ post && post.dynamicDesc }}</div>
       </div>
     </div>
 
@@ -69,12 +69,13 @@
     <!-- 评论弹窗（底部弹出） -->
     <div v-if="uiStore.showComment" class="comment-overlay" @click.self="uiStore.closeComment()">
       <div class="comment-sheet">
+        <div class="upload-remove" @click.self="uiStore.closeComment()"></div>
         <Comment :postId="postId" :reportAction="commentAction" @openCommentReport="showCommentReport = true" />
       </div>
     </div>
-    <ReportDialog v-if="showPostReport" @close="showPostReport = false" @select="postReportSelect" >
+    <ReportDialog :visible="showPostReport" @close="showPostReport = false" @select="postReportSelect" >
     </ReportDialog>
-    <ReportDialog v-if="showCommentReport" @close="showCommentReport = false" @select="commentReportSelect" >
+    <ReportDialog :visible="showCommentReport" @close="showCommentReport = false" @select="commentReportSelect" >
     </ReportDialog>
   </div>
 </template>
@@ -329,31 +330,25 @@ function commentReportSelect(value) {
 
 .bottom-info {
   display: flex;
-  align-items: center;
+  align-items: start;
+  justify-content: center;
+  flex-direction: column;
+  gap: calc(100vh * 8 / 812);
 }
 
 .user-left {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 16 / 375);
+  gap: calc(100vw * 12 / 375);
 }
 
 .avatar {
-  width: calc(100vw * 48 / 375);
-  height: calc(100vw * 48 / 375);
+  width: calc(100vw * 40 / 375);
+  height: calc(100vw * 40 / 375);
   border-radius: 50%;
-  padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
-  margin-bottom: calc(100vw * 4 / 375);
   box-sizing: border-box;
 }
 
@@ -366,8 +361,8 @@ function commentReportSelect(value) {
 
 .avatar-wrap {
   position: relative;
-  width: calc(100vw * 48 / 375);
-  height: calc(100vw * 52 / 375); /* avatar 48 + gap 4 */
+  width: calc(100vw * 40 / 375);
+  height: calc(100vw * 40 / 375); /* avatar 48 + gap 4 */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -402,10 +397,10 @@ function commentReportSelect(value) {
 }
 
 .username {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 23.17 / 375);
   color: rgba(255, 255, 255, 1);
   white-space: nowrap;
   overflow: hidden;
@@ -414,7 +409,7 @@ function commentReportSelect(value) {
 }
 
 .video-desc {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   letter-spacing: 0px;
@@ -428,32 +423,32 @@ function commentReportSelect(value) {
 
 .action-buttons {
   position: absolute;
-  bottom: calc(100vh * 86 / 812);
+  bottom: calc(100vh * 162 / 812);
   right: calc(100vw * 20 / 375);
   display: flex;
-  gap: calc(100vh * 14 / 812);
+  gap: calc(100vh * 32 / 812);
+  flex-direction: column;
 }
 
 .action-button {
-  width: calc(100vw * 91 / 375);
-  height: calc(100vh * 39 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 0.4);
-  box-shadow: inset calc(100vw * -1 / 375) calc(100vw * -1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(calc(100vw * 10 / 375));
+  width: calc(100vw * 40 / 375);
+  height: calc(100vh * 62 / 812);
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: calc(100vw * 10 / 375);
+  justify-content: space-between;
+  flex-direction: column;
 }
 
 .action-button img {
-  width: calc(100vw * 24 / 375);
-  height: calc(100vw * 24 / 375);
+  width: calc(100vw * 20 / 375);
+  height: calc(100vw * 20 / 375);
+  padding: calc(100vw * 10 / 375);
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
 }
 
 .action-button span {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 17.41 / 375);
@@ -486,5 +481,18 @@ function commentReportSelect(value) {
   to {
     transform: translateY(0);
   }
+}
+.upload-remove {
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
+  position: absolute;
+  background-image: url('@/assets/eiufhvdd.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  top: calc(-100vh * 36 / 812);
+  right: calc(100vw * 20 / 375);
+  z-index: 10;
 }
 </style>

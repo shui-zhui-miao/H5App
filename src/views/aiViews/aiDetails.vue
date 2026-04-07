@@ -1,25 +1,28 @@
 <template>
   <div class="page">
     <div class="aiusermodel"></div>
-    <div class="aichatmodel"></div>
 
     <!-- 页面内容 -->
     <div class="page-content">
       <div class="top-section">
         <BackButton />
       </div>
+
       <div class="bottom-section">
         <div class="bottom-container">
           <div class="bottom-title">Geime AI</div>
-          <div class="bottom-text">Hi! I’m Kico, your friendly AI companion here to chat about all your passions and interests. Whether you love fashion, art, music, or anything in between, I’m here to explore ideas, share tips, and keep the conversation fun and inspiring. Ready to dive into your favorite hobbies together? Let’s talk and discover something new every day!</div>
-        <!-- 购买 -->
-        <div class="purchase-container" @click="handlePurchaseClick">
-          <div class="purchase-info">
-            <div class="purchase-icon"></div>
-            <div class="purchase-count">100</div>
-          </div>
-          <div class="chat-box">Chat</div>
+          <div class="bottom-text">Hi! I'm Geime AI, your go-to companion for all things cosplay and character looks. Whether you love anime fits, game-inspired styles, or iconic character vibes, I’m here with tips, costume ideas, and inspiration to bring your favorite characters to life. Let’s cosplay and shine together!</div>
         </div>
+
+      </div>
+      <!-- 购买 -->
+      <div class="purchase-container" @click="handlePurchaseClick">
+        <div class="purchase-info">
+          Chat
+        </div>
+        <div class="chat-box">
+          <div class="purchase-icon"></div>
+          <div class="purchase-count">x200</div>
         </div>
       </div>
     </div>
@@ -80,8 +83,6 @@ function handleRechargeEvent(value) {
   width: 100vw;
   height: 100vh;
   overflow: hidden; /* prevent scrolling */
-  background-color: #000; /* black background */
-  background-image: url('@/assets/aibgc.png'); /* replace with your asset filename */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -89,25 +90,10 @@ function handleRechargeEvent(value) {
 
 .aiusermodel {
   position: absolute;
-  left: 0;
-  top: calc(100vh * 68 / 812); /* adapt top spacing */
-  width: calc(100vw * 229 / 375);
-  height: calc(100vh * 402 / 812);
+  width: calc(100vw * 375 / 375);
+  height: calc(100vh * 518 / 812);
   opacity: 1;
   background-image: url('@/assets/aiusermodel.png'); 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.aichatmodel {
-  position: absolute;
-  left: calc(100vw * 197 / 375);
-  top: calc(100vh * 134 / 812);
-  width: calc(100vw * 104 / 375);
-  height: calc(100vh * 38 / 812);
-  opacity: 1;
-  background-image: url('@/assets/aichatmodel.png'); 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -135,8 +121,8 @@ function handleRechargeEvent(value) {
 }
 
 .bottom-container { 
+  margin-top:  calc(100vh * 110 / 812);
   width: 100%;
-  background: rgba(255, 255, 255, 1);
   border-radius: calc(100vw * 40 / 375) calc(100vw * 40 / 375) 0 0;
   display: flex;
   flex-direction: column;
@@ -146,39 +132,40 @@ function handleRechargeEvent(value) {
 }
 
 .bottom-title {
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 24 / 375);
-  font-weight: 400;
+  font-family: 'Lato', sans-serif;
+  font-size: calc(100vw * 30 / 375);
+  font-weight: 700;
   line-height: calc(100vw * 27.72 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
   text-align: center;
   margin-bottom: calc(100vh * 20 / 812); /* space before second text */
 }
 
 .bottom-text {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 24 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 0.6);
   text-align: center;
-  margin: 0 calc(100vw * 28 / 375) 0 calc(100vw * 28 / 375); /* horizontal padding */
+  margin: 0 calc(100vw * 65 / 375) 0 calc(100vw * 65 / 375); /* horizontal padding */
 }
 
 .purchase-container {
+  margin-left: auto;
+  margin-right: auto;
   margin-top: calc(100vh * 15 / 812);
-  margin-bottom: calc(100vh * 25 / 812);
-  width: calc(100vw * 281 / 375);
-  height: calc(100vh * 62 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  margin-bottom: calc(100vh * 35 / 812);
+  width: calc(100vw * 235 / 375);
+  height: calc(100vh * 54 / 812);
+  border-radius: calc(100vw * 27 / 375);
+  background: radial-gradient(54.89% 50% at 50.212765957446805% 0%, rgba(255, 213, 0, 0.4) 0%, rgba(255, 213, 0, 0) 100%), rgba(255, 71, 96, 1);
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
-  gap: calc(100vw * 46 / 375);
+  gap: calc(100vw * 16 / 375);
   padding-right: calc(100vw * 11 / 375);
   box-sizing: border-box;
 }
@@ -186,12 +173,17 @@ function handleRechargeEvent(value) {
 .purchase-info {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 13 / 375);
+  font-family: 'Lato', sans-serif;
+  font-size: calc(100vw * 20 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 28.96 / 375);
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 1);
 }
 
 .purchase-icon {
-  width: calc(100vw * 33 / 375);
-  height: calc(100vh * 39 / 812);
+  width: calc(100vw * 20 / 375);
+  height: calc(100vh * 20 / 812);
   background-image: url('@/assets/coin.png'); /* replace with your local image */
   background-size: cover;
   background-position: center;
@@ -199,28 +191,23 @@ function handleRechargeEvent(value) {
 }
 
 .purchase-count {
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
+  font-family: 'Lato', sans-serif;
+  font-size: calc(100vw * 14 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 20.27 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
 }
 
 .chat-box {
   width: calc(100vw * 73 / 375);
-  height: calc(100vh * 38 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(74, 32, 25, 1);
+  height: calc(100vh * 29 / 812);
+  border-radius: calc(100vw * 14.5 / 375);
+  background: rgba(0, 0, 0, 1);
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 17.41 / 375);
-  letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  gap: calc(100vw * 4 / 375);
   box-sizing: border-box;
 }
 
