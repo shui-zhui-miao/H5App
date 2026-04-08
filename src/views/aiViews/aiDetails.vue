@@ -55,7 +55,7 @@ function handlePurchaseClick() {
     if (uiStore.loading) return
     uiStore.showLoading()
 
-    const currentCoins = currentUserStore.currentUser.coins - 100
+    const currentCoins = currentUserStore.currentUser.coins - 200
     userStore.updateUser(currentUserStore.currentUser.userId, { coins: currentCoins })
 
     const delay = Math.floor(Math.random() * 1500) + 500
