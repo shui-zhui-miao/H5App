@@ -27,24 +27,29 @@
       <!-- 聊天内容 -->
       <div class="chat-content">
         <div v-for="msg in messages" :key="msg.msgId" :class="['chat-item', { 'own-message': msg.userId === currentUserId }]">
-          <img class="chat-avatar" @click="goOtherHome(msg.userId)" :src="getUserAvatar(msg.userId)" alt="avatar" />
-          <div class="chat-right">
-            <div v-if="msg.userId === currentUserId && msg.sendPicUrl" class="chat-message-image">
-              <div class="image-container">
-                <img :src="msg.sendPicUrl" alt="send image" />
+          <div class="chat-time">{{ formatTime(msg.sendTime) }}</div>
+          <div :class="['fff', { 'own-message': msg.userId === currentUserId }]">
+            <img class="chat-avatar" @click="goOtherHome(msg.userId)" :src="getUserAvatar(msg.userId)" alt="avatar" />
+            <div class="chat-right">
+              <div v-if="msg.userId === currentUserId && msg.sendPicUrl" class="chat-message-image">
+                <div class="image-container">
+                  <img :src="msg.sendPicUrl" alt="send image" />
+                </div>
               </div>
+              <div v-else class="chat-message" v-text="msg.sendContent"></div>
             </div>
-            <div v-else class="chat-message" v-text="msg.sendContent"></div>
-            <div class="chat-time">{{ formatTime(msg.sendTime) }}</div>
           </div>
         </div>
       </div>
     </div>
     <!-- 底部输入框 -->
-    <div class="bottom-input">
-      <input type="text" placeholder="Say something" v-model="inputText" />
-      <img class="send-btn" src="@/assets/commentsend.png" alt="send" @click="sendMessage" />
+    <div class="bginput-box">
+      <div class="bottom-input">
+        <input type="text" placeholder="Say something" v-model="inputText" />
+        <img class="send-btn" src="@/assets/commentsend.png" alt="send" @click="sendMessage" />
+      </div>
     </div>
+    
     <!-- Video Call Sheet -->
     <transition name="slide-up">
       <div v-if="showVideoCall" class="video-call-sheet">
@@ -235,14 +240,12 @@ function reportSelect(value) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
   overflow: hidden;
 }
 
 .top-background {
   height: calc(100vh * 162 / 812);
   opacity: 1;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
   width: 100%;
 }
 
@@ -258,7 +261,7 @@ function reportSelect(value) {
 }
 
 .top-content {
-  padding:calc(100vh * 56 / 812) calc(100vw * 20 / 375) 0;
+  padding:calc(100vh * 55 / 812) calc(100vw * 16 / 375) 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -267,7 +270,7 @@ function reportSelect(value) {
 .left-part {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 15 / 375);
+  gap: calc(100vw * 8 / 375);
 }
 
 .user-info {
@@ -277,20 +280,19 @@ function reportSelect(value) {
 }
 
 .avatar {
-  width: calc(100vw * 40 / 375);
-  height: calc(100vw * 40 / 375);
+  width: calc(100vw * 32 / 375);
+  height: calc(100vw * 32 / 375);
   border-radius: 50%;
-  border: calc(100vw * 1 / 375) solid #fff;
   object-fit: cover;
 }
 
 .username {
   font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 23.17 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -299,7 +301,7 @@ function reportSelect(value) {
 .right-part {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 17 / 375);
+  gap: calc(100vw * 20 / 375);
 }
 
 .icon-group {
@@ -315,44 +317,35 @@ function reportSelect(value) {
 
 .chat-content {
   flex: 1;
-  border-radius: calc(100vw * 20 / 375) calc(100vw * 20 / 375) 0 0;
-  background: rgba(235, 236, 237, 1);
-  backdrop-filter: blur(calc(100vw * 12 / 375));
   overflow-y: auto;
-  padding-top: calc(100vh * 24 / 812);
+  padding-top: calc(100vh * 16 / 812);
   padding-bottom: calc(100vh * 90 / 812);
   display: flex;
   flex-direction: column;
   gap: calc(100vh * 16 / 812);
 }
-
 .chat-item {
   display: flex;
   align-items: flex-start;
-  gap: calc(100vw * 10 / 375);
-  margin: 0 calc(100vw * 118 / 375) 0 calc(100vw * 20 / 375); /* 默认靠左消息 */
+  flex-direction: column;
+  gap: calc(100vw * 18 / 375);
+  
 }
-
 .chat-right {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: calc(100vh * 8 / 812);
 }
-
 .chat-avatar {
-  width: calc(100vw * 44 / 375);
-  height: calc(100vw * 44 / 375);
+  width: calc(100vw * 40 / 375);
+  height: calc(100vw * 40 / 375);
   border-radius: 50%;
-  padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-sizing: border-box;
   overflow: hidden;
   display: flex;
   flex-shrink: 0; /* prevent avatar from being compressed */
   object-fit: cover;
 }
-
 .chat-avatar img {
   width: 100%;
   height: 100%;
@@ -360,48 +353,56 @@ function reportSelect(value) {
   border-radius: 50%;
   display: block;
 }
-
 .chat-message {
   font-family: 'Lato', sans-serif;
-  font-size: calc(100vw * 16 / 375);
+  font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 17.41 / 375);
-  color: rgba(105, 71, 65, 1);
-  padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375);
-  border-radius: 0px calc(100vw * 10 / 375) calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(201, 255, 221, 1);
+  line-height: calc(100vw * 20.27 / 375);
+  color: rgba(255, 255, 255, 1);
+  padding: calc(100vh * 12 / 812) calc(100vw * 12 / 375);
+  border-radius: calc(100vw * 16 / 375);
+  background: rgba(42, 42, 42, 1);
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
-
 .chat-time {
   font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
   line-height: calc(100vw * 13.06 / 375);
   color: rgba(153, 153, 153, 1);
-  text-align: right;
+  margin-left: auto;
+  margin-right: auto;
+  transform: translateY(calc(100vh * 6 / 812));
 }
-
-.chat-item.own-message {
+.fff{
+  display: flex;
+  margin: 0 calc(100vw * 68 / 375) 0 calc(100vw * 16 / 375); /* 默认靠左消息 */
+  gap: calc(100vw * 12 / 375);
+}
+.fff.own-message{
   flex-direction: row-reverse;
-  margin: 0 calc(100vw * 20 / 375) 0 calc(100vw * 118 / 375); /* 自己消息靠右反转间距 */
+  margin: 0 calc(100vw * 16 / 375) 0 calc(100vw * 68 / 375); /* 自己消息靠右反转间距 */
 }
-
+.chat-item.own-message {
+  flex-direction: column;
+  align-items: flex-end;
+  
+}
 .chat-item.own-message .chat-right {
   align-items: flex-start;
 }
-
 .chat-item.own-message .chat-message {
-  border-radius: calc(100vw * 10 / 375) 0px calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(255, 159, 142, 1);
+  border-radius: calc(100vw * 16 / 375);
+  background: rgba(255, 71, 96, 1);
 }
-
 /* image message styles */
 .chat-message-image .image-container {
   border-radius: calc(100vw * 20 / 375);
   background: rgba(255, 255, 255, 1);
   padding: calc(100vw * 5 / 375);
 }
-
 .chat-message-image .image-container img {
   width: 100%;
   height: auto;
@@ -409,16 +410,24 @@ function reportSelect(value) {
   object-fit: contain;
 }
 
+.bginput-box {
+  position: fixed;   /* ⭐关键 */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: calc(100vh * 86 / 812);
+  background: rgba(14, 8, 15, 1);
+  z-index: 10;
+}
 .bottom-input {
   position: absolute;
-  left: calc(100vw * 20 / 375);
-  right: calc(100vw * 20 / 375);
-  bottom: calc(100vh * 29 / 812);
-  height: calc(100vh * 54 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(201, 255, 221, 1);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(calc(100vw * 32 / 375));
+  left: calc(100vw * 16 / 375);
+  right: calc(100vw * 16 / 375);
+  bottom: calc(100vh * 35 / 812);
+  height: calc(100vh * 40 / 812);
+  border-radius: calc(100vw * 16 / 375);
+  background: rgba(42, 42, 42, 1);
   display: flex;
   align-items: center;
   padding: 0 calc(100vw * 16 / 375);
@@ -434,18 +443,18 @@ function reportSelect(value) {
   font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
+  line-height: calc(100vw * 20.27 / 375);
   letter-spacing: 0;
-  color: #000;
+  color: rgba(255, 255, 255, 1);
 }
 
 .bottom-input input::placeholder {
-  color: rgba(105, 71, 65, 0.5);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .send-btn {
-  width: calc(100vw * 30 / 375);
-  height: calc(100vw * 30 / 375);
+  width: calc(100vw * 32 / 375);
+  height: calc(100vw * 32 / 375);
   cursor: pointer;
 }
 

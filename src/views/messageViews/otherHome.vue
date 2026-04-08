@@ -155,6 +155,10 @@ function handleFollow() {
 }
 
 function handleChat() {
+  if (!currentUserStore.currentUser.follow?.includes(userId)) {
+    uiStore.showToast('Please follow first.')
+    return
+  }
   if (uiStore.loading) return
   uiStore.showLoading()
   const currentUserId = currentUserStore.currentUser.userId

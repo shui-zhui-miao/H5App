@@ -1,19 +1,10 @@
 <template>
   <div class="video-call" :style="{ backgroundImage: `url(${userInfo.avator})` }">
     <div class="bg-gradient"></div>
-    <!-- Top Avatar Container -->
-    <div class="avatar-outer">
-      <div class="avatar-inner">
-        <img :src="userInfo.avator" alt="User Avatar" />
-      </div>
-    </div>
-
     <!-- Bottom Control Panel -->
     <div class="call-panel">
-      <div class="call-left">
-        <div class="user-name">{{ userInfo.name }}</div>
-        <div class="calling-text">{{ callingText }}</div>
-      </div>
+      <div class="user-name">{{ userInfo.name }}</div>
+      <div class="calling-text">{{ callingText }}</div>
       <div class="hangup-btn" @click="hangup">
         <img src="@/assets/hangupicon.png" alt="hangup" />
       </div>
@@ -54,7 +45,6 @@ function hangup() {
 
 <style scoped>
 .video-call > *:not(.bg-gradient) {
-  position: relative;
   z-index: 1;
 }
 
@@ -65,7 +55,7 @@ function hangup() {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(0deg, rgba(255, 159, 142, 1) 0%, rgba(255, 255, 255, 0) 99.84%);
+  background: rgba(0, 0, 0, 0.5);
   z-index: 0;
 }
 
@@ -117,14 +107,12 @@ function hangup() {
 /* Bottom call panel */
 .call-panel {
   position: absolute;
-  bottom: calc(100vh * 40 / 812);
+  bottom: calc(100vh * 60 / 812);
   width: calc(100% - (calc(100vw * 50 / 375)));
-  height: calc(100vh * 80 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 1);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  flex-direction: column;
   padding: 0 calc(100vw * 20 / 375);
   box-sizing: border-box;
 }
@@ -139,9 +127,9 @@ function hangup() {
 .user-name {
   font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
-  color: rgba(74, 32, 25, 1);
+  font-weight: 700;
+  line-height: calc(100vw * 28.96 / 375);
+  color: rgba(255, 255, 255, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -150,14 +138,16 @@ function hangup() {
 .calling-text {
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
-  color: rgba(74, 32, 25, 1);
+  line-height: calc(100vw * 19.6 / 375);
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: calc(100vh * 7 / 812);
+  margin-bottom: calc(100vh * 32 / 812);
 }
 
 .hangup-btn {
   width: calc(100vw * 60 / 375);
   height: calc(100vw * 60 / 375);
-  border-radius: calc(100vw * 214 / 375);
+  border-radius: calc(100vw * 16 / 375);
   background: rgba(255, 28, 100, 1);
   display: flex;
   align-items: center;

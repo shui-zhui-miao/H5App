@@ -32,7 +32,6 @@ const options = ref([
   { text: 'Privacy Policy' },
   { text: 'User Agreement' },
   { text: 'Blacklist' },
-  { text: 'Wallet' },
   { text: 'Edit personal information' }
 ])
 
@@ -42,6 +41,10 @@ const userStore =  useUserStore()
 const currentUserStore = useCurrentUserStore()
 
 function handleOption(index) {
+  if (currentUserStore.currentUser.email === "") {
+    uiStore.showToast('Not logged in. Please log in first.')
+    return
+  }
   switch (index) {
     case 0:
       router.push({ name: 'privacyPolicy' })
@@ -86,8 +89,6 @@ function handleAction(isDelete) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
@@ -101,15 +102,15 @@ function handleAction(isDelete) {
 .header {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 16 / 375);
-  padding: calc(100vh * 58 / 812) calc(100vw * 20 / 375) 0;
+  gap: calc(100vw * 12 / 375);
+  padding: calc(100vh * 55 / 812) calc(100vw * 16 / 375) 0;
 }
 
 .title {
   font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  font-weight: 700;
+  background: rgba(255, 255, 255, 1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -117,29 +118,24 @@ function handleAction(isDelete) {
 /* Options List */
 .options-list {
   flex: 1;
-  padding: calc(100vh * 20 / 812) calc(100vw * 20 / 375) 0;
+  padding: calc(100vh * 20 / 812) calc(100vw * 16 / 375) 0;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: calc(100vh * 16 / 812);
+  gap: calc(100vh * 32 / 812);
 }
 
 .option {
-  height: calc(100vh * 52 / 812);
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: calc(100vw * 20 / 375);
-  box-shadow: 0 calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 calc(100vw * 10 / 375);
 }
 
 .option-text {
   font-family: 'Lato', sans-serif;
   color: #fff;
-  font-size: calc(100vw * 14 / 375);
-  font-weight: 400;
+  font-size: calc(100vw * 16 / 375);
+  font-weight: 700;
 }
 
 .option-right .arrow-placeholder {
@@ -162,22 +158,23 @@ function handleAction(isDelete) {
 }
 
 .btn {
-  width: calc(100vw * 229 / 375);
-  height: calc(100vh * 62 / 812);
-  border-radius: calc(100vw * 40 / 375);
+  width: calc(100vw * 235 / 375);
+  height: calc(100vh * 54 / 812);
+  border-radius: calc(100vw * 27 / 375);
   font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  box-shadow:inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375)  rgba(255, 255, 255, 0.6),inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375)  rgba(255, 255, 255, 0.5);
+  font-weight: 700;
+  border: none;
+  cursor: pointer; 
 }
 
 .delete-btn {
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
+  background: radial-gradient(54.89% 50% at 50.212765957446805% 0%, rgba(255, 213, 0, 0.4) 0%, rgba(255, 213, 0, 0) 100%), rgba(255, 71, 96, 1);
 }
 
 .logout-btn {
-  background: rgba(74, 32, 25, 1);
+  background: radial-gradient(54.89% 50% at 50.212765957446805% 0%, rgba(255, 213, 0, 0.4) 0%, rgba(255, 213, 0, 0) 100%), rgba(255, 71, 96, 1);
   color: rgba(255, 255, 255, 1);
 }
 </style>

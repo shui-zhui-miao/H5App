@@ -8,7 +8,7 @@
       <div class="top">
         <div class="top-block" :style="{ backgroundImage: `url(${topBlockImage})` }" @click="chooseAvatar">
             <div class="camera-corner">
-            <img src="@/assets/cameraicon.png" alt="camera" />
+              <img src="@/assets/cameraicon.png" alt="camera" />
             </div>
         </div>
       </div>
@@ -24,14 +24,6 @@
             <div class="label">Name</div>
             <div class="input-box">
             <input v-model="name" type="text" placeholder="Please enter" />
-            </div>
-        </div>
-      </div>
-      <div class="third">
-        <div class="third-section">
-            <div class="label">About me</div>
-            <div class="input-box about-me-box">
-            <textarea v-model="aboutMe" placeholder="Please enter"></textarea>
             </div>
         </div>
       </div>
@@ -146,8 +138,6 @@ onMounted(() => {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
@@ -160,15 +150,15 @@ onMounted(() => {
 .top-header {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 16 / 375);
-  padding: calc(100vh * 58 / 812) calc(100vw * 20 / 375) 0;
+  gap: calc(100vw * 12 / 375);
+  padding: calc(100vh * 55 / 812) calc(100vw * 16 / 375) 0;
 }
 
 .edit-title {
   font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  font-weight: 700;
+  background: rgba(255, 255, 255, 1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -193,27 +183,26 @@ onMounted(() => {
   border-radius: 50%;
   background-size: cover;
   background-position: center;
-  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
   position: relative;
-  margin-top: calc(100vh * 20 / 812);
+  margin-top: calc(100vh * 24 / 812);
 }
 
 .camera-corner {
   position: absolute;
-  top: 0;
+  bottom: 0;
   right: 0;
   width: calc(100vw * 28 / 375);
   height: calc(100vw * 28 / 375);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 1);
+  background: rgba(255, 71, 96, 1);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .camera-corner img {
-  width: calc(100vw * 14 / 375);
-  height: calc(100vw * 14 / 375);
+  width: calc(100vw * 22 / 375);
+  height: calc(100vw * 22 / 375);
 }
 
 .second-section {
@@ -228,8 +217,8 @@ onMounted(() => {
 .label {
   font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 28.96 / 375);
   color: rgba(255, 255, 255, 1);
 }
 
@@ -237,11 +226,10 @@ onMounted(() => {
   width: 100%;
   height: calc(100vh * 54 / 812);
   border-radius: calc(100vw * 16 / 375);
-  background: rgba(255, 255, 255, 1);
-  backdrop-filter: blur(calc(100vw * 12 / 375));
+  background: rgba(42, 42, 42, 1);
   display: flex;
   align-items: center;
-  padding: 0 calc(100vw * 15 / 375);
+  padding: 0 calc(100vw * 20 / 375);
   box-sizing: border-box;
 }
 
@@ -252,14 +240,14 @@ onMounted(() => {
   font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
+  line-height: calc(100vw * 20.27 / 375);
   letter-spacing: 0;
-  color: #000;
+  color: rgba(255, 255, 255, 1);
   background: transparent;
 }
 
 .input-box input::placeholder {
-  color: rgba(105, 71, 65, 1);
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .third-section {
@@ -303,16 +291,15 @@ onMounted(() => {
   width: calc(100vw * 229 / 375);
   height: calc(100vh * 62 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  background: radial-gradient(54.89% 50% at 50.212765957446805% 0%, rgba(255, 213, 0, 0.4) 0%, rgba(255, 213, 0, 0) 100%), rgba(255, 71, 96, 1);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 26.01 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
 }
 </style>
