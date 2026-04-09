@@ -523,7 +523,7 @@
 
 <script setup>
 import BackButton from '@/components/back.vue'
-const appName = 'Luvie'
+const appName = 'Teki'
 </script>
 
 <style scoped>
