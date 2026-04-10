@@ -146,7 +146,7 @@ function handleRechargeEvent(value) {
 }
 
 .bottom-title {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 24 / 375);
   font-weight: 400;
   line-height: calc(100vw * 27.72 / 375);
@@ -157,7 +157,7 @@ function handleRechargeEvent(value) {
 }
 
 .bottom-text {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 24 / 375);
@@ -199,7 +199,7 @@ function handleRechargeEvent(value) {
 }
 
 .purchase-count {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 400;
   line-height: calc(100vw * 23.1 / 375);
@@ -215,7 +215,7 @@ function handleRechargeEvent(value) {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 17.41 / 375);

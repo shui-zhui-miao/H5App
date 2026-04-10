@@ -86,7 +86,7 @@ function handleCoinClick(item) {
 }
 
 .edit-title {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 400;
   background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
@@ -116,7 +116,7 @@ function handleCoinClick(item) {
 
 /* 上部分标题 */
 .coin-box-header {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 18 / 375);
   font-weight: 400;
   letter-spacing: 0px;
@@ -149,7 +149,7 @@ function handleCoinClick(item) {
 
 /* 金币数量文字 */
 .coin-number {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   letter-spacing: 0px;
@@ -214,7 +214,7 @@ function handleCoinClick(item) {
 }
 
 .coin-count {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.48 / 375);
@@ -232,7 +232,7 @@ function handleCoinClick(item) {
 }
 
 .coin-price {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);

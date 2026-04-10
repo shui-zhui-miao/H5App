@@ -1,15 +1,30 @@
-@font-face {
-    font-family: 'YesevaOne';
-    src: url('./YesevaOne-Regular.ttf') format('truetype');
+/* @font-face {
+    font-family: 'JetBrainsMono';
+    src: url('./JetBrainsMono-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Archivo';
-    src: url('./Archivo-Regular.ttf') format('truetype');
+    font-family: 'JetBrainsMono';
+    src: url('./JetBrainsMono-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
+    font-display: swap;
+} */
+@font-face {
+    font-family: 'JetBrainsMono';
+    src: url('./JetBrainsMono-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrainsMono';
+    src: url('./JetBrainsMono-Italic-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 800;
+    font-style: italic;
     font-display: swap;
 }

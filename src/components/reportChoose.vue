@@ -81,7 +81,7 @@ import optionsBgImage from '@/assets/reportchoosebgc.png'
   border-radius: calc(100vw * 40 / 375);
   background: rgba(255, 255, 255, 1);
   box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
-  font-family: 'Archivo', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   color: rgba(74, 32, 25, 1);
@@ -102,7 +102,7 @@ import optionsBgImage from '@/assets/reportchoosebgc.png'
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 400;
   color: rgba(74, 32, 25, 1);
