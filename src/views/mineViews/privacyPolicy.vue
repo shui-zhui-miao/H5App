@@ -458,6 +458,7 @@ const appName = 'Teki'
 .protocol {
     font-size: calc(100vw * 11 / 375);
     padding-bottom: 35px;
+    padding-top: 20px;
     color: #666;
     padding-left:20px;
     padding-right:20px;

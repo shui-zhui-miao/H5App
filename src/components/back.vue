@@ -22,7 +22,7 @@ function handleBack() {
 .outer-box {
   width: calc(100vw * 40 / 375);
   height: calc(100vw * 40 / 375); /* 使用宽度比例即可，不用 vh，保证圆形或正方形 */
-  border-radius: calc(100vw * 14 / 375);
+  border-radius: calc(100vw * 20 / 375);
   background: rgba(255, 255, 255, 1);
 
   display: flex;

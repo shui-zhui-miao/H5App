@@ -10,8 +10,8 @@
       </div>
       <div class="bottom-section">
         <div class="bottom-container">
-          <div class="bottom-title">Teki AI</div>
-          <div class="bottom-text">Hi! I’m Kico, your friendly AI companion here to chat about all your passions and interests. Whether you love fashion, art, music, or anything in between, I’m here to explore ideas, share tips, and keep the conversation fun and inspiring. Ready to dive into your favorite hobbies together? Let’s talk and discover something new every day!</div>
+          <div class="bottom-title">TEKI AI</div>
+          <div class="bottom-text">Hi! I’m Teki AI, your energetic AI dance partner. Whether you’re mastering new moves, perfecting your choreography, or just dancing for fun in your everyday life, I’m here to offer guidance, answer your questions, and make your dance journey exciting and full of energy.</div>
         <!-- 购买 -->
         <div class="purchase-container" @click="handlePurchaseClick">
           <div class="purchase-info">
@@ -80,8 +80,6 @@ function handleRechargeEvent(value) {
   width: 100vw;
   height: 100vh;
   overflow: hidden; /* prevent scrolling */
-  background-color: #000; /* black background */
-  background-image: url('@/assets/aibgc.png'); /* replace with your asset filename */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -89,10 +87,10 @@ function handleRechargeEvent(value) {
 
 .aiusermodel {
   position: absolute;
-  left: 0;
-  top: calc(100vh * 68 / 812); /* adapt top spacing */
-  width: calc(100vw * 229 / 375);
-  height: calc(100vh * 402 / 812);
+  right: 0;
+  top: calc(100vh * 40 / 812); /* adapt top spacing */
+  width: calc(100vw * 188 / 375);
+  height: calc(100vh * 356 / 812);
   opacity: 1;
   background-image: url('@/assets/aiusermodel.png'); 
   background-size: cover;
@@ -102,10 +100,10 @@ function handleRechargeEvent(value) {
 
 .aichatmodel {
   position: absolute;
-  left: calc(100vw * 197 / 375);
+  left: calc(100vw * 20 / 375);
   top: calc(100vh * 134 / 812);
-  width: calc(100vw * 104 / 375);
-  height: calc(100vh * 38 / 812);
+  width: calc(100vw * 207 / 375);
+  height: calc(100vh * 188 / 812);
   opacity: 1;
   background-image: url('@/assets/aichatmodel.png'); 
   background-size: cover;
@@ -148,10 +146,10 @@ function handleRechargeEvent(value) {
 .bottom-title {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 24 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 27.72 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 29.76 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(48, 40, 81, 1);
   text-align: center;
   margin-bottom: calc(100vh * 20 / 812); /* space before second text */
 }
@@ -160,25 +158,24 @@ function handleRechargeEvent(value) {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 24 / 375);
+  line-height: calc(100vw * 30 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(48, 40, 81, 1);
   text-align: center;
   margin: 0 calc(100vw * 28 / 375) 0 calc(100vw * 28 / 375); /* horizontal padding */
 }
 
 .purchase-container {
-  margin-top: calc(100vh * 15 / 812);
-  margin-bottom: calc(100vh * 25 / 812);
+  margin-top: calc(100vh * 26 / 812);
+  margin-bottom: calc(100vh * 35 / 812);
   width: calc(100vw * 281 / 375);
   height: calc(100vh * 62 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  background: linear-gradient(90deg, rgba(181, 158, 255, 1) 0.32%, rgba(127, 83, 255, 1) 99.69%);
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: calc(100vw * 46 / 375);
+  gap: calc(100vw * 30 / 375);
   padding-right: calc(100vw * 11 / 375);
   box-sizing: border-box;
 }
@@ -190,8 +187,8 @@ function handleRechargeEvent(value) {
 }
 
 .purchase-icon {
-  width: calc(100vw * 33 / 375);
-  height: calc(100vh * 39 / 812);
+  width: calc(100vw * 46 / 375);
+  height: calc(100vh * 46 / 812);
   background-image: url('@/assets/coin.png'); /* replace with your local image */
   background-size: cover;
   background-position: center;
@@ -201,26 +198,26 @@ function handleRechargeEvent(value) {
 .purchase-count {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 24.8 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
 }
 
 .chat-box {
   width: calc(100vw * 73 / 375);
-  height: calc(100vh * 38 / 812);
+  height: calc(100vh * 40 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(74, 32, 25, 1);
+  background: rgba(255, 255, 255, 1);
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 17.41 / 375);
+  line-height: calc(100vw * 19.84 / 375);
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(255, 108, 149, 1);
   box-sizing: border-box;
 }
 

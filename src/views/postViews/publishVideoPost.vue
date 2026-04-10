@@ -15,7 +15,7 @@
           <div class="text-count">{{ text.length }}/150</div>
         </div>
         <!-- Upload（video） -->
-        <div class="theme-label">Upload（video）</div>
+        <div class="theme-label">UPLOAD（VIDEO）</div>
         <!-- 视频上传 -->
         <div class="upload-list">
           <!-- 添加视频按钮 -->
@@ -33,7 +33,7 @@
           </template>
         </div>
         <!-- Release -->
-        <div class="release-button" @click="handleRelease">Release</div>
+        <div class="release-button" @click="handleRelease">RELEASE</div>
     </div>
   </div>
 </template>
@@ -176,8 +176,6 @@ const getVideoInfo = async (videoUrl) => {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
@@ -206,7 +204,7 @@ const getVideoInfo = async (videoUrl) => {
   height: calc(100vh * 174 / 812);
   border-radius: calc(100vw * 16 / 375);
   background: rgba(255, 255, 255, 1);
-  padding: calc(100vw * 12 / 375);
+  padding: calc(100vw * 12 / 375) calc(100vw * 10 / 375);
   box-sizing: border-box;
 }
 
@@ -219,27 +217,27 @@ const getVideoInfo = async (videoUrl) => {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
+  line-height: calc(100vw * 17.36 / 375);
   background: transparent;
-  color: #000;
+  color: rgba(39, 36, 79, 1);
 }
 
 .post-textarea::placeholder {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
-  color: rgba(105, 71, 65, 1); /* 颜色可半透明 */
+  line-height: calc(100vw * 17.36 / 375);
+  color: rgba(39, 36, 79, 0.7); /* 颜色可半透明 */
 }
 
 .text-count {
   position: absolute;
-  right: calc(100vw * 14 / 375);
-  bottom: calc(100vh * 19 / 812);
+  right: calc(100vw * 10 / 375);
+  bottom: calc(100vh * 9 / 812);
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
-  font-weight: normal;
-  color: rgba(105, 71, 65, 1);
+  font-weight: 400;
+  color: rgba(39, 36, 79, 0.7);
 }
 
 .theme-label {
@@ -247,9 +245,9 @@ const getVideoInfo = async (videoUrl) => {
   margin-left: calc(100vw * 20 / 375);
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
-  color: rgba(255, 255, 255, 1);
+  font-weight: 700;
+  line-height: calc(100vw * 24.8 / 375);
+  color: rgba(237, 228, 255, 1);
   text-align: left;
 }
 
@@ -272,7 +270,7 @@ const getVideoInfo = async (videoUrl) => {
   height: calc(100vw * 108 / 375);
   flex-shrink: 0;
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(48, 40, 81, 1);
   backdrop-filter: blur(12px);
   display: flex;
   justify-content: center;
@@ -289,8 +287,8 @@ const getVideoInfo = async (videoUrl) => {
 }
 
 .upload-add {
-  width: calc(100vw * 21 / 375);
-  height: calc(100vw * 21 / 375);
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
   background-image: url('@/assets/uploadpic.png');
   background-size: cover;
   background-position: center;
@@ -313,16 +311,15 @@ const getVideoInfo = async (videoUrl) => {
   width: calc(100vw * 229 / 375);
   height: calc(100vh * 62 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  background: linear-gradient(90deg, rgba(181, 158, 255, 1) 0.32%, rgba(127, 83, 255, 1) 99.69%);
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
-  color: rgba(74, 32, 25, 1);
+  font-weight: 700;
+  line-height: calc(100vw * 24.8 / 375);
+  color: rgba(255, 255, 255, 1);
   cursor: pointer;
   margin: calc(100vh * 148 / 812) auto calc(100vh * 34 / 812) auto;
 }

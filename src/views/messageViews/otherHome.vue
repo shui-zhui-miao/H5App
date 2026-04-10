@@ -6,34 +6,33 @@
     <div class="scroll-content">
       <div class="top">
         <div class="top-avatar" :style="{ '--avatar-url': `url(${currentUser.avator})` }">
-            <div class="follow-btn" v-if="userId !== currentUserStore.currentUser.userId && !currentUserStore.currentUser.follow.includes(userId)" @click="handleFollow" >
+            <div class="follow-btn" v-if="userId !== currentUserStore.currentUser.userId" @click="handleChat" >
                 <div class="follow-icon"></div>
             </div> 
         </div>
       </div>
       <div class="top-name">{{ currentUser.name }}</div>
+      <div class="intro-text">{{ currentUser.about }}</div>
       <!-- 用户作品数量、粉丝、关注 -->
-      <div class="user-stats">
-        <div class="stat-item">
-          <div class="stat-number">{{ userPosts.length || 0 }}</div>
-          <div class="stat-label">Works</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">{{ currentUser.fans.length || 0 }}</div>
-          <div class="stat-label">Fans</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">{{ currentUser.follow.length || 0 }}</div>
-          <div class="stat-label">Follow</div>
-        </div>
-      </div>
-      <!-- 简介和chat按钮 -->
+      
       <div class="intro-chat">
-        <div class="intro-text">{{ currentUser.about }}</div>
-        <template v-if="userId !== currentUserStore.currentUser.userId">
-          <div class="chat-btn" @click="handleChat">
-              <div class="chat-icon"></div>
-              <div class="chat-text">Chat</div>
+        <div class="user-stats">
+          <div class="stat-item">
+            <div class="stat-number">{{ userPosts.length || 0 }}</div>
+            <div class="stat-label">Works</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">{{ currentUser.fans.length || 0 }}</div>
+            <div class="stat-label">Fans</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">{{ currentUser.follow.length || 0 }}</div>
+            <div class="stat-label">Follow</div>
+          </div>
+        </div>
+        <template v-if="userId !== currentUserStore.currentUser.userId && !currentUserStore.currentUser.follow.includes(userId)">
+          <div class="chat-btn" @click="handleFollow">
+              <div class="chat-text">Follow</div>
           </div>
         </template>
         <template v-else>
@@ -41,7 +40,7 @@
         </template>
       </div>
       <!-- Post标题 -->
-      <div class="post-title">Post</div>
+      <div class="post-title">POST</div>
       <!-- PostList -->
       <div class="post-list">
         <template v-if="userPosts.length > 0">
@@ -248,7 +247,6 @@ function toPostDetail(dynamicId, dynamicType) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
   overflow: hidden;
 }
 
@@ -256,14 +254,16 @@ function toPostDetail(dynamicId, dynamicType) {
   position: absolute;
   left: 0;
   top: 0;
-  width: 100vw; /* 375px in design, scale to screen width */
-  height: calc(100vh * 348 / 812); /* 348px scaled */
+  width: 100vw;
+  height: calc(100vh * 348 / 812);
   opacity: 1;
-  background-image: linear-gradient(to top, rgba(0,0,0,0.82), rgba(0,0,0,0.14)), var(--avatar-url);
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
+  background-image: var(--avatar-url);
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
   pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
 }
 
 .scroll-content {
@@ -282,11 +282,11 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .top-avatar {
-  width: calc(100vw * 66 / 375); /* 可以根据需要调整 */
-  height: calc(100vw * 66 / 375);
-  border-radius: 50%;
-  padding: calc(100vw * 2 / 375); /* 给渐变边框留空间 */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%); /* 外渐变 */
+  width: calc(100vw * 112 / 375); /* 可以根据需要调整 */
+  height: calc(100vw * 112 / 375);
+  border-radius: calc(100vw * 30 / 375) calc(100vw * 30 / 375) calc(100vw * 10 / 375) calc(100vw * 30 / 375);
+  padding: calc(100vw * 3 / 375); /* 给渐变边框留空间 */
+  background: linear-gradient(180deg, rgba(131, 240, 255, 1) 0%, rgba(181, 159, 252, 1) 100%);
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -298,7 +298,7 @@ function toPostDetail(dynamicId, dynamicType) {
   content: '';
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+  border-radius: calc(100vw * 28 / 375) calc(100vw * 28 / 375) calc(100vw * 10 / 375) calc(100vw * 28 / 375);
   background-image: var(--avatar-url);
   background-size: cover;
   background-position: center;
@@ -306,22 +306,23 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .follow-btn {
   position: absolute;
-  bottom: calc(-100vh * 4 / 812); /* 超出头像底部4 */
-  width: calc(100vw * 36 / 375);
-  height: calc(100vh * 14 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 1);
-  box-shadow: inset -1px -1px 1px rgba(255, 255, 255, 0.6), inset 1px 1px 1px rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
+  bottom: calc(-100vh * 4 / 812);
+  right: calc(-100vw * 6 / 375);
+  width: calc(100vw * 28 / 375);
+  height: calc(100vh * 28 / 812);
+  border-radius: 50%;
+  background: rgba(255, 108, 149, 1);
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
+  border: calc(100vw * 2 / 375) solid rgba(23, 13, 42, 1);
 }
 
 .follow-icon {
-  width: calc(100vw * 12 / 375);
-  height: calc(100vw * 12 / 375);
-  background-image: url('@/assets/follow.png');
+  width: calc(100vw * 20 / 375);
+  height: calc(100vw * 20 / 375);
+  background-image: url('@/assets/eirbhksdfbn.png');
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
@@ -329,12 +330,12 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .top-name {
-  padding: calc(100vh * 12 / 812) calc(100vw * 20 / 375) 0;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
+  padding: calc(100vh * 8 / 812) calc(100vw * 20 / 375) 0 calc(100vw * 20 / 375);
+  font-size: calc(100vw * 24 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 29.76 / 375);
   font-family: 'JetBrainsMono', sans-serif;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(237, 228, 255, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -346,24 +347,23 @@ function toPostDetail(dynamicId, dynamicType) {
 /* 用户作品数量、粉丝、关注样式 */
 .user-stats {
   display: flex;
-  justify-content: center;
-  gap: calc(100vw * 60 / 375); /* 三个内容间距60 */
-  margin-top: calc(100vh * 16 / 812); /* 顶部间距16 */
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
 }
 
 .stat-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: calc(100vh * 6 / 812); /* 上下结构间距6 */
-  width: calc(100vw * 62 / 375);
+  gap: calc(100vh * 6 / 812);
 }
 
 .stat-number {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 24.8 / 375);
   color: rgba(255, 255, 255, 1);
 }
 
@@ -371,7 +371,7 @@ function toPostDetail(dynamicId, dynamicType) {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
+  line-height: calc(100vw * 17.36 / 375);
   color: rgba(255, 255, 255, 1);
 }
 
@@ -379,39 +379,41 @@ function toPostDetail(dynamicId, dynamicType) {
   display: flex;
   justify-content: space-between; /* 左右对齐 */
   align-items: center;
-  margin-top: calc(100vh * 32 / 812); /* 顶部间距 */
+  margin-top: calc(100vh * 17 / 812); /* 顶部间距 */
   padding-left: calc(100vw * 20 / 375);
   padding-right: calc(100vw * 20 / 375);
   width: 100%;
   box-sizing: border-box; /* 确保 padding 生效 */
-  gap: calc(100vw * 20 / 375); /* 左右元素间距 */
+  gap: calc(100vw * 25 / 375); /* 左右元素间距 */
 }
 
 .intro-text {
   flex: 1;
+  margin: 0 calc(100vw * 20 / 375) 0 calc(100vw * 20 / 375);
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
-  font-weight: normal;
-  line-height: calc(100vw * 15.23 / 375);
+  font-weight: 400;
+  line-height: calc(100vw * 17.36 / 375);
   color: rgba(255, 255, 255, 1);
   word-break: break-word;
+  text-align: center;
 }
 
 .chat-btn {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: calc(100vw * 10 / 375); /* 两个元素间距10 */
-  width: calc(100vw * 119 / 375);
-  height: calc(100vh * 53 / 812);
-  background: rgba(255, 255, 255, 0.1);
+  width: calc(100vw * 86 / 375);
+  height: calc(100vh * 40 / 812);
+  background: rgba(48, 40, 81, 1);
   border-radius: calc(100vw * 20 / 375);
+  box-shadow:inset 0px calc(-100vh * 2 / 812) 0px  rgba(255, 108, 149, 1);
   cursor: pointer;
 }
 
 .chat-btn-hidden {
-  width: calc(100vw * 119 / 375);
-  height: calc(100vh * 53 / 812);
+  width: calc(100vw * 86 / 375);
+  height: calc(100vh * 40 / 812);
 }
 
 .chat-icon {
@@ -424,10 +426,10 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .chat-text {
   font-family: 'JetBrainsMono', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  font-size: calc(100vw * 14 / 375);
+  font-weight: 500;
+  line-height: calc(100vw * 17.36 / 375);
+  background: rgba(255, 255, 255, 1);
   -webkit-background-clip: text;
   background-clip: text; /* 添加标准属性 */
   -webkit-text-fill-color: transparent;
@@ -436,11 +438,11 @@ function toPostDetail(dynamicId, dynamicType) {
 .post-title {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 24 / 375);
-  font-weight: 400;
+  font-weight: 700;
   line-height: calc(100vw * 27.72 / 375);
-  color: rgba(255, 255, 255, 1);
+  color: rgba(237, 228, 255, 1);
   text-align: left; /* 确保左对齐 */
-  margin-top: calc(100vh * 38 / 812);
+  margin-top: calc(100vh * 17 / 812);
   padding-left: calc(100vw * 20 / 375); /* 左间距，与页面内容对齐 */
   width: 100%;
   box-sizing: border-box;

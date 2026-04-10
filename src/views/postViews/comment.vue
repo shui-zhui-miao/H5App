@@ -3,9 +3,7 @@
     <div class="comment-container">
       <!-- 标题部分 -->
       <div class="comment-header">
-        <div class="header-line" style="max-width: calc(100vw * 31 / 375);"></div>
-        <div class="header-title">Comments</div>
-        <div class="header-line"></div>
+        <div class="header-title">COMMENTS</div>
       </div>
 
       <!-- 评论列表 -->
@@ -150,7 +148,7 @@ watch(
   width: 100%;
   height: 100%;
   border-radius: calc(100vh * 20 / 812) calc(100vh * 20 / 812) 0 0;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  background: rgba(255, 255, 255, 1);
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -158,8 +156,7 @@ watch(
 .comment-header {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 6 / 375);
-  padding: calc(100vh * 24 / 812) calc(100vw * 18 / 375) 0;
+  padding: calc(100vh * 20 / 812) calc(100vw * 20 / 375) 0;
 }
 
 .header-line {
@@ -170,16 +167,22 @@ watch(
 
 .header-title {
   font-family: 'JetBrainsMono', sans-serif;
-  font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
+  font-size: calc(100vw * 24 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 29.76 / 375);
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  background: linear-gradient(
+    90deg,
+    rgba(181, 158, 255, 1) 0%,
+    rgba(127, 83, 255, 1) 99.69%
+  );
+  color: transparent;
+  background-clip: text;
   white-space: nowrap;
 }
 
 .comment-list {
-  padding: calc(100vh * 20 / 812) calc(100vw * 20 / 375) calc(100vh * 90 / 812);
+  padding: calc(100vh * 16 / 812) calc(100vw * 20 / 375) calc(100vh * 90 / 812);
   display: flex;
   flex-direction: column;
   gap: calc(100vh * 10 / 812);
@@ -191,9 +194,9 @@ watch(
   display: flex;
   flex-direction: column;
   gap: calc(100vh * 4 / 812);
-  padding: calc(100vh * 14 / 812) calc(100vw * 16 / 375) calc(100vh * 18 / 812);
+  padding: calc(100vh * 14 / 812) calc(100vw * 16 / 375) calc(100vh * 19 / 812);
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(0, 0, 0, 0.16);
+  background: rgba(48, 40, 81, 1);
   backdrop-filter: blur(calc(100vw * 12 / 375));
 }
 
@@ -214,13 +217,7 @@ watch(
   height: calc(100vw * 32 / 375);
   border-radius: 50%;
   padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
+  background: linear-gradient(90deg, rgba(181, 158, 255, 1) 0.32%, rgba(127, 83, 255, 1) 99.69%);
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
@@ -237,8 +234,8 @@ watch(
 .username {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 19.84 / 375);
   letter-spacing: 0;
   color: rgba(255, 255, 255, 1);
   white-space: nowrap;
@@ -255,7 +252,7 @@ watch(
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 13.06 / 375);
+  line-height: calc(100vw * 14.88 / 375);
   letter-spacing: 0;
   color: rgba(255, 255, 255, 1);
   text-align: left;
@@ -268,8 +265,7 @@ watch(
   bottom: calc(100vh * 29 / 812);
   height: calc(100vh * 54 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(201, 255, 221, 1);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
+  background: rgba(48, 40, 81, 1);
   backdrop-filter: blur(calc(100vw * 32 / 375));
   display: flex;
   align-items: center;
@@ -288,7 +284,7 @@ watch(
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
-  color: #000;
+  color: rgba(255, 255, 255, 1);
 }
 
 .bottom-input input::placeholder {
@@ -296,12 +292,12 @@ watch(
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
-  color: rgba(105, 71, 65, 0.5);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .send-btn {
-  width: calc(100vw * 30 / 375);
-  height: calc(100vw * 30 / 375);
+  width: calc(100vw * 34 / 375);
+  height: calc(100vw * 34 / 375);
   cursor: pointer;
 }
 

@@ -330,30 +330,24 @@ function commentReportSelect(value) {
 .bottom-info {
   display: flex;
   align-items: center;
+  margin-bottom: calc(100vh * 66 / 812);
 }
 
 .user-left {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 16 / 375);
+  gap: calc(100vw * 8 / 375);
 }
 
 .avatar {
-  width: calc(100vw * 48 / 375);
-  height: calc(100vw * 48 / 375);
+  width: calc(100vw * 56 / 375);
+  height: calc(100vw * 56 / 375);
   border-radius: 50%;
   padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
+  background: linear-gradient(90deg, rgba(181, 158, 255, 1) 0.32%, rgba(127, 83, 255, 1) 99.69%);
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
-  margin-bottom: calc(100vw * 4 / 375);
   box-sizing: border-box;
 }
 
@@ -366,8 +360,6 @@ function commentReportSelect(value) {
 
 .avatar-wrap {
   position: relative;
-  width: calc(100vw * 48 / 375);
-  height: calc(100vw * 52 / 375); /* avatar 48 + gap 4 */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -375,17 +367,15 @@ function commentReportSelect(value) {
 
 .follow {
   position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: calc(100vw * 36 / 375);
-  height: calc(100vw * 14 / 375);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 1);
+  right: calc(100vw * 1 / 375);
+  bottom: calc(100vh * 7 / 812);
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
+  border-radius: calc(100vw * 12 / 375);
+  background: linear-gradient(90deg, rgba(181, 158, 255, 1) 0.32%, rgba(127, 83, 255, 1) 99.69%);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset calc(100vw * -1 / 375) calc(100vw * -1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(10px);
   cursor: pointer;
 }
@@ -404,8 +394,8 @@ function commentReportSelect(value) {
 .username {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 19.84 / 375);
   color: rgba(255, 255, 255, 1);
   white-space: nowrap;
   overflow: hidden;
@@ -417,30 +407,28 @@ function commentReportSelect(value) {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  letter-spacing: 0px;
-  line-height: calc(100vw * 15.23 / 375);
-  color: rgba(255, 255, 255, 1);
-  white-space: nowrap;
+  line-height: calc(100vw * 17.36 / 375);
+  color: #fff;
+  display: box;              /* 标准写法（部分浏览器支持） */
+  line-clamp: 2;             /* 👈 最大2行 */
+  box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: calc(100vw - calc(100vw * 48 / 375) - calc(100vw * 16 / 375) - calc(100vw * 40 / 375)); /* avatar width + gap + padding */
+  max-width: calc(100vw - calc(100vw * 48 / 375) - calc(100vw * 16 / 375) - calc(100vw * 40 / 375));
 }
 
 .action-buttons {
   position: absolute;
-  bottom: calc(100vh * 86 / 812);
+  bottom: calc(100vh * 35 / 812);
   right: calc(100vw * 20 / 375);
   display: flex;
   gap: calc(100vh * 14 / 812);
 }
 
 .action-button {
-  width: calc(100vw * 91 / 375);
-  height: calc(100vh * 39 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 0.4);
-  box-shadow: inset calc(100vw * -1 / 375) calc(100vw * -1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(calc(100vw * 10 / 375));
+  width: calc(100vw * 162 / 375);
+  height: calc(100vh * 53 / 812);
+  border-radius: calc(100vw * 20 / 375);
+  background: rgba(48, 40, 81, 1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -448,16 +436,16 @@ function commentReportSelect(value) {
 }
 
 .action-button img {
-  width: calc(100vw * 24 / 375);
-  height: calc(100vw * 24 / 375);
+  width: calc(100vw * 40 / 375);
+  height: calc(100vw * 40 / 375);
 }
 
 .action-button span {
   font-family: 'JetBrainsMono', sans-serif;
-  font-size: calc(100vw * 16 / 375);
+  font-size: calc(100vw * 20 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 17.41 / 375);
-  color: rgba(255, 255, 255, 1);
+  line-height: calc(100vw * 24.8 / 375);
+  color: rgba(237, 228, 255, 1);
 }
 
 .comment-overlay {
