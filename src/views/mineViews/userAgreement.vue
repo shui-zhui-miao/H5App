@@ -548,7 +548,7 @@ const appName = 'Luvie'
 }
 
 .title{
-  font-family: 'Lato', sans-serif;
+  font-family: 'Archivo', sans-serif;
   font-size: calc(100vw * 20 / 375);
   background:rgba(255,255,255,1);
   font-weight: 700;
