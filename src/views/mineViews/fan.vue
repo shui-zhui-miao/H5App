@@ -11,9 +11,7 @@
                 <div class="fan-left">
                     <div class="user-info">
                         <div class="avatar-box">
-                            <div class="avatar-inner">
-                                <img :src="item.avator" alt="avatar" />
-                            </div>
+                            <img class="avatar-inner" :src="item.avator" alt="avatar" />
                         </div>
                         <div class="user-name">{{ item.name }}</div>
                     </div>
@@ -109,9 +107,10 @@ function addFollow(userId) {
 .edit-title {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  font-weight: 700;
+  background: #fff;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -163,7 +162,7 @@ function addFollow(userId) {
   height: calc(100vw * 32 / 375);
   border-radius: 50%;
   padding: calc(100vw * 1 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  background: linear-gradient(90deg, rgba(181, 158, 255, 1) 0.32%, rgba(127, 83, 255, 1) 99.69%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -171,7 +170,7 @@ function addFollow(userId) {
   overflow: hidden;
 }
 
-.avatar-inner img {
+.avatar-inner {
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -181,8 +180,8 @@ function addFollow(userId) {
 .user-name {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 19.84 / 375);
   color: #fff;
   white-space: nowrap;
   overflow: hidden;
@@ -208,8 +207,8 @@ function addFollow(userId) {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 13.06 / 375);
-  color: rgba(105, 71, 65, 1);
+  line-height: calc(100vw * 14.88 / 375);
+  color: rgba(39, 36, 79, 1);
   display: flex;
   align-items: center;
   justify-content: center;

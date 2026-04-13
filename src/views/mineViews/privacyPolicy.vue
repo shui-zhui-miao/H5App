@@ -453,6 +453,7 @@ const appName = 'Teki'
   background:rgba(255,255,255,1);
   font-weight: 700;
   -webkit-background-clip:text;
+  background-clip: text;
   -webkit-text-fill-color:transparent;
 }
 .protocol {

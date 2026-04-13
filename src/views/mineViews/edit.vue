@@ -21,7 +21,7 @@
       />
       <div class="second">
         <div class="second-section">
-            <div class="label">Name</div>
+            <div class="label">NAME</div>
             <div class="input-box">
             <input v-model="name" type="text" placeholder="Please enter" />
             </div>
@@ -29,14 +29,14 @@
       </div>
       <div class="third">
         <div class="third-section">
-            <div class="label">About me</div>
+            <div class="label">ABOUT ME</div>
             <div class="input-box about-me-box">
             <textarea v-model="aboutMe" placeholder="Please enter"></textarea>
             </div>
         </div>
       </div>
       <div class="fourth-section">
-        <div class="save-btn" @click="saveProfile">Save</div>
+        <div class="save-btn" @click="saveProfile">SAVE</div>
       </div>
     </div>
   </div>
@@ -146,8 +146,6 @@ onMounted(() => {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
@@ -167,9 +165,10 @@ onMounted(() => {
 .edit-title {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  font-weight: 700;
+  background: #fff;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -212,8 +211,8 @@ onMounted(() => {
 }
 
 .camera-corner img {
-  width: calc(100vw * 14 / 375);
-  height: calc(100vw * 14 / 375);
+  width: calc(100vw * 20 / 375);
+  height: calc(100vw * 20 / 375);
 }
 
 .second-section {
@@ -228,9 +227,9 @@ onMounted(() => {
 .label {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
-  color: rgba(255, 255, 255, 1);
+  font-weight: 700;
+  line-height: calc(100vw * 24.8 / 375);
+  color: rgba(237, 228, 255, 1);
 }
 
 .input-box {
@@ -254,7 +253,7 @@ onMounted(() => {
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
-  color: #000;
+  color: rgba(39, 36, 79, 1);
   background: transparent;
 }
 
@@ -286,7 +285,7 @@ onMounted(() => {
   font-weight: 400;
   line-height: calc(100vw * 15.23 / 375);
   letter-spacing: 0;
-  color: #000;
+  color: rgba(39, 36, 79, 1);
   background: transparent;
   padding: calc(100vh * 16 / 812) 0; /* top-left padding */
   box-sizing: border-box;
@@ -303,16 +302,15 @@ onMounted(() => {
   width: calc(100vw * 229 / 375);
   height: calc(100vh * 62 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  background: linear-gradient(90deg, rgba(181, 158, 255, 1) 0.32%, rgba(127, 83, 255, 1) 99.69%);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 24.8 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
 }
 </style>

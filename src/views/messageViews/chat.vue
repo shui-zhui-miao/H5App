@@ -1,7 +1,5 @@
 <template>
   <div class="page">
-    <!-- 顶部背景层 -->
-    <div class="top-background"></div>
     <!-- 内容部分 -->
     <div class="content">
       <!-- 顶部内容 -->
@@ -20,7 +18,7 @@
             <input ref="imageInput" type="file" accept="image/*" style="display:none" @change="handleImageChange" />
             <img src="@/assets/chatvideoicon.png" class="icon" @click="openVideoCall" />
           </div>
-          <MoreButton @click="showReport = true" />
+          <MoreButton @click="showReport = true"/>
         </div>
       </div>
 
@@ -48,11 +46,11 @@
     <!-- Video Call Sheet -->
     <transition name="slide-up">
       <div v-if="showVideoCall" class="video-call-sheet">
-        <VideoCall :userId="otherUser.userId" @hangup="closeVideoCall" />
+        <VideoCall :userId="otherUser.userId" @hangup="closeVideoCall" @showReport="showReport = true"/>
       </div>
     </transition>
 
-    <ReportDialog v-if="showReport" @close="showReport = false" @select="reportSelect" >
+    <ReportDialog class="dvddsv" v-if="showReport" @close="showReport = false" @select="reportSelect" >
     </ReportDialog>
   </div>
 </template>
@@ -231,19 +229,15 @@ function reportSelect(value) {
 </script>
 
 <style scoped>
+.dvddsv{
+  z-index: 1000;
+}
 .page {
   position: relative;
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 1);
   overflow: hidden;
-}
-
-.top-background {
-  height: calc(100vh * 162 / 812);
-  opacity: 1;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  width: 100%;
 }
 
 .content {
@@ -267,7 +261,7 @@ function reportSelect(value) {
 .left-part {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 15 / 375);
+  gap: calc(100vw * 20 / 375);
 }
 
 .user-info {
@@ -287,10 +281,10 @@ function reportSelect(value) {
 .username {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 19.84 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: rgba(255, 255, 255, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -299,7 +293,7 @@ function reportSelect(value) {
 .right-part {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 17 / 375);
+  gap: calc(100vw * 20 / 375);
 }
 
 .icon-group {
@@ -323,7 +317,7 @@ function reportSelect(value) {
   padding-bottom: calc(100vh * 90 / 812);
   display: flex;
   flex-direction: column;
-  gap: calc(100vh * 16 / 812);
+  gap: calc(100vh * 14 / 812);
 }
 
 .chat-item {
@@ -345,7 +339,7 @@ function reportSelect(value) {
   height: calc(100vw * 44 / 375);
   border-radius: 50%;
   padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  background: rgba(129, 236, 255, 1);
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
@@ -365,20 +359,24 @@ function reportSelect(value) {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 17.41 / 375);
-  color: rgba(105, 71, 65, 1);
+  line-height: calc(100vw * 19.84 / 375);
+  color: rgba(39, 36, 79, 1);
   padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375);
   border-radius: 0px calc(100vw * 10 / 375) calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(201, 255, 221, 1);
+  background: rgba(145, 229, 255, 1);
 }
 
 .chat-time {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 13.06 / 375);
+  line-height: calc(100vw * 14.88 / 375);
   color: rgba(153, 153, 153, 1);
   text-align: right;
+}
+
+.chat-item.own-message .chat-avatar {
+  background: linear-gradient(90deg, rgba(181, 158, 255, 1) 0.32%, rgba(127, 83, 255, 1) 99.69%);
 }
 
 .chat-item.own-message {
@@ -392,7 +390,8 @@ function reportSelect(value) {
 
 .chat-item.own-message .chat-message {
   border-radius: calc(100vw * 10 / 375) 0px calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(255, 159, 142, 1);
+  background: linear-gradient(90deg, rgba(181, 158, 255, 1) 0.32%, rgba(127, 83, 255, 1) 99.69%);
+  color: rgba(255, 255, 255, 1);
 }
 
 /* image message styles */
@@ -416,8 +415,7 @@ function reportSelect(value) {
   bottom: calc(100vh * 29 / 812);
   height: calc(100vh * 54 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(201, 255, 221, 1);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
+  background: rgba(48, 40, 81, 1);
   backdrop-filter: blur(calc(100vw * 32 / 375));
   display: flex;
   align-items: center;
@@ -434,18 +432,18 @@ function reportSelect(value) {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
+  line-height: calc(100vw * 17.36 / 375);
   letter-spacing: 0;
-  color: #000;
+  color: rgba(255, 255, 255, 1);
 }
 
 .bottom-input input::placeholder {
-  color: rgba(105, 71, 65, 0.5);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .send-btn {
-  width: calc(100vw * 30 / 375);
-  height: calc(100vw * 30 / 375);
+  width: calc(100vw * 34 / 375);
+  height: calc(100vw * 34 / 375);
   cursor: pointer;
 }
 

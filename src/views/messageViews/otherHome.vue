@@ -46,31 +46,22 @@
         <template v-if="userPosts.length > 0">
           <div class="post-item" v-for="post in userPosts" :key="post.dynamicId" @click="toPostDetail(post.dynamicId, post.dynamicType)">
             <div class="post-content">
-              <!-- Top row: avatar + name (left) and report button (right) -->
-              <div class="post-top">
+              <div class="post-image" :style="{ backgroundImage: `url(${post.dynamicPic[0]})` }">
+                <div class="post-top">
                   <div class="post-user">
-                  <div class="post-avatar">
-                    <div class="post-avatar-img" :style="{ backgroundImage: `url(${currentUser.avator})` }"></div>
-                  </div>
-                  <div class="post-username" :title="currentUser.name">{{ currentUser.name }}</div>
+                    <div class="post-avatar">
+                      <div class="post-avatar-img" :style="{ backgroundImage: `url(${currentUser.avator})` }"></div>
+                    </div>
+                    <div class="post-username" :title="currentUser.name">{{ currentUser.name }}</div>
                   </div>
                   <div class="post-report" v-if="userId !== currentUserStore.currentUser.userId" @click="showReport = true"></div>
-              </div>
-              <!-- Middle image -->
-              <div class="post-image" :style="{ backgroundImage: `url(${post.dynamicPic[0]})` }">
+                </div>
                 <div class="post-image-overlay">
-                  <div class="overlay-item">
-                    <div class="overlay-icon overlay-like"></div>
-                    <div class="overlay-count">{{ post.dynamicLikeCount || 0 }}</div>
-                  </div>
-                  <div class="overlay-item">
-                    <div class="overlay-icon overlay-comment"></div>
-                    <div class="overlay-count">{{ post.dynamicCommentCount || 0 }}</div>
-                  </div>
+                  <img v-if="currentUserStore.currentUser.postLikeIds.includes(post.dynamicId)" src="@/assets/likepic.png" alt="like" class="overlay-icon"/>
+                  <img v-else src="@/assets/dislikepic.png" alt="like" class="overlay-icon"/>
                 </div>
               </div>
-              <!-- Bottom: post type -->
-              <div class="post-type"># {{ otherStore.getTagByIndex(post.dynamicTitleType) }}</div>
+              <div class="post-desc">{{ post.dynamicDesc }}</div>
             </div>
           </div>
         </template>
@@ -183,6 +174,10 @@ function handleFollow() {
 }
 
 function handleChat() {
+  if (!currentUserStore.currentUser.follow?.includes(userId)) {
+    uiStore.showToast('Please follow first.')
+    return
+  }
   if (uiStore.loading) return
   uiStore.showLoading()
   const currentUserId = currentUserStore.currentUser.userId
@@ -450,20 +445,23 @@ function toPostDetail(dynamicId, dynamicType) {
 
 /* PostList styles */
 .post-list {
-  display: flex;
-  flex-direction: column;
-  padding: calc(100vh * 16 / 812) calc(100vw * 20 / 375) calc(100vh * 34 / 812);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: calc(100vh * 15 / 812);
+  column-gap: calc(100vw * 12 / 375);
+  padding: calc(100vh * 16 / 812) 
+           calc(100vw * 20 / 375) 
+           calc(100vh * 34 / 812);
   width: 100%;
   box-sizing: border-box;
-  gap: calc(100vh * 16 / 812); /* 项间距16 */
 }
 
 /* Post Item new layout */
 .post-item {
-  width: calc(100vw * 335 / 375);
-  height: calc(100vw * 272 / 375);
+  width: 100%;
+  height: calc(100vw * 224 / 375);
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(33, 23, 69, 1);
   position: relative;
   overflow: hidden;
   font-family: 'JetBrainsMono', sans-serif;
@@ -482,8 +480,10 @@ function toPostDetail(dynamicId, dynamicType) {
   inset: 0; /* top:0; right:0; bottom:0; left:0 */
   border-radius: inherit;
   padding: calc(100vw * 2 / 375); /* border thickness */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
   -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask: 
     linear-gradient(#fff 0 0) content-box, 
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -496,30 +496,29 @@ function toPostDetail(dynamicId, dynamicType) {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: calc(100vw * 12 / 375);
-  gap: calc(100vh * 10 / 812);
+  justify-content: start;
+  padding: calc(100vw * 8 / 375);
+  gap: calc(100vh * 8 / 812);
 }
 
 .post-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: calc(100vw * 20 / 375);
+  gap: calc(100vw * 4 / 375);
+  padding: calc(100vw * 6 / 375);
 }
 
 .post-user {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 10 / 375);
+  gap: calc(100vw * 4 / 375);
 }
 
 .post-avatar {
-  width: calc(100vw * 35 / 375);
-  height: calc(100vw * 35 / 375);
+  width: calc(100vw * 22 / 375);
+  height: calc(100vw * 22 / 375);
   border-radius: 50%;
-  padding: calc(100vw * 1 / 375); /* gradient border thickness */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
   box-sizing: border-box;
   display: flex;
 }
@@ -535,9 +534,9 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .post-username {
   font-family: 'JetBrainsMono', sans-serif;
-  font-size: calc(100vw * 14 / 375);
+  font-size: calc(100vw * 11 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 16.17 / 375);
+  line-height: calc(100vw * 13.64 / 375);
   color: rgba(255, 255, 255, 1);
   white-space: nowrap;
   overflow: hidden;
@@ -545,8 +544,8 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .post-report {
-  width: calc(100vw * 24 / 375);
-  height: calc(100vw * 24 / 375);
+  width: calc(100vw * 14 / 375);
+  height: calc(100vw * 14 / 375);
   background-image: url('@/assets/postpiccommentreport.png');
   background-size: cover;
   background-position: center;
@@ -556,8 +555,8 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .post-image {
   width: 100%;
-  height: calc(100vw * 171 / 375);
-  border-radius: calc(100vw * 14 / 375);
+  height: calc(100vw * 174 / 375);
+  border-radius: calc(100vw * 16 / 375);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -570,6 +569,20 @@ function toPostDetail(dynamicId, dynamicType) {
   bottom: calc(100vh * 6 / 812);
   display: flex;
   gap: calc(100vw * 14 / 375);
+}
+.post-desc {
+  font-family: 'JetBrainsMono', sans-serif;
+  font-size: calc(100vw * 10 / 375);
+  font-weight: 400;
+  line-height: calc(100vw * 12.4 / 375);
+  color: rgba(255, 255, 255, 1);
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 旧版浏览器兼容 */
+  line-clamp: 2; /* 标准属性，解决提示 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
 }
 
 .overlay-item {
@@ -591,10 +604,6 @@ function toPostDetail(dynamicId, dynamicType) {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-}
-
-.overlay-like {
-  background-image: url('@/assets/likepic.png');
 }
 
 .overlay-comment {

@@ -11,9 +11,7 @@
           <div class="follow-left">
             <div class="user-info">
               <div class="avatar-box">
-                <div class="avatar-inner">
-                  <img :src="item.avator" alt="avatar" />
-                </div>
+                <img class="avatar-inner" :src="item.avator" alt="avatar" />
               </div>
               <div class="user-name">{{ item.name }}</div>
             </div>
@@ -85,8 +83,6 @@ function cancelFollow(userId) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
   background-repeat: no-repeat;
@@ -106,9 +102,10 @@ function cancelFollow(userId) {
 .edit-title {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  font-weight: 700;
+  background: #fff;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -131,9 +128,9 @@ function cancelFollow(userId) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: calc(100vh * 76 / 812);
+  height: calc(100vh * 78 / 812);
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(48, 40, 81, 1);
   box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06);
   padding: 0 calc(100vw * 16 / 375);
   box-sizing: border-box;
@@ -160,7 +157,7 @@ function cancelFollow(userId) {
   height: calc(100vw * 32 / 375);
   border-radius: 50%;
   padding: calc(100vw * 1 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  background: linear-gradient(90deg, rgba(181, 158, 255, 1) 0.32%, rgba(127, 83, 255, 1) 99.69%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -168,7 +165,7 @@ function cancelFollow(userId) {
   overflow: hidden;
 }
 
-.avatar-inner img {
+.avatar-inner {
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -178,8 +175,8 @@ function cancelFollow(userId) {
 .user-name {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 19.84 / 375);
   color: #fff;
   white-space: nowrap;
   overflow: hidden;
@@ -190,7 +187,7 @@ function cancelFollow(userId) {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
+  line-height: calc(100vw * 17.36 / 375);
   color: #fff;
   white-space: nowrap;
   overflow: hidden;
@@ -200,13 +197,13 @@ function cancelFollow(userId) {
 .follow-right {
   width: calc(100vw * 63 / 375);
   height: calc(100vh * 28 / 812);
-  border-radius: calc(100vw * 20 / 375);
+  border-radius: calc(100vw * 14 / 375);
   background: #fff;
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 13.06 / 375);
-  color: rgba(105, 71, 65, 1);
+  line-height: calc(100vw * 14.88 / 375);
+  color: rgba(39, 36, 79, 1);
   display: flex;
   align-items: center;
   justify-content: center;
