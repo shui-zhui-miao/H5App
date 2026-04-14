@@ -57,7 +57,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { clearAndNavigateTo,goBackOrClose } from '@/utils/iosBridge'
+import { goBackOrClose } from '@/utils/iosBridge'
 import { useUIStore } from '@/stores/ui'
 import BackButton from '@/components/back.vue'
 import avatarIcon from '@/assets/avataricon.png'
