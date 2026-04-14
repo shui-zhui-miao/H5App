@@ -258,7 +258,7 @@ onMounted(() => {
 }
 
 .input-box input::placeholder {
-  color: rgba(105, 71, 65, 1);
+  color: rgba(39, 36, 79, 0.7);
 }
 
 .third-section {

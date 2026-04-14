@@ -142,3 +142,19 @@ export function sendPaymentToIOS(payKey) {
         console.error('sendPaymentToIOS error', e)
     }
 }
+
+export function clearAndNavigateTo() {
+    try {
+        if (
+            window.webkit && 
+            window.webkit.messageHandlers && 
+            window.webkit.messageHandlers.clearAndNavigate
+        ) {
+            window.webkit.messageHandlers.clearAndNavigate.postMessage({})
+        } else {
+            console.warn('WebKit clearAndNavigate handler not found')
+        }
+    } catch(e) {
+        console.error('clearAndNavigateTo error', e)
+    }
+}
