@@ -158,22 +158,18 @@ const toggleRotatelocation = () => {
 const isValidBirthday = (dateStr) => {
     if (!dateStr || typeof dateStr !== 'string') return false
     const trimmed = dateStr.trim()
-    // 正则：四位年份-两位月份-两位日期
     const regex = /^\d{4}-\d{2}-\d{2}$/
     if (!regex.test(trimmed)) return false
-    // 可选：进一步校验月份 01-12，日期 01-31
     const parts = trimmed.split('-')
     const year = parseInt(parts[0], 10)
     const month = parseInt(parts[1], 10)
     const day = parseInt(parts[2], 10)
     if (month < 1 || month > 12) return false
     if (day < 1 || day > 31) return false
-    // 简单校验闰年二月天数（可选）
     if (month === 2) {
         const isLeap = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)
         if (day > (isLeap ? 29 : 28)) return false
     }
-    // 校验 4、6、9、11 月只有 30 天
     if ([4, 6, 9, 11].includes(month) && day > 30) return false
     return true
 }
