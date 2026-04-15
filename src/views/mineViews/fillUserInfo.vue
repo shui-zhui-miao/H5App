@@ -72,10 +72,10 @@ const isRotatedlocation = ref(false)
 const isgender = ref(1)
 const uiStore = useUIStore()
 const avatarFile = ref(null)
-const avatarPreview = ref(currentUserStore.currentUser.avator)
 const fileInput = ref(null)
 const currentUserStore = useCurrentUserStore()
 const userStore = useUserStore()
+const avatarPreview = ref(currentUserStore.currentUser.avator)
 
 const chooseAvatar = () => {
   fileInput.value?.click()
