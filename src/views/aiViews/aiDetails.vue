@@ -93,7 +93,7 @@ function handleRechargeEvent(value) {
   height: calc(100vh * 356 / 812);
   opacity: 1;
   background-image: url('@/assets/aiusermodel.png'); 
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -106,7 +106,7 @@ function handleRechargeEvent(value) {
   height: calc(100vh * 188 / 812);
   opacity: 1;
   background-image: url('@/assets/aichatmodel.png'); 
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
 }
