@@ -37,6 +37,7 @@ import bgcImage2 from '@/assets/reportchoosebgc.png'
   transform: translate(-50%, -50%); /* 居中 */
   width: calc(100vw * 244 / 375);
   height: calc(100vh * 316 / 812);
+  border-radius: calc(100vw * 30 / 375);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
