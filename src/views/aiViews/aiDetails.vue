@@ -158,7 +158,7 @@ function handleRechargeEvent(value) {
   font-family: 'JetBrainsMono', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 30 / 375);
+  line-height: calc(100vw * 20 / 375);
   letter-spacing: 0;
   color: rgba(48, 40, 81, 1);
   text-align: center;
