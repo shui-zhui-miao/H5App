@@ -145,8 +145,7 @@ const handleSave = async () => {
   } catch (e) {
     console.error(e)
     uiStore.hideLoading()
-    // uiStore.showToast('Updated failed, please check your network.')
-    uiStore.showToast(e)
+    uiStore.showToast('Updated failed, please check your network.')
   }
 }
 const toggleRotatebirthday = () => {
