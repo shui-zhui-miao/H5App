@@ -86,7 +86,7 @@ const getFirstTime = () => {
 }
 
 const bottomItems = ref([
-  { sendId: '0', time: getFirstTime(), message: 'Hi there! I’m Kico, your AI buddy for all things fun and creative.' },
+  { sendId: '0', time: getFirstTime(), message: 'Hi there! I’m Geime, your AI buddy for all things fun and creative.' },
 ])
 
 async function handleMessageClick(message) {

@@ -156,7 +156,11 @@ function handleFollow() {
 
 function handleChat() {
   if (!currentUserStore.currentUser.follow?.includes(userId)) {
-    uiStore.showToast('Please follow first.')
+    uiStore.showToast('Mutual follow required.')
+    return
+  }
+  if (!currentUser.follow?.includes(currentUserStore.currentUser.userId)) {
+    uiStore.showToast('Mutual follow required.')
     return
   }
   if (uiStore.loading) return
