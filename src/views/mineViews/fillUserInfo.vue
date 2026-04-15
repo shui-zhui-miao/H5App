@@ -60,7 +60,6 @@ import { ref } from 'vue'
 import { goBackOrClose } from '@/utils/iosBridge'
 import { useUIStore } from '@/stores/ui'
 import BackButton from '@/components/back.vue'
-import avatarIcon from '@/assets/avataricon.png'
 import { useCurrentUserStore } from '@/stores/currentUser'
 import { useUserStore } from '@/stores/user'
 import { uploadSingleImage } from '@/utils/ossUpload'
@@ -73,7 +72,7 @@ const isRotatedlocation = ref(false)
 const isgender = ref(1)
 const uiStore = useUIStore()
 const avatarFile = ref(null)
-const avatarPreview = ref(avatarIcon)
+const avatarPreview = ref(currentUserStore.currentUser.avator)
 const fileInput = ref(null)
 const currentUserStore = useCurrentUserStore()
 const userStore = useUserStore()
