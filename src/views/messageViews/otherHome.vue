@@ -304,7 +304,7 @@ function toPostDetail(dynamicId, dynamicType) {
   bottom: calc(-100vh * 4 / 812);
   right: calc(-100vw * 6 / 375);
   width: calc(100vw * 28 / 375);
-  height: calc(100vh * 28 / 812);
+  height: calc(100vw * 28 / 375);
   border-radius: 50%;
   background: rgba(255, 108, 149, 1);
   display: flex;
