@@ -371,7 +371,7 @@ function toPostDetail(dynamicId, dynamicType) {
   font-size: calc(100vw * 20 / 375);
   font-weight: 700;
   line-height: calc(100vw * 26.94 / 375);
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   color: rgb(255, 255, 255);
   white-space: nowrap;
   overflow: hidden;
@@ -397,7 +397,7 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .stat-number {
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 700;
   line-height: calc(100vw * 26.94 / 375);
@@ -405,7 +405,7 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .stat-label {
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.86 / 375);
@@ -426,7 +426,7 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .intro-text {
   flex: 1;
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.86 / 375);
@@ -461,7 +461,7 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .chat-text {
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 700;
   line-height: calc(100vw * 26.94 / 375);
@@ -567,7 +567,7 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .post-username {
   flex: 1;
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 700;
   line-height: calc(100vw * 18.86 / 375);
@@ -657,7 +657,7 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .overlay-count {
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 21.55 / 375);
@@ -677,7 +677,7 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .post_details div {
   /* padding: 0 calc(100vw * 10 / 375); */
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.86 / 375);

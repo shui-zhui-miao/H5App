@@ -80,7 +80,7 @@ function handleRecharge() {
 .recharge-title-text {
   display: flex;
   justify-content: center;
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 24 / 375);
   font-weight: 700;
   line-height: calc(100vw * 32.33 / 375);
@@ -90,7 +90,7 @@ function handleRecharge() {
 .recharge-title-content {
   display: flex;
   justify-content: center;
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 18 / 375);
   font-weight: 400;
   line-height: calc(100vw * 24.25 / 375);

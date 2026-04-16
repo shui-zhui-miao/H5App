@@ -419,7 +419,7 @@ function commentReportSelect(value) {
 }
 
 .username {
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 700;
   line-height: calc(100vw * 21.55 / 375);
@@ -430,7 +430,7 @@ function commentReportSelect(value) {
 }
 
 .video-desc {
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   letter-spacing: 0px;
@@ -481,7 +481,7 @@ function commentReportSelect(value) {
 }
 
 .action-button span {
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 21.55 / 375);

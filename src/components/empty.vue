@@ -22,7 +22,7 @@
 
 .empty-text {
   /* margin-top: calc(100vh * 5 / 812);  */
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   letter-spacing: 0px;

@@ -191,7 +191,7 @@ watch(
   border-radius: calc(100vw * 10 / 375);
   background: rgba(0, 0, 0, 1);
   border: calc(100vw * 1 / 375) solid rgba(251, 226, 100, 1); */
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 700;
   line-height: calc(100vw * 21.55 / 375);
@@ -265,7 +265,7 @@ watch(
 }
 
 .username {
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 700;
   line-height: calc(100vw * 21.55 / 375);
@@ -282,7 +282,7 @@ watch(
 }
 
 .comment-text {
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
   flex-shrink: calc(100vw * 16.16 / 375);

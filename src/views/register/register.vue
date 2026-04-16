@@ -249,7 +249,7 @@ const saveProfile = async () => {
 }
 
 .label {
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 700;
   line-height: calc(100vw * 26.94 / 375);
@@ -272,7 +272,7 @@ const saveProfile = async () => {
 
 .birthday-content {
   justify-content: space-between;
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.86 / 375);
@@ -305,7 +305,7 @@ const saveProfile = async () => {
   width: 100%;
   border: none;
   outline: none;
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.86 / 375);
@@ -361,7 +361,7 @@ const saveProfile = async () => {
 }
 
 .gender-text {
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.86 / 375);
@@ -399,7 +399,7 @@ const saveProfile = async () => {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 24 / 375);
   font-weight: 700;
   line-height: calc(100vw * 32.33 / 375);

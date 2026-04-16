@@ -255,7 +255,7 @@ async function sendMessage() {
 }
 
 .top-section p {
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 700;
   line-height: calc(100vw * 26.94 / 375);
@@ -319,7 +319,7 @@ async function sendMessage() {
   border-radius: calc(100vw * 10 / 375) 0px calc(100vw * 10 / 375) calc(100vw * 10 / 375);
   background: rgba(255, 255, 255, 0.5);
   /* backdrop-filter: blur(calc(100vw * 8 / 375)); */
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
   line-height: calc(100vw * 16.16 / 375);
@@ -373,7 +373,7 @@ async function sendMessage() {
 
 .chat-time {
   text-align: center;
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 21.55 / 375);
@@ -442,7 +442,7 @@ async function sendMessage() {
   justify-content: center;
   align-items: flex-start;
   padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375);
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
   line-height: calc(100vw * 16.16 / 375);
@@ -458,7 +458,7 @@ async function sendMessage() {
   justify-content: center;
   align-items: flex-start;
   padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375);
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
   line-height: calc(100vw * 16.16 / 375);

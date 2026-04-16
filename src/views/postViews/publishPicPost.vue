@@ -174,7 +174,7 @@ const handleRelease = async () => {
   border: none;
   outline: none;
   resize: none;
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.86 / 375);
@@ -190,7 +190,7 @@ const handleRelease = async () => {
   position: absolute;
   right: calc(100vw * 16 / 375);
   bottom: calc(100vh * 16 / 812);
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.86 / 375);
@@ -200,7 +200,7 @@ const handleRelease = async () => {
 .theme-label {
   margin-top: calc(100vh * 24 / 812);
   margin-left: calc(100vw * 20 / 375);
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 700;
   line-height: calc(100vw * 26.94 / 375);
@@ -224,7 +224,7 @@ const handleRelease = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 18 / 375);
   font-weight: 400;
   line-height: calc(100vw * 24.25 / 375);
@@ -307,7 +307,7 @@ const handleRelease = async () => {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 24 / 375);
   font-weight: 700;
   line-height: calc(100vw * 32.33 / 375);

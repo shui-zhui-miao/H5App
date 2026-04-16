@@ -309,7 +309,7 @@ function reportSelect(value) {
 .username {
   /* flex: 1;
   min-width: 0; */
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 700;
   line-height: calc(100vw * 21.55 / 375);
@@ -412,7 +412,7 @@ function reportSelect(value) {
 }
 
 .chat-message {
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 21.55 / 375);
@@ -423,7 +423,7 @@ function reportSelect(value) {
 }
 
 .chat-time {
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
   line-height: calc(100vw * 16.16 / 375);

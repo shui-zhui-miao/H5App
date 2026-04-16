@@ -113,7 +113,7 @@ h1 {
 }
 
 .title {
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 700;
   line-height: calc(100vw * 26.94 / 375);
@@ -152,7 +152,7 @@ h1 {
 }
 
 .option-text {
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   color: rgb(255, 255, 255);
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
@@ -186,7 +186,7 @@ h1 {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 700;
   line-height: calc(100vw * 26.94 / 375);

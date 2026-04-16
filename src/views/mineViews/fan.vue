@@ -104,7 +104,7 @@ function addFollow(userId) {
 }
 
 .edit-title {
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 700;
   line-height: calc(100vw * 26.94 / 375);
@@ -197,7 +197,7 @@ function addFollow(userId) {
 }
 
 .user-name {
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 700;
   line-height: calc(100vw * 21.55 / 375);
@@ -208,7 +208,7 @@ function addFollow(userId) {
 }
 
 .user-intro {
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.86 / 375);

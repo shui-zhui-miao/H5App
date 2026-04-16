@@ -92,7 +92,7 @@ function handleCoinClick(item) {
 }
 
 .edit-title {
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 700;
   line-height: calc(100vw * 26.94 / 375);
@@ -174,7 +174,7 @@ function handleCoinClick(item) {
   justify-content: space-between;
   padding: 0 calc(100vw * 14 / 375);
   /* gap: calc(100vh * 9 / 812); */
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 24 / 375);
   font-weight: 700;
   line-height: calc(100vw * 32.33 / 375);
@@ -203,7 +203,7 @@ function handleCoinClick(item) {
 }
 
 .coin-box-right-box, span {
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 21.55 / 375);
@@ -269,7 +269,7 @@ function handleCoinClick(item) {
 }
 
 .coin-count {
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 700;
   line-height: calc(100vw * 21.55 / 375);
@@ -287,7 +287,7 @@ function handleCoinClick(item) {
 }
 
 .coin-price {
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 18.86 / 375);

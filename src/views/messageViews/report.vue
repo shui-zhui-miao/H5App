@@ -122,7 +122,7 @@ function handleSubmit() {
 .report-content {
   padding: calc(100vh * 12 / 812) calc(100vw * 12 / 375) 0;
   color: rgb(0, 0, 0);
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 21.55 / 375);
@@ -131,7 +131,7 @@ function handleSubmit() {
 .input-title {
   padding-top: calc(100vh * 30 / 812);
   padding-left: calc(100vw * 20 / 375);
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 700;
   line-height: calc(100vw * 26.94 / 375);
@@ -157,7 +157,7 @@ function handleSubmit() {
   resize: none;
   outline: none;
   background: transparent;
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   color: rgb(0, 0, 0); /* 输入文本颜色 */
@@ -172,7 +172,7 @@ function handleSubmit() {
   position: absolute;
   right: calc(100vw * 8 / 375);
   bottom: calc(100vh * 8 / 812);
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   color: rgba(0, 0, 0, 0.5);
@@ -189,7 +189,7 @@ function handleSubmit() {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 24 / 375);
   font-weight: 700;
   line-height: calc(100vw * 32.33 / 375);

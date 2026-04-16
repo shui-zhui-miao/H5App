@@ -186,7 +186,7 @@ function handleRechargeEvent(value) {
 
 .ai-title-inter-one {
   /* padding-right: calc(100vw * 7 / 375); */
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 24 / 375);
   font-weight: 700;
   line-height: calc(100vw * 32.33 / 375);
@@ -194,7 +194,7 @@ function handleRechargeEvent(value) {
 }
 
 .ai-title-inter-two {
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 11 / 375);
   font-weight: 400;
   line-height: calc(100vw * 14.82 / 375);
@@ -202,7 +202,7 @@ function handleRechargeEvent(value) {
 }
 
 .ai-prop-box {
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
   line-height: calc(100vw * 21.55 / 375);
@@ -247,7 +247,7 @@ function handleRechargeEvent(value) {
 }
 
 .bottom-title {
-  font-family: 'DDINBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 24 / 375);
   font-weight: 700;
   line-height: calc(100vw * 24 / 375);
@@ -257,7 +257,7 @@ function handleRechargeEvent(value) {
 }
 
 .bottom-text {
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 18 / 375);
   font-weight: 400;
   line-height: calc(100vw * 30 / 375);
@@ -298,7 +298,7 @@ function handleRechargeEvent(value) {
 }
 
 .purchase-count {
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 700;
   line-height: calc(100vw * 26.94 / 375);
@@ -314,7 +314,7 @@ function handleRechargeEvent(value) {
   display: flex;
   justify-content: center;
   align-items: center; */
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 700;
   line-height: calc(100vw * 21.55 / 375);

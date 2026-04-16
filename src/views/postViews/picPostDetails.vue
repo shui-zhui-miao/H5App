@@ -429,7 +429,7 @@ function sendComment() {
 
 .post-desc {
   margin-right: auto; /* 第二个靠左 */
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   color: rgb(255, 255, 255);
@@ -452,7 +452,7 @@ function sendComment() {
 }
 
 .tag-text {
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
   flex-shrink: calc(100vw * 16.16 / 375);
@@ -493,7 +493,7 @@ function sendComment() {
 
 .user-name {
   width: calc(100vw * 50 / 375);
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 700;
   line-height: calc(100vw * 21.55 / 375);
@@ -516,7 +516,7 @@ function sendComment() {
 }
 
 .like-count {
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: calc(100vw * 14.84 / 375);
@@ -538,7 +538,7 @@ function sendComment() {
 }
 
 .comments-title-text {
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 700;
   line-height: calc(100vw * 21.55 / 375);
@@ -584,7 +584,7 @@ function sendComment() {
 }
 
 .comment-list-bottom {
-  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
   flex-shrink: calc(100vw * 16.16 / 375);
@@ -611,7 +611,7 @@ function sendComment() {
 }
 
 .comment-user-name {
-  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 700;
   line-height: calc(100vw * 21.55 / 375);
