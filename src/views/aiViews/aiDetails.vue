@@ -158,10 +158,10 @@ function handleRechargeEvent(value) {
   top: calc(100vh * -12 / 812);
   width: calc(100vw * 66 / 375);
   height: calc(100vh * 66 / 812);
-  background-image: url('@/assets/aibgcicon.png');
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
-  background-repeat: no-repeat;
+  /* background-image: url('@/assets/aibgcicon.png');
+  background-size: cover;
+  background-position: center; 
+  background-repeat: no-repeat; */
   z-index: 2;
 }
 
