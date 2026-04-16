@@ -15,18 +15,18 @@
             <!-- <div class="ai-bgc-icon"></div> -->
             <div class="ai-content">
               <div class="ai-title-inter">
-                <div class="ai-title-inter-one">Tiga Ai</div>
+                <div class="ai-title-inter-one">Kira Ai</div>
                 <div class="ai-title-inter-two">Hello, I'm your smart AI assistant. Feel free to ask me any questions you may have.</div>
               </div>
-              <div class="ai-prop-box">Welcome toTiga Ai</div>
+              <div class="ai-prop-box">Welcome toKira Ai</div>
             </div>
           </div>
         </div>
         <div class="bottom-section">
           <div class="bottom-container">
             <div class="bottom-top">
-              <div class="bottom-title">Tiga AI</div>
-              <div class="bottom-text">Hi! I’m Tiga, your friendly AI companion, here to help you create and explore the world of vlogging! Whether you’re into travel vlogs, lifestyle, tech reviews, or anything in between, I’m here to brainstorm ideas, share tips, and keep the creativity flowing. Ready to start your next vlog adventure together? Let’s chat, inspire each other, and create something amazing every day!</div>
+              <div class="bottom-title">Kira AI</div>
+              <div class="bottom-text">Hi! I’m Kira, your friendly AI companion, here to help you create and explore the world of vlogging! Whether you’re into travel vlogs, lifestyle, tech reviews, or anything in between, I’m here to brainstorm ideas, share tips, and keep the creativity flowing. Ready to start your next vlog adventure together? Let’s chat, inspire each other, and create something amazing every day!</div>
             </div>
           <!-- 购买 -->
           <div class="purchase-container" @click="handlePurchaseClick">
@@ -158,10 +158,10 @@ function handleRechargeEvent(value) {
   top: calc(100vh * -12 / 812);
   width: calc(100vw * 66 / 375);
   height: calc(100vh * 66 / 812);
-  background-image: url('@/assets/aibgcicon.png');
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
-  background-repeat: no-repeat;
+  /* background-image: url('@/assets/aibgcicon.png');
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; */
   z-index: 2;
 }
 

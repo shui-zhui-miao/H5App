@@ -7,11 +7,11 @@
       <div class="top-bgc">
         <div class="top-section">
           <BackButton />
-          <p>Tiga AI</p>
+          <p>Kira AI</p>
         </div>
         <div class="top-ai-out-drection">
           <div class="top-ai-bg-contanier">
-            <!-- <div class="top-ai-bg-contanier-text">Tiga AI</div> -->
+            <!-- <div class="top-ai-bg-contanier-text">Kira AI</div> -->
             <div class="top-ai-bg-contanier-image"></div>
             <!-- center -->
             <div class="center-section">
@@ -102,7 +102,7 @@ const getFirstTime = () => {
 }
 
 const bottomItems = ref([
-  { sendId: '0', time: getFirstTime(), message: 'Hi there! I\'m Tiga, your AI buddy for all things fun and.'},
+  { sendId: '0', time: getFirstTime(), message: 'Hi there! I\'m Kira, your AI buddy for all things fun and.'},
 ])
 
 async function handleMessageClick(message) {

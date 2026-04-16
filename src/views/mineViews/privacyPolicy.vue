@@ -424,7 +424,7 @@
 
 <script setup>
 import BackButton from '@/components/back.vue'
-const appName = 'Tiga'
+const appName = 'Kira'
 </script>
 
 <style scoped>
