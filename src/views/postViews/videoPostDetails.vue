@@ -30,15 +30,33 @@
       <!-- 顶部按钮 -->
       <div class="top-actions">
         <BackButton />
-        <MoreButton v-if="post.userId !== currentUserStore.currentUser.userId" @click="showPostReport = true" />
+        <MoreButton v-if="post.userId !== currentUserStore.currentUser.userId" @click="showPostReportFunc()" />
       </div>
 
       <!-- 底部信息 -->
       <div class="bottom-info">
+        <!-- 喜欢、评论数 -->
+        <div class="action-buttons">
+          <div class="action-box">
+            <div class="action-button" @click="toggleLike">
+              <img v-if="currentUserStore.currentUser.postLikeIds.includes(post.dynamicId)" src="@/assets/likepic.png" alt="like" />
+              <img v-else src="@/assets/dislikepic.png" alt="like" />
+              <span>{{post.dynamicLikeCount + (currentUserStore.currentUser.postLikeIds.includes(post.dynamicId) ? 1 : 0) }}</span>
+            </div>
+          </div>
+          <div class="action-box">
+            <div class="action-button" @click="uiStore.openComment()">
+              <img src="@/assets/chaticon.png" alt="comment" />
+              <span>{{ post.dynamicCommentCount }}</span>
+            </div>
+          </div>
+        </div>
         <div class="user-left"> 
           <div class="avatar-wrap">
-            <div class="avatar" @click="goOtherHome(post.userId)">
-              <img :src="postUser && postUser.avator" alt="avatar" />
+            <div class="avatar-border-box">
+              <div class="avatar" @click="goOtherHome(post.userId)">
+                <img :src="postUser && postUser.avator" alt="avatar" />
+              </div>
             </div>
             <div class="follow" v-if="post.userId !== currentUserStore.currentUser.userId && !currentUserStore.currentUser.follow.includes(post.userId)" @click="handleFollow" >
               <img src="@/assets/follow.png" alt="follow" />
@@ -50,19 +68,6 @@
             <div class="video-desc">{{ post && post.dynamicDesc }}</div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- 喜欢、评论数 -->
-    <div class="action-buttons">
-      <div class="action-button" @click="toggleLike">
-        <img v-if="currentUserStore.currentUser.postLikeIds.includes(post.dynamicId)" src="@/assets/likepic.png" alt="like" />
-        <img v-else src="@/assets/dislikepic.png" alt="like" />
-        <span>{{post.dynamicLikeCount}}</span>
-      </div>
-      <div class="action-button" @click="uiStore.openComment()">
-        <img src="@/assets/chaticon.png" alt="comment" />
-        <span>{{ post.dynamicCommentCount }}</span>
       </div>
     </div>
 
@@ -92,7 +97,7 @@ import BackButton from '@/components/back.vue'
 import MoreButton from '@/components/more.vue'
 import Comment from '@/views/postViews/comment.vue'
 import ReportDialog from '@/components/reportChoose.vue'
-import { goBackOrClose } from '@/utils/iosBridge'
+import { goBackOrClose, sendShowLoadingToIOS, sendShowToastToIOS, sendShowToLoginToIOS } from '@/utils/iosBridge'
 
 const { postId } = defineProps({
   postId: {
@@ -147,14 +152,22 @@ onBeforeUnmount(() => {
 
 //帖子举报、拉黑
 const showPostReport = ref(false)
+
+function showPostReportFunc() {
+  if (currentUserStore.currentUser.isguest == 1){
+    sendShowToLoginToIOS()
+    return
+  }
+  showPostReport.value = true
+}
+
 function postReportSelect(value) {
   showPostReport.value = false
   if (value === 0) {
     router.push({ name: 'report' })
   } else if (value === 1) {
     //用户选择屏蔽
-    if (uiStore.loading) return
-    uiStore.showLoading()
+    sendShowLoadingToIOS(true)
 
     const postUserId = post.userId
 
@@ -174,8 +187,8 @@ function postReportSelect(value) {
     const delay = Math.floor(Math.random() * 1500) + 500
 
     setTimeout(() => {
-      uiStore.hideLoading()
-      uiStore.showToast('Blocking successful')
+      sendShowLoadingToIOS(false)
+      sendShowToastToIOS('Blocking successful')
 
       goBackOrClose()
 
@@ -185,6 +198,10 @@ function postReportSelect(value) {
 
 // Handle follow action
 function handleFollow() {
+  if (currentUserStore.currentUser.isguest == 1) {
+    sendShowToLoginToIOS()
+    return
+  }
   const currentUserId = currentUserStore.currentUser.userId
   const postUserId = post.userId
 
@@ -205,7 +222,7 @@ function handleFollow() {
 
   userStore.updateUser(postUserId, { fans: postUserFans })
   
-  uiStore.showToast('Followed successfully')
+  sendShowToastToIOS('Followed successfully')
 }
 
 // 点击用户头像跳转到用户主页
@@ -216,6 +233,10 @@ function goOtherHome(userId) {
 
 // 点赞逻辑
 function toggleLike() {
+  if (currentUserStore.currentUser.isguest == 1){
+    sendShowToLoginToIOS()
+    return
+  }
   const postLikeIds = currentUserStore.currentUser.postLikeIds
   // 判断当前用户是否已经点赞
   const likedIndex = postLikeIds.indexOf(postId)
@@ -223,19 +244,14 @@ function toggleLike() {
   if (likedIndex === -1) {
     // 未点赞，添加postId到postLikeIds
     postLikeIds.push(postId)
-    post.dynamicLikeCount += 1
   } else {
     // 已点赞，移除postId
     postLikeIds.splice(likedIndex, 1)
     // 点赞数不减少，保持原有逻辑
-    post.dynamicLikeCount -= 1
   }
 
   // 同步更新userStore，并回传iOS
   userStore.updateUser(currentUserStore.currentUser.userId, { postLikeIds: postLikeIds })
-  postStore.updatePostById(postId, {
-    dynamicLikeCount: post.dynamicLikeCount
-  })
 }
 
 //评论举报、拉黑显示
@@ -253,7 +269,7 @@ function commentReportSelect(value) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
+  background: rgba(14, 8, 15, 1);
   overflow: hidden;
 }
 
@@ -271,8 +287,8 @@ function commentReportSelect(value) {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: calc(100vw * 60 / 375);
-  height: calc(100vw * 60 / 375);
+  width: calc(100vw * 58 / 375);
+  height: calc(100vw * 58 / 375);
   z-index: 2;
 }
 
@@ -282,7 +298,7 @@ function commentReportSelect(value) {
   bottom: 0;
   width: 100%;
   height: calc(100vh * 96 / 812);
-  background: linear-gradient(180deg, rgba(14, 8, 15, 0.8) 0%, rgba(14, 8, 15, 0) 100%);
+  background: linear-gradient(180deg, rgba(142, 108, 219, 1) 0%, rgba(142, 108, 219, 0) 100%);
   pointer-events: none;
   transform: rotate(180deg);
 }
@@ -296,7 +312,7 @@ function commentReportSelect(value) {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: calc(100vh * 56 / 812) calc(100vw * 20 / 375) calc(100vh * 34 / 812);
+  padding: calc(100vh * 56 / 812) calc(100vw * 20 / 375) calc(100vh * 28 / 812);
   box-sizing: border-box;
   z-index: 3;
   pointer-events: none; /* allow clicks to pass through */
@@ -329,7 +345,8 @@ function commentReportSelect(value) {
 
 .bottom-info {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .user-left {
@@ -338,23 +355,22 @@ function commentReportSelect(value) {
   gap: calc(100vw * 16 / 375);
 }
 
-.avatar {
-  width: calc(100vw * 48 / 375);
-  height: calc(100vw * 48 / 375);
+.avatar-border-box {
+  background: rgba(241, 237, 224, 1);
   border-radius: 50%;
-  padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
+  display: flex;
+  justify-content: center;
+  /* margin-bottom: calc(100vw * 9 / 375); */
+}
+
+.avatar {
+  width: calc(100vw * 58 / 375);
+  height: calc(100vw * 58 / 375);
+  border-radius: 50%;
+  padding: calc(100vh * 1 / 812) calc(100vw * 1 / 375);
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
-  margin-bottom: calc(100vw * 4 / 375);
-  box-sizing: border-box;
 }
 
 .avatar img {
@@ -366,116 +382,129 @@ function commentReportSelect(value) {
 
 .avatar-wrap {
   position: relative;
-  width: calc(100vw * 48 / 375);
-  height: calc(100vw * 52 / 375); /* avatar 48 + gap 4 */
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .follow {
   position: absolute;
-  left: 50%;
+  /* left: 50%; */
   bottom: 0;
-  transform: translateX(-50%);
-  width: calc(100vw * 36 / 375);
-  height: calc(100vw * 14 / 375);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 1);
+  right: 0;
+  width: calc(100vw * 20 / 375);
+  height: calc(100vw * 20 / 375);
+  /* border-radius: calc(100vw * 40 / 375); */
+  /* background: rgba(255, 255, 255, 1); */
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: inset calc(100vw * -1 / 375) calc(100vw * -1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
+  /* box-shadow: inset calc(100vw * -1 / 375) calc(100vw * -1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px); */
   cursor: pointer;
 }
 
 .follow img {
-  width: calc(100vw * 12 / 375);
-  height: calc(100vw * 12 / 375);
+  width: calc(100vw * 20 / 375);
+  height: calc(100vw * 20 / 375);
 }
 
 .user-text {
+  min-width: 0;
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: calc(100vh * 4 / 812);
 }
 
 .username {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'ArchivoNarrowBold', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
-  color: rgba(255, 255, 255, 1);
+  font-weight: 700;
+  line-height: calc(100vw * 21.55 / 375);
+  color: rgb(255, 255, 255);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: calc(100vw - calc(100vw * 48 / 375) - calc(100vw * 16 / 375) - calc(100vw * 40 / 375)); /* avatar width + gap + padding */
 }
 
 .video-desc {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'ArchivoNarrowRegular', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   letter-spacing: 0px;
-  line-height: calc(100vw * 15.23 / 375);
-  color: rgba(255, 255, 255, 1);
+  line-height: calc(100vw * 18.86 / 375);
+  color: rgb(255, 255, 255);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: calc(100vw - calc(100vw * 48 / 375) - calc(100vw * 16 / 375) - calc(100vw * 40 / 375)); /* avatar width + gap + padding */
 }
 
 .action-buttons {
-  position: absolute;
+  /* position: absolute;
   bottom: calc(100vh * 86 / 812);
-  right: calc(100vw * 20 / 375);
+  right: calc(100vw * 20 / 375); */
+  width: 100%;
   display: flex;
-  gap: calc(100vh * 14 / 812);
+  gap: calc(100vh * 10 / 812);
+  justify-content: end;
+}
+
+.action-box {
+  /* flex: 1; */
+  display: flex;
+  align-items: center;
+  height: calc(100vh * 36 / 812);
+  border-radius: calc(100vw * 20 / 375);
+  background: rgb(0, 0, 0);
+  /* margin-top: calc(100vh * 13 / 812);
+  position: relative; */
 }
 
 .action-button {
-  width: calc(100vw * 91 / 375);
-  height: calc(100vh * 39 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(255, 255, 255, 0.4);
-  box-shadow: inset calc(100vw * -1 / 375) calc(100vw * -1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 1 / 375) calc(100vw * 1 / 375) calc(100vw * 1 / 375) rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(calc(100vw * 10 / 375));
+  /* position: absolute;
+  top: calc(100vh * -13 / 812);
+  left: 50%;
+  transform: translate(-50%, 0); */
   display: flex;
+  /* flex-direction: column; */
   align-items: center;
-  justify-content: center;
-  gap: calc(100vw * 10 / 375);
+  justify-content: start;
+  gap: calc(100vw * 4 / 375);
+  padding: 0 calc(100vw * 10 / 375);
 }
 
 .action-button img {
-  width: calc(100vw * 24 / 375);
-  height: calc(100vw * 24 / 375);
+  width: calc(100vw * 28 / 375);
+  height: calc(100vw * 28 / 375);
 }
 
 .action-button span {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'ArchivoNarrowRegular', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 17.41 / 375);
-  color: rgba(255, 255, 255, 1);
+  line-height: calc(100vw * 21.55 / 375);
+  color: rgb(255, 255, 255);
 }
 
 .comment-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
+  flex-direction: column;
+  justify-content: end;
+  /* align-items: flex-end; */
   z-index: 100;
 }
 
 .comment-sheet {
   width: 100%;
-  height: calc(100vh * 508 / 812);
+  /* height: calc(100vh * 508 / 812); */
   animation: slideUp 0.3s forwards;
 }
 

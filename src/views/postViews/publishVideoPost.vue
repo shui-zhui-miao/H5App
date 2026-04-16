@@ -28,7 +28,7 @@
           <template v-if="uploadedVideo">
             <label class="upload-item">
               <img class="upload-video-preview" :src="videoFirstFrame" alt="video preview" />
-              <van-icon class="upload-remove" name="clear" size="20" @click="handleRemoveVideo" color="#fff"/>
+              <div class="upload-remove" @click="handleRemoveVideo"></div>
             </label>
           </template>
         </div>
@@ -41,18 +41,16 @@
 <script setup>
 import { ref } from 'vue'
 import { useOtherStore } from '@/stores/other'
-import { useUIStore } from '@/stores/ui'
 import { usePostStore } from '@/stores/post'
 import { useCurrentUserStore } from '@/stores/currentUser'
 import BackButton from '@/components/back.vue'
 import { uploadSingleImage, uploadVideo } from '@/utils/ossUpload'
-import { goBackOrClose } from '@/utils/iosBridge'
+import { goBackOrClose, sendShowLoadingToIOS, sendShowToastToIOS } from '@/utils/iosBridge'
 
 const text = ref('')
 const selectedTheme = ref(0)
 
 const otherStore =  useOtherStore()
-const uiStore = useUIStore()
 const postStore = usePostStore()
 const currentUserStore = useCurrentUserStore()
 
@@ -84,17 +82,16 @@ const handleRemoveVideo = () => {
 const handleRelease = async () => {
   // 1. 判断文案是否为空
   if (!text.value.trim()) {
-    uiStore.showToast('Please fill in the post text.')
+    sendShowToastToIOS('Please fill in the post text.')
     return
   }
 
   if (!uploadedVideo.value) {
-    uiStore.showToast('Please select a video.')
+    sendShowToastToIOS('Please select a video.')
     return
   }
 
-  if (uiStore.loading) return
-  uiStore.showLoading()
+  sendShowLoadingToIOS(true)
 
   try {
     // 2. 上传视频
@@ -123,14 +120,14 @@ const handleRelease = async () => {
     // 添加到帖子列表
     postStore.addPost(newPost)
 
-    uiStore.showToast('Post released successfully')
+    sendShowToastToIOS('Post released successfully')
     goBackOrClose()
 
   } catch (err) {
     console.error('上传失败', err)
-    uiStore.showToast('Upload failed, please check your network.')
+    sendShowToastToIOS('Upload failed, please check your network.')
   } finally {
-    uiStore.hideLoading()
+    sendShowLoadingToIOS(false)
   }
 }
 
@@ -176,26 +173,28 @@ const getVideoInfo = async (videoUrl) => {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
-  background-repeat: no-repeat;
+  background: url('@/assets/pagebgc.png') no-repeat center center;
+  background-size: cover;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .back {
-    padding-top: calc(100vh * 56 / 812);
-    padding-left: calc(100vw * 20 / 375);
+  min-width: 0;
+  padding-top: calc(100vh * 56 / 812);
+  padding-left: calc(100vw * 20 / 375);
 }
 
 .page-content {
-  position: relative;
-  width: 100vw;
-  height: calc(100vh - calc(100vh * 96 / 812));
+  min-width: 0;
+  flex: 1;
+  /* position: relative; */
+  width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
 }
 
 .input-box {
@@ -206,8 +205,8 @@ const getVideoInfo = async (videoUrl) => {
   height: calc(100vh * 174 / 812);
   border-radius: calc(100vw * 16 / 375);
   background: rgba(255, 255, 255, 1);
-  padding: calc(100vw * 12 / 375);
-  box-sizing: border-box;
+  /* box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375)  rgba(0, 0, 0, 0.1); */
+  padding: calc(100vh * 16 / 812) calc(100vw * 16 / 375);
 }
 
 .post-textarea {
@@ -216,40 +215,37 @@ const getVideoInfo = async (videoUrl) => {
   border: none;
   outline: none;
   resize: none;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'ArchivoNarrowRegular', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
+  line-height: calc(100vw * 18.86 / 375);
   background: transparent;
-  color: #000;
+  color: #000000;
 }
 
 .post-textarea::placeholder {
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 14 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
-  color: rgba(105, 71, 65, 1); /* 颜色可半透明 */
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .text-count {
   position: absolute;
-  right: calc(100vw * 14 / 375);
-  bottom: calc(100vh * 19 / 812);
-  font-family: 'Archivo', sans-serif;
+  right: calc(100vw * 16 / 375);
+  bottom: calc(100vh * 16 / 812);
+  font-family: 'ArchivoNarrowRegular', sans-serif;
   font-size: calc(100vw * 14 / 375);
-  font-weight: normal;
-  color: rgba(105, 71, 65, 1);
+  font-weight: 400;
+  line-height: calc(100vw * 18.86 / 375);
+  color: rgba(0, 0, 0, 0.4);
 }
 
 .theme-label {
   margin-top: calc(100vh * 24 / 812);
   margin-left: calc(100vw * 20 / 375);
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'ArchivoNarrowBold', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
-  color: rgba(255, 255, 255, 1);
+  font-weight: 700;
+  line-height: calc(100vw * 26.94 / 375);
+  color: rgb(255, 255, 255);
   text-align: left;
 }
 
@@ -259,21 +255,22 @@ const getVideoInfo = async (videoUrl) => {
   margin-top: calc(100vh * 20 / 812);
   padding-left: calc(100vw * 20 / 375);
   padding-right: calc(100vw * 20 / 375);
-  gap: calc(100vw * 10 / 375); /* 间距10，当有图片时 */
+  /* gap: calc(100vw * 10 / 375);  */
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;     /* Firefox */
 }
+
 .upload-list::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
 
 .upload-item {
   width: calc(100vw * 108 / 375);
-  height: calc(100vw * 108 / 375);
+  height: calc(100vw * 106 / 375);
   flex-shrink: 0;
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(12px);
+  background:rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(calc(100vw * 12 / 375));
   display: flex;
   justify-content: center;
   align-items: center;
@@ -289,8 +286,8 @@ const getVideoInfo = async (videoUrl) => {
 }
 
 .upload-add {
-  width: calc(100vw * 21 / 375);
-  height: calc(100vw * 21 / 375);
+  width: calc(100vw * 26 / 375);
+  height: calc(100vw * 26 / 375);
   background-image: url('@/assets/uploadpic.png');
   background-size: cover;
   background-position: center;
@@ -300,30 +297,33 @@ const getVideoInfo = async (videoUrl) => {
 
 .upload-remove {
   position: absolute;
-  top: calc(100vh * 8 / 812);
-  right: calc(100vw * 5 / 375);
-  width: calc(100vw * 20 / 375);
-  height: calc(100vw * 20 / 375);
-  cursor: pointer;
+  top: calc(100vh * 6 / 812);
+  right: calc(100vw * 6 / 375);
+  width: calc(100vw * 15 / 375);
+  height: calc(100vw * 15 / 375);
+  background-image: url('@/assets/uploadremove.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   z-index: 10;
 }
 
 /* Release Button Styles */
 .release-button {
-  width: calc(100vw * 229 / 375);
-  height: calc(100vh * 62 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  width: calc(100vw * 264 / 375);
+  height: calc(100vh * 60 / 812);
+  background-image: url('@/assets/zhubtnbgi.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-size: calc(100vw * 24 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 32.33 / 375);
+  color: #fff;
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
-  color: rgba(74, 32, 25, 1);
-  cursor: pointer;
-  margin: calc(100vh * 148 / 812) auto calc(100vh * 34 / 812) auto;
+  justify-content: center;
+  margin: calc(100vh * 162 / 812) auto calc(100vh * 34 / 812) auto;
 }
 </style>

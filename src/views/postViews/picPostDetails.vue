@@ -20,7 +20,7 @@
         <!-- 顶部按钮 -->
         <div class="top-btn">
           <BackButton/>
-          <MoreButton v-if="post.userId !== currentUserStore.currentUser.userId" @click="showPostReport = true" />
+          <MoreButton v-if="post.userId !== currentUserStore.currentUser.userId" @click="showPostReportFunc()" />
         </div>
       </div>
       <!-- 帖子内容 -->
@@ -30,8 +30,10 @@
           <div class="post-content-row">
             <!-- 用户内容 -->
             <div class="user-box">
-            <div class="avatar" @click="goOtherHome(postUser.userId)">
-              <div class="avatar-img" :style="{ backgroundImage: postUser && `url(${postUser.avator})` }"></div>
+            <div class="avatar-border-box">
+              <div class="avatar" @click="goOtherHome(postUser.userId)">
+                <div class="avatar-img" :style="{ backgroundImage: postUser && `url(${postUser.avator})` }"></div>
+              </div>
             </div>
             <div class="user-name" @click="goOtherHome(postUser.userId)">
               {{ postUser && postUser.name }}
@@ -47,11 +49,11 @@
             </div>
           </div>
           </div>
-          <!-- 点赞内容 -->
-          <div class="like-box" @click="toggleLike">
-            <img :src="currentUserStore.currentUser.postLikeIds.includes(postId.toString()) ? likeImage : disLikeImage" alt="like" class="like-icon" />
-            <div class="like-count">{{ post.dynamicLikeCount}}</div>
-          </div>
+        </div>
+        <!-- 点赞内容 -->
+        <div class="like-box" @click="toggleLike">
+          <img :src="currentUserStore.currentUser.postLikeIds.includes(postId.toString()) ? likeImage : disLikeImage" alt="like" class="like-icon" />
+          <div class="like-count">{{ post.dynamicLikeCount + (currentUserStore.currentUser.postLikeIds.includes(postId.toString()) ? 1 : 0) }}</div>
         </div>
       </div>
       <!-- Comments -->
@@ -61,8 +63,8 @@
         <div class="comments-box2"></div>
       </div>
       <!-- 评论列表 -->
-      <div class="comments-list">
         <template v-if="comments.length">
+      <div class="comments-list">
           <div class="comment-item" v-for="(comment, index) in comments" :key="index">
             <div class="comment-list-top">
               <div class="comment-list-user" @click="goOtherHome(comment.userId)">
@@ -75,15 +77,17 @@
             </div>
             <div class="comment-list-bottom">{{ comment.content }}</div>
           </div>
+      </div>
         </template>
         <template v-else>
           <Empty />
         </template>
-      </div>
       <!-- 输入框 -->
       <div class="input-box">
         <input type="text" placeholder="Say something" class="input-field" v-model="commentInput" />
-        <div class="send-btn" :style="{ backgroundImage: `url(${commentSendImage})` }" @click="sendComment"></div>
+        <div class="send-btn" @click="sendComment">
+          <img src="@/assets/commentsend.png" alt="Send"/>
+        </div>
       </div>
     </div>
     <div v-else class="not-found">
@@ -104,7 +108,6 @@ import { usePostStore } from '@/stores/post'
 import { useUserStore } from '@/stores/user'
 import { useOtherStore } from '@/stores/other'
 import { useCurrentUserStore } from '@/stores/currentUser'
-import { useUIStore } from '@/stores/ui'
 import { useCommentsStore } from '@/stores/comment'
 import BackButton from '@/components/back.vue'
 import MoreButton from '@/components/more.vue'
@@ -114,7 +117,7 @@ import commentMoreImage from '@/assets/postpiccommentreport.png'
 import commentSendImage from '@/assets/commentsend.png'
 import ReportDialog from '@/components/reportChoose.vue'
 import Empty from '@/components/empty.vue'
-import { goBackOrClose } from '@/utils/iosBridge'
+import { goBackOrClose, sendShowLoadingToIOS, sendShowToastToIOS, sendShowToLoginToIOS } from '@/utils/iosBridge'
 
 const { postId } = defineProps({
   postId: {
@@ -143,20 +146,26 @@ const commentInput = ref('')
 
 const currentUserStore = useCurrentUserStore()
 
-const uiStore = useUIStore()
-
 const router = useRouter()
 
 //帖子举报、拉黑
 const showPostReport = ref(false)
+
+function showPostReportFunc() {
+  if (currentUserStore.currentUser.isguest == 1){
+    sendShowToLoginToIOS()
+    return
+  }
+  showPostReport.value = true
+}
+
 function postReportSelect(value) {
   showPostReport.value = false
   if (value === 0) {
     router.push({ name: 'report' })
   } else if (value === 1) {
     //用户选择屏蔽
-    if (uiStore.loading) return
-    uiStore.showLoading()
+    sendShowLoadingToIOS(true)
 
     const postUserId = post.userId
 
@@ -176,8 +185,8 @@ function postReportSelect(value) {
     const delay = Math.floor(Math.random() * 1500) + 500
 
     setTimeout(() => {
-      uiStore.hideLoading()
-      uiStore.showToast('Blocking successful')
+      sendShowLoadingToIOS(false)
+      sendShowToastToIOS('Blocking successful')
 
       goBackOrClose()
 
@@ -193,6 +202,11 @@ function goOtherHome(userId) {
 
 // 点赞逻辑
 function toggleLike() {
+  if (currentUserStore.currentUser.isguest == 1){
+    sendShowToLoginToIOS()
+    return
+  }
+
   const postLikeIds = currentUserStore.currentUser.postLikeIds
   // 判断当前用户是否已经点赞
   const likedIndex = postLikeIds.indexOf(postId)
@@ -200,19 +214,14 @@ function toggleLike() {
   if (likedIndex === -1) {
     // 未点赞，添加postId到postLikeIds
     postLikeIds.push(postId)
-    post.dynamicLikeCount += 1
   } else {
     // 已点赞，移除postId
     postLikeIds.splice(likedIndex, 1)
     // 点赞数不减少，保持原有逻辑
-    post.dynamicLikeCount -= 1
   }
 
   // 同步更新userStore，并回传iOS
   userStore.updateUser(currentUserStore.currentUser.userId, { postLikeIds: postLikeIds })
-  postStore.updatePostById(postId, {
-    dynamicLikeCount: post.dynamicLikeCount
-  })
 }
 
 //评论击败、拉黑
@@ -220,6 +229,10 @@ const reportCommentUserId = ref(null)
 const showCommentReport = ref(false)
 
 function handleCommentReport(userId) {
+  if (currentUserStore.currentUser.isguest == 1){
+    sendShowToLoginToIOS()
+    return
+  }
   reportCommentUserId.value = userId
   showCommentReport.value = true
 }
@@ -234,8 +247,7 @@ function commentReportSelect(value) {
     router.push({ name: 'report' })
   } else if (value === 1) {
     // 拉黑逻辑
-    if (uiStore.loading) return
-    uiStore.showLoading()
+    sendShowLoadingToIOS(true)
 
     const blockList = currentUserStore.currentUser.blockList || []
     if (!blockList.includes(userIdToBlock)) {
@@ -246,8 +258,8 @@ function commentReportSelect(value) {
     const delay = Math.floor(Math.random() * 1500) + 500
 
     setTimeout(() => {
-      uiStore.hideLoading()
-      uiStore.showToast('Blocking successful')
+      sendShowLoadingToIOS(false)
+      sendShowToastToIOS('Blocking successful')
       // 重新获取评论列表，过滤掉被拉黑的用户
       comments.value = commentsStore.getCommentsById(postId)
 
@@ -257,6 +269,10 @@ function commentReportSelect(value) {
 
 // 发送评论逻辑
 function sendComment() {
+  if (currentUserStore.currentUser.isguest == 1){
+    sendShowToLoginToIOS()
+    return
+  }
   const content = commentInput.value.trim()
   if (!content) return // 输入为空直接返回
 
@@ -287,11 +303,13 @@ function sendComment() {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
+  background: url('@/assets/pagebgc.png') no-repeat center center;
+  background-size: cover;
   overflow: hidden;
 }
 
 .page-content {
+  position: relative;
   width: 100%;
   height: 100vh;
   overflow-x: hidden;
@@ -317,7 +335,7 @@ function sendComment() {
 .swipe-wrapper {
   position: relative;
   height: calc(100vh * 379 / 812);
-  border-radius: 0 0 calc(100vw * 20 / 375) calc(100vw * 20 / 375); /* 底部两个角圆角 */
+  border-radius: 0px 0px calc(100vw * 20 / 375) calc(100vw * 20 / 375);
   overflow: hidden;
 }
 
@@ -341,7 +359,7 @@ function sendComment() {
 
 .indicator-wrapper {
   position: absolute;
-  bottom: calc(100vh * 17 / 812);
+  bottom: calc(100vh * 16 / 812);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -362,7 +380,7 @@ function sendComment() {
   width: calc(100vw * 32 / 375);
   height: calc(100vh * 6 / 812);
   border-radius: 45px;
-  background: rgba(255, 255, 255, 1);
+  background: rgb(255, 255, 255);
 }
 
 .top-btn {
@@ -377,6 +395,7 @@ function sendComment() {
 }
 
 .post-content {
+  display: flex;
   padding: calc(100vh * 24 / 812) calc(100vw * 20 / 375) 0;
 }
 
@@ -386,10 +405,12 @@ function sendComment() {
   flex-direction: column;
   align-items: flex-start;
   gap: calc(100vh * 2 / 812);
-  margin-right: calc(100vw * 15 / 375); /* 左间距15 */
+  margin-right: calc(100vw * 19 / 375); /* 左间距15 */
 }
 
 .post-row {
+  flex: 1;
+  min-width: 0;
   display: flex;
   align-items: flex-start; /* 改成顶部对齐 */
   justify-content: space-between;
@@ -408,58 +429,58 @@ function sendComment() {
 
 .post-desc {
   margin-right: auto; /* 第二个靠左 */
-  font-family: 'Archivo', sans-serif;
+  font-family: 'ArchivoNarrowRegular', sans-serif;
   font-size: calc(100vw * 14 / 375);
-  color: #fff;
-  line-height: calc(100vw * 18 / 375);
+  font-weight: 400;
+  color: rgb(255, 255, 255);
+  line-height: calc(100vw * 18.86 / 375);
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3; /* 超过三行省略 */
+  -webkit-line-clamp: 2; /* 超过三行省略 */
   overflow: hidden;
   text-align: left;
 }
 
 .tag-box {
-  display: inline-flex; /* 内容撑开宽度 */
-  height: calc(100vh * 26 / 812);
+  display: inline-flex;
+  height: calc(100vh * 29 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
+  background: rgba(142, 108, 219, 1);
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
 .tag-text {
+  font-family: 'ArchivoNarrowRegular', sans-serif;
   font-size: calc(100vw * 12 / 375);
-  color: rgba(74, 32, 25, 1);
+  font-weight: 400;
+  flex-shrink: calc(100vw * 16.16 / 375);
+  color: rgb(255, 255, 255);
   padding: 0 calc(100vw * 10 / 375);
   text-align: center;
 }
-
+/* 
 .post-time {
   font-size: calc(100vw * 12 / 375);
   color: rgba(255,255,255,0.6);
+} */
+
+.avatar-border-box {
+  background: rgba(142, 108, 219, 1);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
 }
 
 .avatar {
   width: calc(100vw * 36 / 375);
   height: calc(100vw * 36 / 375);
   border-radius: 50%;
-  padding: calc(100vw * 1 / 375); /* 渐变边框宽度 */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
+  padding: calc(100vh * 1 / 812) calc(100vw * 1 / 375);
   box-sizing: border-box;
+  object-fit: cover;
+  overflow: hidden;
 }
 
 .avatar-img {
@@ -471,14 +492,12 @@ function sendComment() {
 }
 
 .user-name {
-  width: calc(100vw * 46 / 375);
-  height: calc(100vw * 19 / 375);
-  font-family: 'YesevaOne', sans-serif;
+  width: calc(100vw * 50 / 375);
+  font-family: 'ArchivoNarrowBold', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
-  color: rgba(255, 255, 255, 1);
-
+  font-weight: 700;
+  line-height: calc(100vw * 21.55 / 375);
+  color: rgb(255, 255, 255);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -488,27 +507,28 @@ function sendComment() {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: calc(100vh * 4 / 812); /* 上下间距4 */
-  margin-left: calc(100vw * 15 / 375); /* 左间距15 */
+  gap: calc(100vh * 4 / 812);
 }
 
 .like-icon {
-  width: calc(100vw * 24 / 375);
-  height: calc(100vw * 24 / 375);
+  width: calc(100vw * 28 / 375);
+  height: calc(100vw * 28 / 375);
 }
 
 .like-count {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'ArchivoNarrowRegular', sans-serif;
   font-size: calc(100vw * 14 / 375);
-  color: #fff;
+  font-weight: 400;
+  line-height: calc(100vw * 14.84 / 375);
+  color: rgb(255, 255, 255);
   text-align: center;
 }
 
 .comments-title {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 6 / 375); /* 每条评论间距 */
-  padding: calc(100vh * 24 / 812) calc(100vw * 20 / 375) 0;
+  padding: calc(100vh * 20 / 812) calc(100vw * 34 / 375) 0 calc(100vw * 20 / 375);
+  gap: calc(100vw * 6 / 375);
 }
 
 .comments-box1 {
@@ -518,11 +538,11 @@ function sendComment() {
 }
 
 .comments-title-text {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'ArchivoNarrowBold', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
-  color: rgba(255, 255, 255, 1);
+  font-weight: 700;
+  line-height: calc(100vw * 21.55 / 375);
+  color: rgb(255, 255, 255);
 }
 
 .comments-box2 {
@@ -532,19 +552,20 @@ function sendComment() {
 }
 
 .comments-list {
-  padding: calc(100vh * 20 / 812) calc(100vw * 20 / 375) calc(100vh * 100 / 812);
+  padding: calc(100vh * 20 / 812) calc(100vw * 20 / 375) calc(100vh * 90 / 812);
   display: flex;
   flex-direction: column;
-  gap: calc(100vh * 10 / 812); /* 评论上下间隔10 */
+  gap: calc(100vh * 10 / 812);    /* 行间距 */
 }
 
 .comment-item {
   display: flex;
   flex-direction: column;
   gap: calc(100vh * 4 / 812); /* 评论上下间隔10 */
-  padding: calc(100vh * 14 / 812) calc(100vw * 16 / 375);
+  padding: calc(100vh * 14 / 812) calc(100vw * 16 / 375) calc(100vh * 15 / 812);
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.16);
+  background:rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(calc(100vw * 12 / 375));
 }
 
 .comment-list-top {
@@ -554,24 +575,29 @@ function sendComment() {
 }
 
 .comment-list-user {
+  min-width: 0;
+  flex: 1;
   display: flex;
+  justify-content: start;
+  align-items: center;
   gap: calc(100vw * 12 / 375);
 }
 
 .comment-list-bottom {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'ArchivoNarrowRegular', sans-serif;
   font-size: calc(100vw * 12 / 375);
-  width: 400;
-  color: rgba(255, 255, 255, 1);
+  font-weight: 400;
+  flex-shrink: calc(100vw * 16.16 / 375);
+  color: rgb(255, 255, 255);
   text-align: left;
 }
 
 .comment-avatar {
-  width: calc(100vw * 32 / 375);
-  height: calc(100vw * 32 / 375);
+  flex-shrink: 0;
+  width: calc(100vw * 33 / 375);
+  height: calc(100vw * 33 / 375);
   border-radius: 50%;
-  padding: calc(100vw * 1 / 375); /* border width */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  border: calc(100vw * 1 / 375) solid rgba(142, 108, 219, 1);
   box-sizing: border-box;
   display: flex;
 }
@@ -585,20 +611,24 @@ function sendComment() {
 }
 
 .comment-user-name {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'ArchivoNarrowBold', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
-  color: rgba(255, 255, 255, 1);
-  text-align: left;
+  font-weight: 700;
+  line-height: calc(100vw * 21.55 / 375);
+  color: rgb(255, 255, 255);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.comment-more {
   display: flex;
-  align-items: center;
+  justify-content: end;
 }
 
 .comments-list-more {
   width: calc(100vw * 24 / 375);
   height: calc(100vw * 24 / 375);
-
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -612,12 +642,13 @@ function sendComment() {
   bottom: calc(100vh * 29 / 812);
   width: auto;
   height: calc(100vh * 54 / 812);
-  background: rgba(201, 255, 221, 1);
+  background: rgba(244, 142, 90, 1);
+  backdrop-filter: blur(calc(100vw * 32 / 375));  
   border-radius: calc(100vw * 40 / 375);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 calc(100vw * 16 / 375);
+  padding: 0 calc(100vw * 5 / 375) 0 calc(100vw * 16 / 375);
   z-index: 20;
 }
 
@@ -627,26 +658,33 @@ function sendComment() {
   border: none;
   outline: none;
   background: transparent;
-  font-family: 'Archivo', sans-serif;
+  /* font-family: 'OPPOSansRegular', sans-serif; */
   font-size: calc(100vw * 14 / 375);
-  font-weight: 400; /* 可选字体粗细 */
-  color: #000; /* 输入文本颜色 */
-  padding: 0;
+  font-weight: 400;
+  line-height: calc(100vw * 18.86 / 375);
+  letter-spacing: 0;
+  color: #fff;;
 }
 
 .input-field::placeholder {
-  color: rgba(105, 71, 65, 1); /* 提示文本颜色 */
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 14 / 375); /* 提示文本大小 */
-  font-weight: 400; /* 可选字体粗细 */
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .send-btn {
-  width: calc(100vw * 30 / 375);
-  height: calc(100vw * 30 / 375);
+  width: calc(100vw * 44 / 375);
+  height: calc(100vw * 44 / 375);
+  background: #fff;
+  border-radius: 50%;
+  /* cursor: pointer; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+.send-btn img {
+  width: calc(100vw * 22 / 375);
+  height: calc(100vw * 22 / 375);
 }
 </style>

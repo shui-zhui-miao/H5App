@@ -13,8 +13,8 @@
       </div>
     </main>
     <div class="footer">
-      <button class="btn delete-btn" @click="handleAction(true)">Delete account</button>
-      <button class="btn logout-btn" @click="handleAction(false)">Log out</button>
+      <div class="footer-btn delete-btn" @click="handleAction(true)">Delete account</div>
+      <div class="footer-btn logout-btn" @click="handleAction(false)">Log out</div>
     </div>
   </div>
 </template>
@@ -22,11 +22,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useUIStore } from '@/stores/ui'
 import { useUserStore } from '@/stores/user'
 import { useCurrentUserStore } from '@/stores/currentUser'
 import BackButton from '@/components/back.vue'
-import { sendLogoutToIOS } from '@/utils/iosBridge'
+import { sendLogoutToIOS, sendShowLoadingToIOS, sendShowToLoginToIOS } from '@/utils/iosBridge'
 
 const options = ref([
   { text: 'Privacy Policy' },
@@ -37,7 +36,6 @@ const options = ref([
 ])
 
 const router = useRouter()
-const uiStore = useUIStore()
 const userStore =  useUserStore()
 const currentUserStore = useCurrentUserStore()
 
@@ -53,9 +51,17 @@ function handleOption(index) {
       router.push({ name: 'block' })
       break
     case 3:
+      if (currentUserStore.currentUser.isguest == 1) {
+        sendShowToLoginToIOS()
+        return
+      }
       router.push({ name: 'coins' })
       break
     case 4:
+      if (currentUserStore.currentUser.isguest == 1) {
+        sendShowToLoginToIOS()
+        return
+      }
       router.push({ name: 'edit' })
       break
     default:
@@ -64,8 +70,7 @@ function handleOption(index) {
 }
 
 function handleAction(isDelete) {
-  if (uiStore.loading) return
-  uiStore.showLoading()
+  sendShowLoadingToIOS(true)
 
   if (isDelete) {
     userStore.updateUser(currentUserStore.currentUser.userId, { isdelete: 1 })
@@ -74,7 +79,7 @@ function handleAction(isDelete) {
   const delay = Math.floor(Math.random() * 1500) + 500
 
   setTimeout(() => {
-    uiStore.hideLoading()
+    sendShowLoadingToIOS(false)
     sendLogoutToIOS(isDelete)
 
   }, delay)
@@ -86,19 +91,21 @@ function handleAction(isDelete) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
-  background-repeat: no-repeat;
+  background: url('@/assets/pagebgc.png') no-repeat center center;
+  background-size: cover;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
 }
 
+h1 {
+  margin: 0;
+}
+
 /* Header */
 .header {
+  min-height: 0;
   display: flex;
   align-items: center;
   gap: calc(100vw * 16 / 375);
@@ -106,16 +113,25 @@ function handleAction(isDelete) {
 }
 
 .title {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'ArchivoNarrowBold', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  line-height: calc(100vw * 26.94 / 375);
+  color: rgb(255, 255, 255);
+  /* background: linear-gradient(
+    141.29deg,
+    rgba(255, 110, 50, 1) 0%,
+    rgba(253, 61, 104, 1) 44.94%,
+    rgba(251, 226, 100, 1) 100%
+  );
+  -webkit-background-clip: text; 
+  -webkit-text-fill-color: transparent; 
+  background-clip: text; */
 }
 
 /* Options List */
 .options-list {
+  min-height: 0;
   flex: 1;
   padding: calc(100vh * 20 / 812) calc(100vw * 20 / 375) 0;
   overflow-y: auto;
@@ -126,7 +142,7 @@ function handleAction(isDelete) {
 
 .option {
   height: calc(100vh * 52 / 812);
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(142, 108, 219, 1);
   border-radius: calc(100vw * 20 / 375);
   box-shadow: 0 calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06);
   display: flex;
@@ -136,10 +152,11 @@ function handleAction(isDelete) {
 }
 
 .option-text {
-  font-family: 'Archivo', sans-serif;
-  color: #fff;
-  font-size: calc(100vw * 14 / 375);
+  font-family: 'ArchivoNarrowRegular', sans-serif;
+  color: rgb(255, 255, 255);
+  font-size: calc(100vw * 16 / 375);
   font-weight: 400;
+  line-height: calc(100vw * 21.55 / 375);
 }
 
 .option-right .arrow-placeholder {
@@ -154,30 +171,37 @@ function handleAction(isDelete) {
 
 /* Footer */
 .footer {
+  min-height: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: calc(100vh * 20 / 812);
-  padding-bottom: calc(100vh * 83 / 812);
+  padding-bottom: calc(100vh * 96 / 812);
 }
 
-.btn {
-  width: calc(100vw * 229 / 375);
-  height: calc(100vh * 62 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  font-family: 'YesevaOne', sans-serif;
+.footer-btn {
+  width: calc(100vw * 264 / 375);
+  height: calc(100vh * 60 / 812);
+  background-image: url('@/assets/zhubtnbgi.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'ArchivoNarrowBold', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  box-shadow:inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375)  rgba(255, 255, 255, 0.6),inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375)  rgba(255, 255, 255, 0.5);
+  font-weight: 700;
+  line-height: calc(100vw * 26.94 / 375);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.delete-btn {
+/* .delete-btn {
   background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
   color: rgba(74, 32, 25, 1);
-}
+} */
 
 .logout-btn {
-  background: rgba(74, 32, 25, 1);
-  color: rgba(255, 255, 255, 1);
+  background-image: url('@/assets/logoutbtnbgi.png');
 }
 </style>

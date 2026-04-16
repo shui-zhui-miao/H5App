@@ -29,7 +29,9 @@
     <!-- Bottom input box -->
     <div class="bottom-input">
       <input type="text" placeholder="Say something" v-model="inputText" />
-      <img class="send-btn" src="@/assets/commentsend.png" alt="send" @click="sendComment" />
+      <div class="send-btn" @click="sendComment" >
+        <img src="@/assets/commentsend.png" alt="send"/>
+      </div>
     </div>
   </div>
 </template>
@@ -41,10 +43,10 @@ import { useRouter } from 'vue-router'
 import { useCommentsStore } from '@/stores/comment'
 import { useUserStore } from '@/stores/user'
 import { useCurrentUserStore } from '@/stores/currentUser'
-import { useUIStore } from '@/stores/ui'
 import { usePostStore } from '@/stores/post'
 import ReportDialog from '@/components/reportChoose.vue'
 import Empty from '@/components/empty.vue'
+import { sendShowLoadingToIOS, sendShowToastToIOS, sendShowToLoginToIOS } from '@/utils/iosBridge'
 
 const props = defineProps({
   postId: {
@@ -61,7 +63,6 @@ const postId = props.postId
 
 const router = useRouter()
 
-const uiStore = useUIStore()
 const commentsStore = useCommentsStore()
 const userStore =  useUserStore()
 const currentUserStore = useCurrentUserStore()
@@ -77,6 +78,10 @@ function goOtherHome(userId) {
 const inputText = ref('')
 
 function sendComment() {
+  if (currentUserStore.currentUser.isguest == 1){
+    sendShowToLoginToIOS()
+    return
+  }
   const content = inputText.value.trim()
   if (!content) return // 输入为空直接返回
 
@@ -106,6 +111,10 @@ const emit = defineEmits(['openCommentReport'])
 
 // 打开帖子举报
 function openComment(userId) {
+  if (currentUserStore.currentUser.isguest == 1){
+    sendShowToLoginToIOS()
+    return
+  }
   reportCommentUserId.value = userId
   emit('openCommentReport')
 }
@@ -121,8 +130,7 @@ watch(
     if (newVal === 0) {
       router.push({ name: 'report' })
     } else if (newVal === 1) {
-      if (uiStore.loading) return
-      uiStore.showLoading()
+      sendShowLoadingToIOS(true)
 
       const blockList = currentUserStore.currentUser.blockList || []
       if (!blockList.includes(reportCommentUserId.value)) {
@@ -133,8 +141,8 @@ watch(
       const delay = Math.floor(Math.random() * 1500) + 500
 
       setTimeout(() => {
-        uiStore.hideLoading()
-        uiStore.showToast('Blocking successful')
+        sendShowLoadingToIOS(false)
+        sendShowToastToIOS('Blocking successful')
         // 重新获取评论列表，过滤掉被拉黑的用户
         comments.value = commentsStore.getCommentsById(postId)
 
@@ -147,19 +155,29 @@ watch(
 <style scoped>
 .comment {
   position: relative;
-  width: 100%;
-  height: 100%;
+  /* width: 100%; */
+  height: calc(100vh * 490 / 812);
   border-radius: calc(100vh * 20 / 812) calc(100vh * 20 / 812) 0 0;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  background: rgba(142, 108, 219, 1);
   box-sizing: border-box;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-container {
+  min-height: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .comment-header {
+  min-height: 0;
   display: flex;
   align-items: center;
   gap: calc(100vw * 6 / 375);
-  padding: calc(100vh * 24 / 812) calc(100vw * 18 / 375) 0;
+  padding: calc(100vh * 20 / 812) calc(100vw * 34 / 375) 0 calc(100vw * 20 / 375);
 }
 
 .header-line {
@@ -169,31 +187,47 @@ watch(
 }
 
 .header-title {
-  font-family: 'YesevaOne', sans-serif;
+  /* padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375);
+  border-radius: calc(100vw * 10 / 375);
+  background: rgba(0, 0, 0, 1);
+  border: calc(100vw * 1 / 375) solid rgba(251, 226, 100, 1); */
+  font-family: 'ArchivoNarrowBold', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 21.55 / 375);
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgb(255, 255, 255);
   white-space: nowrap;
+/* 
+  background: linear-gradient(180deg, rgba(255, 0, 128, 1) 0%, rgba(236, 86, 184, 1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; */
 }
 
 .comment-list {
-  padding: calc(100vh * 20 / 812) calc(100vw * 20 / 375) calc(100vh * 90 / 812);
+  flex: 1;
+  /* height: 0; */
+  min-height: 0;
+  padding: calc(100vh * 16 / 812) calc(100vw * 20 / 375) calc(100vh * 90 / 812);
   display: flex;
   flex-direction: column;
   gap: calc(100vh * 10 / 812);
   overflow-y: auto;
-  max-height: calc(calc(100vh * 508 / 812) - calc(100vh * 63 / 812) - calc(100vh * 90 / 812)); /* subtract header and bottom spacing */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Optional: hide scrollbar */
+.comment-list::-webkit-scrollbar {
+  display: none;
 }
 
 .comment-item {
   display: flex;
   flex-direction: column;
   gap: calc(100vh * 4 / 812);
-  padding: calc(100vh * 14 / 812) calc(100vw * 16 / 375) calc(100vh * 18 / 812);
+  padding: calc(100vh * 14 / 812) calc(100vw * 16 / 375) calc(100vh * 15 / 812) calc(100vw * 16 / 375);
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(0, 0, 0, 0.16);
+  background: rgba(255, 255, 255, 0.16);
   backdrop-filter: blur(calc(100vw * 12 / 375));
 }
 
@@ -204,27 +238,23 @@ watch(
 }
 
 .comment-user {
+  flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: calc(100vw * 12 / 375);
 }
 
 .avatar {
+  flex-shrink: 0;
   width: calc(100vw * 32 / 375);
   height: calc(100vw * 32 / 375);
   border-radius: 50%;
-  padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 159, 142, 1) 0%,
-    rgba(241, 213, 160, 1) 32.13%,
-    rgba(201, 255, 221, 1) 67.84%,
-    rgba(157, 255, 255, 1) 100%
-  );
+  border: calc(100vw * 1 / 375) solid rgba(142, 108, 219, 1);
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
-  margin-bottom: calc(100vw * 4 / 375);
+  /* margin-bottom: calc(100vw * 4 / 375); */
 }
 
 .avatar img {
@@ -235,12 +265,12 @@ watch(
 }
 
 .username {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'ArchivoNarrowBold', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 21.55 / 375);
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgb(255, 255, 255);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -252,12 +282,12 @@ watch(
 }
 
 .comment-text {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'ArchivoNarrowRegular', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 13.06 / 375);
+  flex-shrink: calc(100vw * 16.16 / 375);
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgb(255, 255, 255);
   text-align: left;
 }
 
@@ -268,13 +298,12 @@ watch(
   bottom: calc(100vh * 29 / 812);
   height: calc(100vh * 54 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(201, 255, 221, 1);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
+  background: rgba(244, 142, 90, 1);
   backdrop-filter: blur(calc(100vw * 32 / 375));
   display: flex;
   align-items: center;
+  padding: 0 calc(100vw * 5 / 375) 0 calc(100vw * 16 / 375);
   gap: calc(100vw * 16 / 375);
-  padding: 0 calc(100vw * 16 / 375);
   box-sizing: border-box;
 }
 
@@ -283,26 +312,34 @@ watch(
   border: none;
   outline: none;
   background: transparent;
-  font-family: 'Archivo', sans-serif;
+  /* font-family: 'OPPOSansRegular', sans-serif; */
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
+  line-height: calc(100vw * 18.86 / 375);
   letter-spacing: 0;
-  color: #000;
+  color: #fff;
 }
 
 .bottom-input input::placeholder {
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 14 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
-  color: rgba(105, 71, 65, 0.5);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .send-btn {
-  width: calc(100vw * 30 / 375);
-  height: calc(100vw * 30 / 375);
-  cursor: pointer;
+  width: calc(100vw * 44 / 375);
+  height: calc(100vw * 44 / 375);
+  border-radius: 50%;
+  background: #fff;
+  /* cursor: pointer; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.send-btn img {
+  width: calc(100vw * 22 / 375);
+  height: calc(100vw * 22 / 375);
 }
 
 .empty {

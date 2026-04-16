@@ -1,15 +1,17 @@
 <template>
-  <div class="video-call" :style="{ backgroundImage: `url(${userInfo.avator})` }">
-    <div class="bg-gradient"></div>
+  <div class="video-call">
+    <div class="bg-gradient" :style="{ backgroundImage: `url(${userInfo.avator})` }">
+      <div class="bg-colors-111"></div>
+    </div>
     <!-- Top Avatar Container -->
     <div class="avatar-outer">
-      <div class="avatar-inner">
+      <div class="avator-border-box">
         <img :src="userInfo.avator" alt="User Avatar" />
       </div>
     </div>
 
     <!-- Bottom Control Panel -->
-    <div class="call-panel">
+    <div class="hangup">
       <div class="call-left">
         <div class="user-name">{{ userInfo.name }}</div>
         <div class="calling-text">{{ callingText }}</div>
@@ -65,35 +67,58 @@ function hangup() {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(0deg, rgba(255, 159, 142, 1) 0%, rgba(255, 255, 255, 0) 99.84%);
-  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  /* opacity: 0.1; */
+}
+
+.bg-colors-111 {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(0deg, rgba(142, 108, 219, 1) 0%, rgba(255, 255, 255, 0) 99.84%);
 }
 
 .video-call {
   position: relative;
   width: 100%;
   height: 100vh;
+  background: rgba(16, 18, 19, 1);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: end;
   background-size: cover;
   background-position: center;
   overflow: hidden;
+  gap: calc(100vh * 311 / 812);
 }
 
 .avatar-outer {
-  margin-top: calc(100vh * 257 / 812);
-  width: calc(100vw * 166 / 375);
-  height: calc(100vw * 166 / 375);
-  border-radius: calc(100vw * 50 / 375);
-  background: rgba(255, 255, 255, 0.3);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: calc(100vh * 20 / 812);
 }
 
-.avatar-inner {
+.avator-border-box {
+  display: flex;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(142, 108, 219, 1);
+}
+
+.avator-border-box img{
+  width: calc(100vw * 104 / 375);
+  height: calc(100vw * 104 / 375);
+  padding: calc(100vh * 1 / 812) calc(100vw * 1 / 375);
+  border-radius: 50%;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+/* .avatar-inner {
   width: calc(100vw * 144 / 375);
   height: calc(100vw * 144 / 375);
   border-radius: calc(100vw * 40 / 375);
@@ -112,10 +137,10 @@ function hangup() {
   object-fit: cover;
   border-radius: calc(100vw * 37 / 375);
   display: block;
-}
+} */
 
 /* Bottom call panel */
-.call-panel {
+/* .call-panel {
   position: absolute;
   bottom: calc(100vh * 40 / 812);
   width: calc(100% - (calc(100vw * 50 / 375)));
@@ -127,37 +152,52 @@ function hangup() {
   justify-content: space-between;
   padding: 0 calc(100vw * 20 / 375);
   box-sizing: border-box;
-}
+} */
 
 .call-left {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
   gap: calc(100vh * 10 / 812);
 }
 
 .user-name {
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'ArchivoNarrowBold', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
-  color: rgba(74, 32, 25, 1);
+  font-weight: 700;
+  line-height: calc(100vw * 26.94 / 375);
+  color: rgb(0, 0, 0);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .calling-text {
+  font-family: 'ArchivoNarrowRegular', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
-  color: rgba(74, 32, 25, 1);
+  line-height: calc(100vw * 18.86 / 375);
+  color: rgb(0, 0, 0);
+}
+
+.hangup {
+  margin-bottom: calc(100vh * 40 / 812);
+  width: calc(100vw * 313 / 375);
+  /* height: calc(100vw * 91 / 375); */
+  border-radius: calc(100vw * 40 / 375);
+  /* border: 1px solid rgba(255, 255, 255, 0.6); */
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375) calc(100vh * 10 / 812) calc(100vw * 20 / 375);
 }
 
 .hangup-btn {
   width: calc(100vw * 60 / 375);
   height: calc(100vw * 60 / 375);
-  border-radius: calc(100vw * 214 / 375);
+  border-radius: 50%;
   background: rgba(255, 28, 100, 1);
   display: flex;
   align-items: center;
@@ -167,5 +207,7 @@ function hangup() {
 .hangup-btn img {
   width: calc(100vw * 28 / 375);
   height: calc(100vw * 28 / 375);
+  object-fit: cover;
+  overflow: hidden;
 }
 </style>

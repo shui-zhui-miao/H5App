@@ -9,7 +9,9 @@
         <div class="left-part">
           <BackButton />
           <div class="user-info" @click="goOtherHome(otherUser.userId)">
-            <img class="avatar" :src="otherUser.avator" alt="avatar" />
+            <div class="avatar-border-box">
+              <img class="avatar" :src="otherUser.avator" alt="avatar" />
+            </div>
             <span class="username">{{ otherUser.name }}</span>
           </div>
         </div>
@@ -27,7 +29,11 @@
       <!-- 聊天内容 -->
       <div class="chat-content">
         <div v-for="msg in messages" :key="msg.msgId" :class="['chat-item', { 'own-message': msg.userId === currentUserId }]">
-          <img class="chat-avatar" @click="goOtherHome(msg.userId)" :src="getUserAvatar(msg.userId)" alt="avatar" />
+          <div v-if="msg.userId !== currentUserId" class="chat-left">
+            <div :class="['chat-avatar-border', { 'own-chat-avatar-border': msg.userId === currentUserId }]">
+              <img class="chat-avatar" @click="goOtherHome(msg.userId)" :src="getUserAvatar(msg.userId)" alt="avatar" />
+            </div>
+          </div>
           <div class="chat-right">
             <div v-if="msg.userId === currentUserId && msg.sendPicUrl" class="chat-message-image">
               <div class="image-container">
@@ -37,13 +43,20 @@
             <div v-else class="chat-message" v-text="msg.sendContent"></div>
             <div class="chat-time">{{ formatTime(msg.sendTime) }}</div>
           </div>
+          <div v-if="msg.userId === currentUserId" class="chat-left">
+            <div :class="['chat-avatar-border', { 'own-chat-avatar-border': msg.userId === currentUserId }]">
+              <img class="chat-avatar" @click="goOtherHome(msg.userId)" :src="getUserAvatar(msg.userId)" alt="avatar" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <!-- 底部输入框 -->
     <div class="bottom-input">
       <input type="text" placeholder="Say something" v-model="inputText" />
-      <img class="send-btn" src="@/assets/commentsend.png" alt="send" @click="sendMessage" />
+      <div class="send-btn" @click="sendMessage" >
+        <img src="@/assets/commentsend.png" alt="send"/>
+      </div>
     </div>
     <!-- Video Call Sheet -->
     <transition name="slide-up">
@@ -65,12 +78,11 @@ import { useChatsStore } from '@/stores/chat'
 import { useUserStore } from '@/stores/user'
 import { useMessagesStore } from '@/stores/message'
 import { useCurrentUserStore } from '@/stores/currentUser'
-import { useUIStore } from '@/stores/ui'
 import BackButton from '@/components/back.vue'
 import MoreButton from '@/components/more.vue'
 import VideoCall from '@/views/messageViews/videocall.vue'
 import ReportDialog from '@/components/reportChoose.vue'
-import { goBackOrClose } from '@/utils/iosBridge'
+import { goBackOrClose, sendShowLoadingToIOS, sendShowToastToIOS } from '@/utils/iosBridge'
 import { uploadSingleImage } from '@/utils/ossUpload'
 
 const props = defineProps({
@@ -81,7 +93,6 @@ const chatsStore = useChatsStore()
 const userStore = useUserStore()
 const currentUserStore = useCurrentUserStore()
 const messagesStore = useMessagesStore()
-const uiStore = useUIStore()
 const router = useRouter()
 const currentUserId = currentUserStore.currentUser.userId
 
@@ -125,8 +136,7 @@ async function handleImageChange(e) {
     return
   }
 
-  if (uiStore.loading) return
-  uiStore.showLoading()
+  sendShowLoadingToIOS(true)
   try {
     const url = await uploadSingleImage(file, 'template_development')
 
@@ -153,9 +163,9 @@ async function handleImageChange(e) {
 
   } catch (err) {
     console.error('upload image failed', err)
-    uiStore.showToast('Upload failed, please check your network.')
+    sendShowToastToIOS('Upload failed, please check your network.')
   } finally {
-    uiStore.hideLoading()
+    sendShowLoadingToIOS(false)
   }
 
   e.target.value = ''
@@ -203,8 +213,7 @@ function reportSelect(value) {
     router.push({ name: 'report' })
   } else if (value === 1) {
     //用户选择屏蔽
-    if (uiStore.loading) return
-    uiStore.showLoading()
+    sendShowLoadingToIOS(true)
 
     // 用户选择屏蔽时加入 blockList
     const blockList = currentUserStore.currentUser.blockList || []
@@ -220,8 +229,8 @@ function reportSelect(value) {
     const delay = Math.floor(Math.random() * 1500) + 500
 
     setTimeout(() => {
-      uiStore.hideLoading()
-      uiStore.showToast('Blocking successful')
+      sendShowLoadingToIOS(false)
+      sendShowToastToIOS('Blocking successful')
 
       goBackOrClose()
 
@@ -235,15 +244,16 @@ function reportSelect(value) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
+  background: rgba(14, 8, 15, 1);
   overflow: hidden;
 }
 
 .top-background {
   height: calc(100vh * 162 / 812);
-  opacity: 1;
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  width: 100%;
+  /* background-image: url('@/assets/chattopbg.png');
+  background-size: cover;  */
+  background: rgba(142, 108, 219, 1);
+  overflow: hidden;
 }
 
 .content {
@@ -265,32 +275,55 @@ function reportSelect(value) {
 }
 
 .left-part {
+  flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: calc(100vw * 15 / 375);
 }
 
 .user-info {
+  flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: calc(100vw * 12 / 375);
 }
 
+.avatar-border-box {
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 1);
+  display: flex;
+  justify-content: center;
+}
+
 .avatar {
   width: calc(100vw * 40 / 375);
   height: calc(100vw * 40 / 375);
+  padding: calc(100vh * 1 / 812) calc(100vw * 1 / 375);
   border-radius: 50%;
-  border: calc(100vw * 1 / 375) solid #fff;
   object-fit: cover;
+  overflow: hidden;
 }
 
 .username {
-  font-family: 'YesevaOne', sans-serif;
+  /* flex: 1;
+  min-width: 0; */
+  font-family: 'ArchivoNarrowBold', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.48 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 21.55 / 375);
   letter-spacing: 0;
-  color: rgba(74, 32, 25, 1);
+  color: #fff;
+  /* background: linear-gradient(
+    141.29deg,
+    rgba(255, 110, 50, 1) 0%,
+    rgba(253, 61, 104, 1) 44.94%,
+    rgba(251, 226, 100, 1) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  background-clip: text;  */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -299,7 +332,7 @@ function reportSelect(value) {
 .right-part {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 17 / 375);
+  gap: calc(100vw * 26 / 375);
 }
 
 .icon-group {
@@ -316,21 +349,28 @@ function reportSelect(value) {
 .chat-content {
   flex: 1;
   border-radius: calc(100vw * 20 / 375) calc(100vw * 20 / 375) 0 0;
-  background: rgba(235, 236, 237, 1);
+  background-color: rgba(235, 236, 237, 1);
   backdrop-filter: blur(calc(100vw * 12 / 375));
   overflow-y: auto;
-  padding-top: calc(100vh * 24 / 812);
+  padding-top: calc(100vh * 30 / 812);
   padding-bottom: calc(100vh * 90 / 812);
   display: flex;
   flex-direction: column;
-  gap: calc(100vh * 16 / 812);
+  gap: calc(100vh * 24 / 812);
 }
 
 .chat-item {
   display: flex;
+  /* flex-direction: column; */
   align-items: flex-start;
-  gap: calc(100vw * 10 / 375);
-  margin: 0 calc(100vw * 118 / 375) 0 calc(100vw * 20 / 375); /* 默认靠左消息 */
+  gap: calc(100vh * 10 / 812);
+  margin: 0 calc(100vw * 74 / 375) 0 calc(100vw * 20 / 375); /* 默认靠左消息 */
+}
+
+.chat-left {
+  display: flex;
+  align-items: flex-end;
+  /* gap: calc(100vw * 10 / 375); */
 }
 
 .chat-right {
@@ -340,12 +380,22 @@ function reportSelect(value) {
   gap: calc(100vh * 8 / 812);
 }
 
+.chat-avatar-border {
+  border-radius: 50%;
+  background: rgba(244, 142, 90, 1);
+  display: flex;
+  justify-content: center;
+}
+
+.own-chat-avatar-border {
+  background: rgba(142, 108, 219, 1);
+}
+
 .chat-avatar {
   width: calc(100vw * 44 / 375);
   height: calc(100vw * 44 / 375);
   border-radius: 50%;
-  padding: calc(100vw * 1 / 375); /* border thickness */
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
+  padding: calc(100vh * 1 / 812) calc(100vw * 1 / 375);
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
@@ -362,28 +412,29 @@ function reportSelect(value) {
 }
 
 .chat-message {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'ArchivoNarrowRegular', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 17.41 / 375);
-  color: rgba(105, 71, 65, 1);
+  line-height: calc(100vw * 21.55 / 375);
+  color: rgb(255, 255, 255);
   padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375);
   border-radius: 0px calc(100vw * 10 / 375) calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(201, 255, 221, 1);
+  background: rgba(244, 142, 90, 1);
 }
 
 .chat-time {
-  font-family: 'Archivo', sans-serif;
+  font-family: 'ArchivoNarrowRegular', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 13.06 / 375);
+  line-height: calc(100vw * 16.16 / 375);
   color: rgba(153, 153, 153, 1);
   text-align: right;
 }
 
 .chat-item.own-message {
-  flex-direction: row-reverse;
-  margin: 0 calc(100vw * 20 / 375) 0 calc(100vw * 118 / 375); /* 自己消息靠右反转间距 */
+  /* flex-direction: row-reverse; */
+  /* align-items: flex-end; */
+  margin: 0 calc(100vw * 20 / 375) 0 calc(100vw * 61 / 375); /* 自己消息靠右反转间距 */
 }
 
 .chat-item.own-message .chat-right {
@@ -392,20 +443,22 @@ function reportSelect(value) {
 
 .chat-item.own-message .chat-message {
   border-radius: calc(100vw * 10 / 375) 0px calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(255, 159, 142, 1);
+  background: rgba(142, 108, 219, 1);
+  color: #fff;
 }
 
 /* image message styles */
 .chat-message-image .image-container {
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 1);
-  padding: calc(100vw * 5 / 375);
+  border: calc(100vw * 5 / 375) solid #ffffff;
+  /* background: rgba(255, 255, 255, 1);
+  padding: calc(100vw * 5 / 375); */
 }
 
 .chat-message-image .image-container img {
   width: 100%;
   height: auto;
-  border-radius: calc(100vw * 16 / 375);
+  border-radius: calc(100vw * 20 / 375);
   object-fit: contain;
 }
 
@@ -416,13 +469,12 @@ function reportSelect(value) {
   bottom: calc(100vh * 29 / 812);
   height: calc(100vh * 54 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(201, 255, 221, 1);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.1);
+  background: rgba(244, 142, 90, 1);
   backdrop-filter: blur(calc(100vw * 32 / 375));
   display: flex;
   align-items: center;
-  padding: 0 calc(100vw * 16 / 375);
-  gap: calc(100vw * 16 / 375);
+  padding: 0 calc(100vw * 5 / 375) 0 calc(100vw * 16 / 375);
+  gap: calc(100vw * 10 / 375);
   box-sizing: border-box;
 }
 
@@ -431,22 +483,34 @@ function reportSelect(value) {
   border: none;
   outline: none;
   background: transparent;
-  font-family: 'Archivo', sans-serif;
+  /* font-family: 'OPPOSansRegular', sans-serif; */
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 15.23 / 375);
+  line-height: calc(100vw * 18.86 / 375);
   letter-spacing: 0;
-  color: #000;
+  color: #ffffff;
 }
 
 .bottom-input input::placeholder {
-  color: rgba(105, 71, 65, 0.5);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .send-btn {
-  width: calc(100vw * 30 / 375);
-  height: calc(100vw * 30 / 375);
-  cursor: pointer;
+  width: calc(100vw * 44 / 375);
+  height: calc(100vw * 44 / 375);
+  border-radius: 50%;
+  background: #fff;
+  /* cursor: pointer; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.send-btn img {
+  width: calc(100vw * 22 / 375);
+  height: calc(100vw * 22 / 375);
 }
 
 .video-call-sheet {
@@ -455,7 +519,7 @@ function reportSelect(value) {
   right: 0;
   bottom: 0;
   top: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.6);
   display: flex;
   justify-content: center;
   align-items: flex-end;

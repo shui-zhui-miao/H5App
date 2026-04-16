@@ -30,24 +30,21 @@
 import { ref } from 'vue'
 import BackButton from '@/components/back.vue'
 import { useOtherStore } from '@/stores/other'
-import { useUIStore } from '@/stores/ui'
-import { goBackOrClose } from '@/utils/iosBridge'
+import { goBackOrClose, sendShowLoadingToIOS, sendShowToastToIOS } from '@/utils/iosBridge'
 
 const otherStore =  useOtherStore()
 
 const selectedIndex = ref(0)
 const inputText = ref('')
 
-const uiStore = useUIStore()
 function handleSubmit() {
-  if (uiStore.loading) return
-  uiStore.showLoading()
+  sendShowLoadingToIOS(true)
 
   const delay = Math.floor(Math.random() * 1500) + 500
 
   setTimeout(() => {
-    uiStore.hideLoading()
-    uiStore.showToast('Report successful')
+    sendShowLoadingToIOS(false)
+    sendShowToastToIOS('Report successful')
 
     goBackOrClose()
 
@@ -57,14 +54,12 @@ function handleSubmit() {
 
 <style scoped>
 .page {
-  position: relative;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 1);
-  background-image: url('@/assets/pagebgc.png');
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
-  background-repeat: no-repeat;
+  background: url('@/assets/pagebgc.png') no-repeat center center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
@@ -74,9 +69,7 @@ function handleSubmit() {
 }
 
 .page-content {
-  position: relative;
-  width: 100vw;
-  height: calc(100vh - calc(100vh * 96 / 812));
+  flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
@@ -93,7 +86,8 @@ function handleSubmit() {
 .grid-item {
   position: relative;
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 1);
+  /* box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06); */
+  background: rgb(255, 255, 255);
   height: calc(100vw * 115 / 375);
   overflow: hidden;
 }
@@ -109,7 +103,7 @@ function handleSubmit() {
 }
 
 .grid-item.selected .choose-box {
-  background: rgba(255, 159, 142, 1);
+  background: rgba(244, 142, 90, 1);
 }
 
 .check-icon {
@@ -127,21 +121,21 @@ function handleSubmit() {
 
 .report-content {
   padding: calc(100vh * 12 / 812) calc(100vw * 12 / 375) 0;
-  color: rgba(74, 32, 25, 1);
-  font-family: 'Archivo', sans-serif;
+  color: rgb(0, 0, 0);
+  font-family: 'ArchivoNarrowRegular', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 17.41 / 375);
+  line-height: calc(100vw * 21.55 / 375);
 }
 
 .input-title {
   padding-top: calc(100vh * 30 / 812);
   padding-left: calc(100vw * 20 / 375);
-  font-family: 'YesevaOne', sans-serif;
+  font-family: 'ArchivoNarrowBold', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
-  color: rgba(255, 255, 255, 1);
+  font-weight: 700;
+  line-height: calc(100vw * 26.94 / 375);
+  color: rgb(255, 255, 255);
 }
 
 .input-box {
@@ -149,9 +143,10 @@ function handleSubmit() {
   margin: calc(100vh * 16 / 812) calc(100vw * 20 / 375) 0;
   height: calc(100vh * 103 / 812);
   border-radius: calc(100vw * 16 / 375);
-  background: rgba(255, 255, 255, 1);
-  backdrop-filter: blur(12px);
-  padding: calc(100vw * 12 / 375);
+  background: rgb(255, 255, 255);
+  /* box-shadow: 0px 0px calc(100vw * 4 / 375)  rgba(0, 0, 0, 0.06); */
+  backdrop-filter: calc(100vw * 12 / 375);
+  padding: calc(100vh * 12 / 812) calc(100vw * 12 / 375);
   box-sizing: border-box;
 }
 
@@ -162,48 +157,47 @@ function handleSubmit() {
   resize: none;
   outline: none;
   background: transparent;
-  font-family: 'Archivo', sans-serif;
+  font-family: 'ArchivoNarrowRegular', sans-serif;
   font-size: calc(100vw * 14 / 375);
-  font-weight: normal;
-  color: rgba(0,0,0,1); /* 输入文本颜色 */
-  line-height: calc(100vw * 15.23 / 375);
+  font-weight: 400;
+  color: rgb(0, 0, 0); /* 输入文本颜色 */
+  line-height: calc(100vw * 18.86 / 375);
 }
 
-.input-field::placeholder {
-  color: rgba(105, 71, 65, 1);
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 14 / 375); /* 提示文本大小 */
-  font-weight: 400; /* 提示文本粗细 */
-  line-height: calc(100vw * 15.23 / 375);
+.input-field :placeholder {
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .char-count {
   position: absolute;
   right: calc(100vw * 8 / 375);
-  bottom: calc(100vh * 13 / 812);
-  font-family: 'Archivo', sans-serif;
-  font-size: calc(100vw * 12 / 375);
-  color: rgba(74, 32, 25, 0.6);
+  bottom: calc(100vh * 8 / 812);
+  font-family: 'ArchivoNarrowRegular', sans-serif;
+  font-size: calc(100vw * 14 / 375);
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.5);
+  line-height: calc(100vw * 18.86 / 375);
 }
 
 .btn-box {
   margin: 0 auto; /* 新增：水平居中 */
-  margin-top: calc(100vh * 40 / 812);
+  margin-top: calc(100vh * 37 / 812);
   margin-bottom: calc(100vh * 34 / 812);
-  width: calc(100vw * 229 / 375);
-  height: calc(100vh * 62 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  box-shadow: inset calc(100vw * -2 / 375) calc(100vw * -2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.6), inset calc(100vw * 2 / 375) calc(100vw * 2 / 375) calc(100vw * 2 / 375) rgba(255, 255, 255, 0.5);
+  width: calc(100vw * 264 / 375);
+  height: calc(100vh * 60 / 812);
+  background-image: url('@/assets/zhubtnbgi.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'ArchivoNarrowBold', sans-serif;
+  font-size: calc(100vw * 24 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 32.33 / 375);
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  font-family: 'YesevaOne', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 23.1 / 375);
-  color: rgba(74, 32, 25, 1);
   text-align: center;
   vertical-align: top;
 }

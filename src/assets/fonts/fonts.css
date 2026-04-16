@@ -1,14 +1,22 @@
 @font-face {
-    font-family: 'YesevaOne';
-    src: url('./YesevaOne-Regular.ttf') format('truetype');
+    font-family: 'ArchivoNarrowRegular';
+    src: url('./ArchivoNarrow-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Archivo';
-    src: url('./Archivo-Regular.ttf') format('truetype');
+    font-family: 'ArchivoNarrowBold';
+    src: url('./ArchivoNarrow-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'DDINBold';
+    src: url('./D-DIN-Bold.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
