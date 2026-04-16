@@ -145,8 +145,8 @@ function handleCoinClick(item) {
   right: calc(100vw * -6 / 375);
   width: calc(100vw * 110 / 375);
   height: calc(100vh * 110 / 812);
-  background-image: url('@/assets/coinbgright.png');
-  background-size: cover; /* 等比缩放覆盖 */
+  /* background-image: url('@/assets/coinbgright.png');
+  background-size: cover;  */
   overflow: hidden;
   z-index: 2;
 }
