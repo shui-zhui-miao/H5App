@@ -18,7 +18,7 @@
         <div class="theme-label">Theme</div>
         <!-- ThemeList -->
         <div class="theme-list">
-          <div v-for="(theme, index) in otherStore.other.postTheme" :key="index" class="theme-item" :class="{ selected: selectedTheme === index }" @click="selectedTheme = index"># {{ theme }}</div>
+          <div v-for="(theme, index) in otherStore.other.postTheme" :key="index" class="theme-item" :class="{ selected: selectedTheme === index }" @click="selectedTheme = index">{{ theme }}</div>
         </div>
         <!-- Upload（Pic） -->
         <div class="theme-label">Upload（Pic）</div>
@@ -157,13 +157,12 @@ const handleRelease = async () => {
 
 .input-box {
   position: relative;
-  margin-top: calc(100vh * 20 / 812);
+  margin-top: calc(100vh * 16 / 812);
   margin-left: calc(100vw * 20 / 375);
   margin-right: calc(100vw * 20 / 375);
   height: calc(100vh * 174 / 812);
   border-radius: calc(100vw * 16 / 375);
   background: rgba(255, 255, 255, 1);
-  /* box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375)  rgba(0, 0, 0, 0.1); */
   padding: calc(100vh * 16 / 812) calc(100vw * 16 / 375);
   box-sizing: border-box;
 }
@@ -177,24 +176,24 @@ const handleRelease = async () => {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 18.86 / 375);
+  line-height: calc(100vw * 16.8 / 375);
   background: transparent;
   color: #000000;
 }
 
 .post-textarea::placeholder {
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(153, 153, 153, 1);
 }
 
 .text-count {
   position: absolute;
-  right: calc(100vw * 16 / 375);
-  bottom: calc(100vh * 16 / 812);
+  right: calc(100vw * 7 / 375);
+  bottom: calc(100vh * 12 / 812);
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 18.86 / 375);
-  color: rgba(0, 0, 0, 0.4);
+  line-height: calc(100vw * 16.8 / 375);
+  color: rgba(153, 153, 153, 1);
 }
 
 .theme-label {
@@ -202,8 +201,8 @@ const handleRelease = async () => {
   margin-left: calc(100vw * 20 / 375);
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 26.94 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 24 / 375);
   color: rgb(255, 255, 255);
   text-align: left;
 }
@@ -220,22 +219,22 @@ const handleRelease = async () => {
   width: calc(100vw * 94 / 375);
   height: calc(100vh * 44 / 812);
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 1);
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 18 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 24.25 / 375);
+  line-height: calc(100vw * 21.6 / 375);
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(153, 153, 153, 1);
   cursor: pointer;
 }
 
 .theme-item.selected {
-  background: rgba(142, 108, 219, 1);
-  /* color: rgb(255, 255, 255); */
+  background: rgba(69, 241, 217, 1);
+  color: rgba(25, 44, 65, 1);
 }
 
 .upload-list {
@@ -254,12 +253,12 @@ const handleRelease = async () => {
 }
 
 .upload-item {
-  width: calc(100vw * 108 / 375);
+  width: calc(100vw * 106 / 375);
   height: calc(100vw * 106 / 375);
   flex-shrink: 0;
   border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(calc(100vw * 12 / 375));
+  background: rgba(255, 255, 255, 1);
+  backdrop-filter: blur(calc(100vw * 20 / 375));
   display: flex;
   justify-content: center;
   align-items: center;
@@ -277,8 +276,8 @@ const handleRelease = async () => {
 }
 
 .upload-add {
-  width: calc(100vw * 26 / 375);
-  height: calc(100vw * 26 / 375);
+  width: calc(100vw * 20 / 375);
+  height: calc(100vw * 20 / 375);
   background-image: url('@/assets/uploadpic.png');
   background-size: cover;
   background-position: center;
@@ -301,17 +300,15 @@ const handleRelease = async () => {
 
 /* Release Button Styles */
 .release-button {
-  width: calc(100vw * 264 / 375);
-  height: calc(100vh * 60 / 812);
-  background-image: url('@/assets/zhubtnbgi.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  width: calc(100vw * 198 / 375);
+  height: calc(100vh * 53 / 812);
+  border-radius: calc(100vh * 26.5 / 812);
+  background: rgba(69, 241, 217, 1);
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 24 / 375);
-  font-weight: 700;
+  font-size: calc(100vw * 20 / 375);
+  font-weight: 900;
   line-height: calc(100vw * 32.33 / 375);
-  color: #fff;
+  color: rgba(0, 0, 0, 1);
   display: flex;
   align-items: center;
   justify-content: center;

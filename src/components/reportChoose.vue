@@ -71,7 +71,7 @@ const handleClose = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: calc(100vh * 17 / 812);
+  padding-bottom: calc(100vh * 49 / 812);
   gap: calc(100vh * 22 / 812);
 }
 

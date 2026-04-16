@@ -40,8 +40,8 @@
           <div class="action-box">
             <div class="action-button" @click="toggleLike">
               <img v-if="currentUserStore.currentUser.postLikeIds.includes(post.dynamicId)" src="@/assets/likepic.png" alt="like" />
-              <img v-else src="@/assets/dislikepic.png" alt="like" />
-              <span>{{post.dynamicLikeCount + (currentUserStore.currentUser.postLikeIds.includes(post.dynamicId) ? 1 : 0) }}</span>
+              <img v-else src="@/assets/tinjlrmbeuhnd.png" alt="like" />
+              <span>{{post.dynamicLikeCount }}</span>
             </div>
           </div>
           <div class="action-box">
@@ -244,10 +244,12 @@ function toggleLike() {
   if (likedIndex === -1) {
     // 未点赞，添加postId到postLikeIds
     postLikeIds.push(postId)
+    post.dynamicLikeCount += 1
   } else {
     // 已点赞，移除postId
     postLikeIds.splice(likedIndex, 1)
     // 点赞数不减少，保持原有逻辑
+    post.dynamicLikeCount -= 1
   }
 
   // 同步更新userStore，并回传iOS
@@ -287,8 +289,8 @@ function commentReportSelect(value) {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: calc(100vw * 58 / 375);
-  height: calc(100vw * 58 / 375);
+  width: calc(100vw * 70 / 375);
+  height: calc(100vw * 70 / 375);
   z-index: 2;
 }
 
@@ -356,7 +358,7 @@ function commentReportSelect(value) {
 }
 
 .avatar-border-box {
-  background: rgba(241, 237, 224, 1);
+  background: rgba(25, 44, 65, 1);
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -364,8 +366,8 @@ function commentReportSelect(value) {
 }
 
 .avatar {
-  width: calc(100vw * 58 / 375);
-  height: calc(100vw * 58 / 375);
+  width: calc(100vw * 56 / 375);
+  height: calc(100vw * 56 / 375);
   border-radius: 50%;
   padding: calc(100vh * 1 / 812) calc(100vw * 1 / 375);
   box-sizing: border-box;
@@ -392,9 +394,7 @@ function commentReportSelect(value) {
   position: absolute;
   /* left: 50%; */
   bottom: 0;
-  right: 0;
-  width: calc(100vw * 20 / 375);
-  height: calc(100vw * 20 / 375);
+  right: calc(100vw * 5 / 375);
   /* border-radius: calc(100vw * 40 / 375); */
   /* background: rgba(255, 255, 255, 1); */
   display: flex;
@@ -406,8 +406,8 @@ function commentReportSelect(value) {
 }
 
 .follow img {
-  width: calc(100vw * 20 / 375);
-  height: calc(100vw * 20 / 375);
+  width: calc(100vw * 14 / 375);
+  height: calc(100vw * 14 / 375);
 }
 
 .user-text {
@@ -421,9 +421,9 @@ function commentReportSelect(value) {
 .username {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 21.55 / 375);
-  color: rgb(255, 255, 255);
+  font-weight: 900;
+  line-height: calc(100vw * 19.2 / 375);
+  color: rgba(0, 0, 0, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -434,8 +434,8 @@ function commentReportSelect(value) {
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   letter-spacing: 0px;
-  line-height: calc(100vw * 18.86 / 375);
-  color: rgb(255, 255, 255);
+  line-height: calc(100vw * 16.8 / 375);
+  color: rgba(0, 0, 0, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -455,9 +455,9 @@ function commentReportSelect(value) {
   /* flex: 1; */
   display: flex;
   align-items: center;
-  height: calc(100vh * 36 / 812);
+  height: calc(100vh * 32 / 812);
   border-radius: calc(100vw * 20 / 375);
-  background: rgb(0, 0, 0);
+  background: rgba(255, 255, 255, 1);
   /* margin-top: calc(100vh * 13 / 812);
   position: relative; */
 }
@@ -471,21 +471,20 @@ function commentReportSelect(value) {
   /* flex-direction: column; */
   align-items: center;
   justify-content: start;
-  gap: calc(100vw * 4 / 375);
+  gap: calc(100vw * 6 / 375);
   padding: 0 calc(100vw * 10 / 375);
 }
 
 .action-button img {
-  width: calc(100vw * 28 / 375);
-  height: calc(100vw * 28 / 375);
+  width: calc(100vw * 20 / 375);
+  height: calc(100vw * 20 / 375);
 }
 
 .action-button span {
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 21.55 / 375);
-  color: rgb(255, 255, 255);
+  font-size: calc(100vw * 12 / 375);
+  font-weight: 600;
+  color: rgba(0, 0, 0, 1);
 }
 
 .comment-overlay {

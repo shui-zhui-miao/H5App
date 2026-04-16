@@ -7,21 +7,19 @@
       <div class="top-bgc">
         <div class="top-section">
           <BackButton />
-          <p>Kira AI</p>
         </div>
-        <div class="top-ai-out-drection">
-          <div class="top-ai-bg-contanier">
-            <!-- <div class="top-ai-bg-contanier-text">Kira AI</div> -->
-            <div class="top-ai-bg-contanier-image"></div>
-            <!-- center -->
-            <div class="center-section">
-              <div
-                v-for="(item, index) in messages"
-                :key="index"
-                class="message-box"
-                @click="handleMessageClick(item)"
-              >
-                <span>{{ item }}</span>
+        <div class="bottom-first-box">
+          <div class="midd"></div>
+          <div class="bottom-first">
+            <div class="ai-user-container"></div>
+            <!-- <div class="ai-bgc-icon"></div> -->
+            <div class="ai-content">
+              <div class="ai-title-inter">
+                <div class="ai-title-inter-one">Kira Dance</div>
+                <div class="ai-title-inter-one">AI</div>
+                <div style="height: calc(100vh * 10 / 812);"></div>
+                <div class="ai-title-inter-two">Welcome to learn about</div>
+                <div class="ai-title-inter-two">dance.</div>
               </div>
             </div>
           </div>
@@ -102,7 +100,7 @@ const getFirstTime = () => {
 }
 
 const bottomItems = ref([
-  { sendId: '0', time: getFirstTime(), message: 'Hi there! I\'m Kira, your AI buddy for all things fun and.'},
+  { sendId: '0', time: getFirstTime(), message: 'Hi there! I’m Kira, your AI buddy for all things fun and creative.'},
 ])
 
 async function handleMessageClick(message) {
@@ -207,42 +205,9 @@ async function sendMessage() {
 
 .top-bgc {
   width: 100%;
-  /* height: calc(100vh * 281 / 812);
-  background-image: url('@/assets/aichattop.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat; */
   display: flex;
   flex-direction: column;
 }
-
-/* .aiusermodel {
-  position: absolute;
-  left: calc(100vw * 20 / 375);
-  top: calc(100vh * 40 / 812);
-  width: calc(100vw * 179 / 375);
-  height: calc(100vh * 314 / 812);
-  opacity: 1;
-  background-image: url('@/assets/aiusermodel.png'); 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 1;
-}
-
-.aichatmodel {
-  position: absolute;
-  left: calc(100vw * 181 / 375);
-  top: calc(100vh * 62 / 812);
-  width: calc(100vw * 104 / 375);
-  height: calc(100vh * 38 / 812);
-  opacity: 1;
-  background-image: url('@/assets/aichatmodel.png'); 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 1;
-} */
 
 .top-section {
   position: relative;
@@ -254,87 +219,101 @@ async function sendMessage() {
   gap: calc(100vh * 14 / 812);
 }
 
-.top-section p {
-  font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 26.94 / 375);
-  color: #fff;
-  margin: 0;
-}
-
-.top-ai-out-drection {
+.bottom-first-box {
+  position: relative;
   display: flex;
-  justify-content: center;
-  margin-top: calc(100vh * 33 / 812);
+  justify-content: end;
+  flex-direction: column;
 }
 
-.top-ai-bg-contanier {
+.midd{
+  position: absolute;
+  width: 100vw;
+  height: calc(100vh * 55 / 812);
+  background: #fff;
+  border-radius: calc(100vw * 40 / 375) calc(100vw * 40 / 375) 0 0;
+  transform: translateY(calc(100vh * 1 / 812));
+}
+
+.bottom-first {
   position: relative;
   width: calc(100vw * 335 / 375);
-  height: calc(100vh * 149 / 812);
-  background-image: url('@/assets/bottomfirstbgi.png');
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
-  background-repeat: no-repeat;
+  height: calc(100vh * 223 / 812);
+  margin: calc(100vh * 20 / 812) calc(100vw * 20 / 375) 0 calc(100vh * 20 / 812);
+  border-radius: calc(100vw * 40 / 375);
+  background: linear-gradient(180deg, rgba(69, 241, 217, 1) 0%, rgba(255, 255, 255, 1) 100%);
+  box-sizing: border-box;
 }
 
-.top-ai-bg-contanier-text {
+.ai-user-container {
   position: absolute;
-  top: calc(100vh * 33 / 812);
-  left: calc(100vw * 87 / 375);
-  font-family: 'PangMenZhengDaoBiaoTiTiMianFeiBan', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 21.2 / 375);
-  color: rgba(255, 255, 255, 1);
-}
-
-.top-ai-bg-contanier-image {
-  position: absolute;
-  right: calc(100vw * 0 / 375);
-  bottom: calc(100vh * 0 / 812);
-  width: calc(100vw * 145 / 375);
-  height: calc(100vh * 202 / 812);
+  right: 0;
+  bottom: 0;
+  width: calc(100vw * 160 / 375);
+  height: calc(100vh * 220 / 812);
   background-image: url('@/assets/aiuserpic.png');
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
+  background-size: contain; /* 等比缩放覆盖 */
+  background-position: right; /* 居中显示 */
   background-repeat: no-repeat;
+  z-index: 2;
 }
 
-.center-section {
-  margin-top: calc(100vh * 21 / 812);
-  /* margin-bottom: calc(100vh * 21 / 812); */
-  margin-left: calc(100vw * 16 / 375);
-  margin-right: calc(100vw * 16 / 375);
+.ai-bgc-icon {
+  position: absolute;
+  right: calc(100vw * 2 / 375);
+  top: calc(100vh * -12 / 812);
+  width: calc(100vw * 66 / 375);
+  height: calc(100vh * 66 / 812);
+  /* background-image: url('@/assets/aibgcicon.png');
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; */
+  z-index: 2;
+}
+
+.ai-content {
+  box-sizing: border-box;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: calc(100vh * 10 / 812);
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: calc(100vh * 32 / 812) calc(100vw * 23 / 375) calc(100vh * 14 / 812) calc(100vw * 18 / 375);
 }
 
-.message-box {
-  display: inline-flex;
-  align-items: center;
-  padding: calc(100vh * 6 / 812) calc(100vw * 13 / 375);
-  border-radius: calc(100vw * 10 / 375) 0px calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(255, 255, 255, 0.5);
-  /* backdrop-filter: blur(calc(100vw * 8 / 375)); */
+.ai-title-inter {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* padding: 0 calc(100vw * 22 / 375); */
+  z-index: 3;
+}
+
+.ai-title-inter-one {
+  /* padding-right: calc(100vw * 7 / 375); */
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 12 / 375);
+  font-size: calc(100vw * 30 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 36 / 375);
+  color: rgba(0, 0, 0, 1);
+  text-shadow: 0 calc(100vw * 2 / 375) calc(100vw * 4 / 375)  rgba(0, 0, 0, 0.25);
+}
+
+.ai-title-inter-two {
+  font-family: 'Barlow', sans-serif;
+  font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 16.16 / 375);
-  letter-spacing: 0;
-  color: rgb(255, 255, 255);
-  width: fit-content; /* Wrap width to content */
-  justify-content: flex-start; /* Align content to left */
+  line-height: calc(100vw * 16.8 / 375);
+  color: rgba(0, 0, 0, 1);
 }
 
 .bottom-section {
-  margin-top: calc(100vh * 30 / 812);
+  padding-top: calc(100vh * 10 / 812);
   flex: 1;
   display: flex;
   flex-direction: column;
   min-height: 0; /* ⚡ 关键 */
+  background: #fff;
   /* border-radius: calc(100vw * 30 / 375) calc(100vw * 30 / 375) 0px 0px;
   background: rgba(255, 255, 255, 1);
   box-shadow: 0px 0px calc(100vw * 4 / 375)  rgba(0, 0, 0, 0.1); */
@@ -347,7 +326,7 @@ async function sendMessage() {
   padding: 0 0 calc(100vh * 90 / 812) 0;
   display: flex;
   flex-direction: column;
-  gap: calc(100vh * 12 / 812);
+  gap: calc(100vh * 16 / 812);
 }
 
 /* Optional: hide scrollbar */
@@ -376,9 +355,8 @@ async function sendMessage() {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 21.55 / 375);
-  letter-spacing: 0;
-  color: rgb(255, 255, 255);
+  line-height: auto;
+  color: rgba(102, 102, 102, 1);
 }
 
 .chat-content {
@@ -386,7 +364,7 @@ async function sendMessage() {
   align-items: flex-start;
   gap: calc(100vw * 12 / 375);
   margin-left: calc(100vw * 20 / 375);
-  margin-right: calc(100vw * 96 / 375);
+  margin-right: calc(100vw * 37 / 375);
 }
 
 .chat-content-rigth {
@@ -394,7 +372,7 @@ async function sendMessage() {
   align-items: flex-start;
   justify-content: end;
   gap: calc(100vw * 12 / 375);
-  margin-left: calc(100vw * 96 / 375);
+  margin-left: calc(100vw * 37 / 375);
   margin-right: calc(100vw * 20 / 375);
 }
 
@@ -406,7 +384,7 @@ async function sendMessage() {
 
 .chat-avatar-rigth-border-box {
   flex-shrink: 0;
-  background: rgba(142, 108, 219, 1);
+  background: rgba(219, 188, 255, 1);
   border-radius: 50%; /* fully circular */
   display: flex;
   justify-content: center;
@@ -436,34 +414,34 @@ async function sendMessage() {
 
 .chat-message {
   border-radius: 0px calc(100vw * 10 / 375) calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(142, 108, 219, 1);
+  background: rgba(69, 241, 217, 1);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375);
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 12 / 375);
+  font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 16.16 / 375);
+  line-height: calc(100vw * 16.8 / 375);
   letter-spacing: 0;
-  color: rgb(255, 255, 255);
+  color: rgba(0, 0, 0, 1);
 }
 
 .chat-message-rigth {
   border-radius: calc(100vw * 10 / 375) 0px calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(244, 142, 90, 1);
+  background: rgba(219, 188, 255, 1);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375);
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 12 / 375);
+  font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 16.16 / 375);
+  line-height: calc(100vw * 16.8 / 375);
   letter-spacing: 0;
-  color: rgb(255, 255, 255);
+  color: rgba(255, 255, 255, 1);
 }
 
 .bottom-input {
@@ -473,11 +451,11 @@ async function sendMessage() {
   bottom: calc(100vh * 29 / 812);
   height: calc(100vh * 54 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(244, 142, 90, 1);
+  background: rgba(219, 188, 255, 1);
   backdrop-filter: blur(calc(100vw * 32 / 375));
   display: flex;
   align-items: center;
-  padding: 0 calc(100vw * 5 / 375) 0 calc(100vw * 16 / 375);
+  padding: 0 calc(100vw * 11 / 375) 0 calc(100vw * 9 / 375);
   gap: calc(100vw * 16 / 375);
   box-sizing: border-box;
 }
@@ -490,7 +468,7 @@ async function sendMessage() {
   /* font-family: 'OPPOSansRegular', sans-serif; */
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 18.86 / 375);
+  line-height: calc(100vw * 16.8 / 375);
   letter-spacing: 0;
   color: #fff;
 }
@@ -500,10 +478,10 @@ async function sendMessage() {
 }
 
 .send-icon {
-  width: calc(100vw * 44 / 375);
-  height: calc(100vw * 44 / 375);
+  width: calc(100vw * 36 / 375);
+  height: calc(100vw * 36 / 375);
   border-radius: 50%;
-  background: #fff;
+  background: rgba(25, 44, 65, 1);
   /* cursor: pointer; */
   display: flex;
   flex-direction: column;
@@ -513,7 +491,7 @@ async function sendMessage() {
 }
 
 .send-icon img {
-  width: calc(100vw * 22 / 375);
-  height: calc(100vw * 22 / 375);
+  width: calc(100vw * 28 / 375);
+  height: calc(100vw * 28 / 375);
 }
 </style>

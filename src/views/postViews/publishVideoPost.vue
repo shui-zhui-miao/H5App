@@ -218,24 +218,24 @@ const getVideoInfo = async (videoUrl) => {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 18.86 / 375);
+  line-height: calc(100vw * 16.8 / 375);
   background: transparent;
   color: #000000;
 }
 
 .post-textarea::placeholder {
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(153, 153, 153, 1);
 }
 
 .text-count {
   position: absolute;
-  right: calc(100vw * 16 / 375);
-  bottom: calc(100vh * 16 / 812);
+  right: calc(100vw * 7 / 375);
+  bottom: calc(100vh * 12 / 812);
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 18.86 / 375);
-  color: rgba(0, 0, 0, 0.4);
+  line-height: calc(100vw * 16.8 / 375);
+  color: rgba(153, 153, 153, 1);
 }
 
 .theme-label {
@@ -243,8 +243,8 @@ const getVideoInfo = async (videoUrl) => {
   margin-left: calc(100vw * 20 / 375);
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 26.94 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 24 / 375);
   color: rgb(255, 255, 255);
   text-align: left;
 }
@@ -265,11 +265,11 @@ const getVideoInfo = async (videoUrl) => {
 }
 
 .upload-item {
-  width: calc(100vw * 108 / 375);
+  width: calc(100vw * 106 / 375);
   height: calc(100vw * 106 / 375);
   flex-shrink: 0;
   border-radius: calc(100vw * 20 / 375);
-  background:rgba(255, 255, 255, 0.16);
+  background:rgba(255, 255, 255, 1);
   backdrop-filter: blur(calc(100vw * 12 / 375));
   display: flex;
   justify-content: center;
@@ -286,9 +286,9 @@ const getVideoInfo = async (videoUrl) => {
 }
 
 .upload-add {
-  width: calc(100vw * 26 / 375);
-  height: calc(100vw * 26 / 375);
-  background-image: url('@/assets/uploadpic.png');
+  width: calc(100vw * 20 / 375);
+  height: calc(100vw * 20 / 375);
+  background-image: url('@/assets/oeirbjmfdmb.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -310,17 +310,15 @@ const getVideoInfo = async (videoUrl) => {
 
 /* Release Button Styles */
 .release-button {
-  width: calc(100vw * 264 / 375);
-  height: calc(100vh * 60 / 812);
-  background-image: url('@/assets/zhubtnbgi.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  width: calc(100vw * 198 / 375);
+  height: calc(100vh * 53 / 812);
+  background: rgba(69, 241, 217, 1);
+  border-radius: calc(100vw * 40 / 375);
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 24 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 32.33 / 375);
-  color: #fff;
+  font-size: calc(100vw * 20 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 24 / 375);
+  color: rgba(0, 0, 0, 1);
   display: flex;
   align-items: center;
   justify-content: center;

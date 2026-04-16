@@ -10,32 +10,34 @@
       </div>
       <div class="bottom-scroll">
         <div class="bottom-first-box">
+          <div class="midd"></div>
           <div class="bottom-first">
             <div class="ai-user-container"></div>
             <!-- <div class="ai-bgc-icon"></div> -->
             <div class="ai-content">
               <div class="ai-title-inter">
-                <div class="ai-title-inter-one">Kira Ai</div>
-                <div class="ai-title-inter-two">Hello, I'm your smart AI assistant. Feel free to ask me any questions you may have.</div>
+                <div class="ai-title-inter-one">Kira Dance</div>
+                <div class="ai-title-inter-one">AI</div>
+                <div style="height: calc(100vh * 10 / 812);"></div>
+                <div class="ai-title-inter-two">Welcome to learn about</div>
+                <div class="ai-title-inter-two">dance.</div>
               </div>
-              <div class="ai-prop-box">Welcome toKira Ai</div>
             </div>
           </div>
         </div>
         <div class="bottom-section">
           <div class="bottom-container">
             <div class="bottom-top">
-              <div class="bottom-title">Kira AI</div>
-              <div class="bottom-text">Hi! I’m Kira, your friendly AI companion, here to help you create and explore the world of vlogging! Whether you’re into travel vlogs, lifestyle, tech reviews, or anything in between, I’m here to brainstorm ideas, share tips, and keep the creativity flowing. Ready to start your next vlog adventure together? Let’s chat, inspire each other, and create something amazing every day!</div>
+              <div class="bottom-text">Hi! I’m Kira, your friendly AI companion for all things dance. Whether you’re taking your first step, refining your moves, or just looking to express yourself and feel alive, I’m here to share tips, answer questions, and keep your dance journey inspiring and joyful. Ready to move, groove, and shine together? Let’s turn up the energy and dance like no one’s watching every single day!</div>
             </div>
-          <!-- 购买 -->
-          <div class="purchase-container" @click="handlePurchaseClick">
-            <div class="purchase-info">
-              <div class="purchase-icon"></div>
-              <div class="purchase-count">x 200</div>
+            <!-- 购买 -->
+            <div class="purchase-container" @click="handlePurchaseClick">
+              <div class="purchase-info">
+                <div class="purchase-icon"></div>
+                <div class="purchase-count">x 200</div>
+              </div>
+              <div class="chat-box">Chat</div>
             </div>
-            <div class="chat-box">Chat</div>
-          </div>
           </div>
         </div>
       </div>
@@ -124,30 +126,40 @@ function handleRechargeEvent(value) {
 }
 
 .bottom-first-box {
+  position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: end;
+  flex-direction: column;
+}
+
+.midd{
+  position: absolute;
+  width: 100vw;
+  height: calc(100vh * 55 / 812);
+  background: #fff;
+  border-radius: calc(100vw * 40 / 375) calc(100vw * 40 / 375) 0 0;
+  transform: translateY(calc(100vh * 1 / 812));
 }
 
 .bottom-first {
   position: relative;
-  margin: calc(100vh * 42 / 812) calc(100vw * 0 / 375) calc(100vh * 0 / 812);
-  background-image: url('@/assets/bottomfirstbgi.png');
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
-  background-repeat: no-repeat;
   width: calc(100vw * 335 / 375);
-  height: calc(100vh * 149 / 812);
+  height: calc(100vh * 223 / 812);
+  margin: calc(100vh * 20 / 812) calc(100vw * 20 / 375) 0 calc(100vh * 20 / 812);
+  border-radius: calc(100vw * 40 / 375);
+  background: linear-gradient(180deg, rgba(69, 241, 217, 1) 0%, rgba(255, 255, 255, 1) 100%);
+  box-sizing: border-box;
 }
 
 .ai-user-container {
   position: absolute;
-  right: calc(100vw * 0 / 375);
-  bottom: calc(100vh * 0 / 812);
-  width: calc(100vw * 145 / 375);
-  height: calc(100vh * 202 / 812);
+  right: 0;
+  bottom: 0;
+  width: calc(100vw * 160 / 375);
+  height: calc(100vh * 220 / 812);
   background-image: url('@/assets/aiuserpic.png');
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
+  background-size: contain; /* 等比缩放覆盖 */
+  background-position: right; /* 居中显示 */
   background-repeat: no-repeat;
   z-index: 2;
 }
@@ -172,14 +184,13 @@ function handleRechargeEvent(value) {
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  padding: calc(100vh * 10 / 812) calc(100vw * 156 / 375) calc(100vh * 14 / 812) calc(100vw * 18 / 375);
+  padding: calc(100vh * 32 / 812) calc(100vw * 23 / 375) calc(100vh * 14 / 812) calc(100vw * 18 / 375);
 }
 
 .ai-title-inter {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: calc(100vh * 5 / 812);
   /* padding: 0 calc(100vw * 22 / 375); */
   z-index: 3;
 }
@@ -187,30 +198,23 @@ function handleRechargeEvent(value) {
 .ai-title-inter-one {
   /* padding-right: calc(100vw * 7 / 375); */
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 24 / 375);
+  font-size: calc(100vw * 30 / 375);
   font-weight: 700;
-  line-height: calc(100vw * 32.33 / 375);
-  color: rgba(255, 255, 255, 1);
+  line-height: calc(100vw * 36 / 375);
+  color: rgba(0, 0, 0, 1);
+  text-shadow: 0 calc(100vw * 2 / 375) calc(100vw * 4 / 375)  rgba(0, 0, 0, 0.25);
 }
 
 .ai-title-inter-two {
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 11 / 375);
+  font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 14.82 / 375);
-  color: rgba(255, 255, 255, 1);
+  line-height: calc(100vw * 16.8 / 375);
+  color: rgba(0, 0, 0, 1);
 }
 
-.ai-prop-box {
-  font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 21.55 / 375);
-  color: rgb(0, 0, 0);
-  padding: calc(100vh * 5 / 812) calc(100vw * 14 / 375);
-  border-radius: calc(100vw * 16 / 375);
-  background: rgba(255, 255, 255, 1);
-}
+
+
 
 .bottom-section {
   flex: 1;
@@ -218,6 +222,7 @@ function handleRechargeEvent(value) {
   display: flex;
   justify-content: flex-start;
   z-index: 99;
+  background: #fff;
 }
 
 .bottom-container { 
@@ -237,13 +242,7 @@ function handleRechargeEvent(value) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: calc(100vh * 40 / 812) calc(100vw * 30 / 375) 0;
-  border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: calc(100vw * 4 / 375);
-  /* box-shadow: 0px 0px calc(100vw * 10 / 375)  rgba(0, 0, 0, 0.06); */
-  padding: calc(100vh * 16 / 812) calc(100vw * 16 / 375);
-  gap: calc(100vw * 16 / 375);
+  margin: calc(100vh * 20 / 812) calc(100vw * 30 / 375) 0 calc(100vw * 30 / 375);
 }
 
 .bottom-title {
@@ -258,23 +257,21 @@ function handleRechargeEvent(value) {
 
 .bottom-text {
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 18 / 375);
-  font-weight: 400;
+  font-size: calc(100vw * 16 / 375);
+  font-weight: 600;
   line-height: calc(100vw * 30 / 375);
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(0, 0, 0, 1);
   text-align: center;
   overflow-y: auto;
 }
 
 .purchase-container {
   margin-bottom: calc(100vh * 34 / 812);
-  width: calc(100vw * 264 / 375);
-  height: calc(100vh * 60 / 812);
-  background-image: url('@/assets/zhubtnbgi.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  width: calc(100vw * 189 / 375);
+  height: calc(100vh * 53 / 812);
+  background: rgba(69, 241, 217, 1);
+  border-radius: calc(100vw * 40 / 375);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -289,8 +286,8 @@ function handleRechargeEvent(value) {
 }
 
 .purchase-icon {
-  width: calc(100vw * 44 / 375);
-  height: calc(100vh * 31 / 812);
+  width: calc(100vw * 36 / 375);
+  height: calc(100vh * 36 / 812);
   background-image: url('@/assets/coin.png'); /* replace with your local image */
   background-size: cover;
   background-position: center;
@@ -300,26 +297,19 @@ function handleRechargeEvent(value) {
 .purchase-count {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 26.94 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 24 / 375);
   letter-spacing: 0;
-  color: rgb(255, 255, 255);
+  color: rgba(0, 0, 0, 1);
 }
 
 .chat-box {
-  /* width: calc(100vw * 73 / 375);
-  height: calc(100vh * 38 / 812);
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(74, 32, 25, 1);
-  display: flex;
-  justify-content: center;
-  align-items: center; */
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 700;
-  line-height: calc(100vw * 21.55 / 375);
+  line-height: calc(100vw * 19.2 / 375);
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
   box-sizing: border-box;
 }
 

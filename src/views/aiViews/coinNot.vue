@@ -4,11 +4,15 @@
     <div class="coinnot-box">
       <div class="coinnot-bgc">
         <div class="coinnot-content">
+          <div class="coinnot-content-img"></div>
+          <div style="height: calc(100vh * 6 / 812);"></div>
           <div class="recharge-title">
             <div class="recharge-title-text">Sorry</div>
-            <div class="recharge-title-content">your current balance is insufficient</div>
+            <div style="height: calc(100vh * 2 / 812);"></div>
+            <div class="recharge-title-content">your current balance is</div>
+            <div class="recharge-title-content">insufficient</div>
           </div>
-          <div class="recharge-button" @click="handleRecharge"></div>
+          <div class="recharge-button" @click="handleRecharge">Recharge</div>
         </div>
       </div>
     </div>
@@ -31,25 +35,16 @@ function handleRecharge() {
   position: absolute;
 }
 
-.coninnot-bgi {
-  position: absolute;
-  top: calc(100vh * -89 / 812);
-  width: 100%;
-  height: calc(100vh * 401 / 812);
-  background-image: url('@/assets/coinnotbgi.png');
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
-  background-repeat: no-repeat;
-}
-
 .coinnot-box {
   display: flex;
   justify-content: center;
 } 
 
 .coinnot-bgc {
-  width: calc(100vw * 280 / 375);
-  height: calc(100vh * 315 / 812);
+  width: calc(100vw * 277 / 375);
+  min-height: calc(100vh * 317 / 812);
+  max-height: calc(100vh * 356 / 812);
+  border-radius: calc(100vw * 40 / 375);
   background-image: url('@/assets/coinnotbgi.png');
   background-size: cover;
   background-position: center;
@@ -61,12 +56,24 @@ function handleRecharge() {
 }
 
 .coinnot-content {
-  padding-bottom: calc(100vh * 32 / 812);
+  border: calc(100vw * 1 / 375) solid rgba(69, 241, 217, 1);
+  border-radius: calc(100vw * 34 / 375);
+  margin: calc(100vw * 11 / 375);
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: end;
   align-items: center;
-  gap: calc(100vh * 20 / 812);
+  box-sizing: border-box;
+}
+
+.coinnot-content-img{
+  width: calc(100vw * 100 / 375);
+  height: calc(100vw * 100 / 375);
+  background-image: url('@/assets/irubhnsknff.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .recharge-title {
@@ -74,7 +81,6 @@ function handleRecharge() {
   flex-direction: column;
   justify-content: center;
   align-self: center;
-  gap: calc(100vh * 10 / 812);
 }
 
 .recharge-title-text {
@@ -82,29 +88,35 @@ function handleRecharge() {
   justify-content: center;
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 24 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 32.33 / 375);
-  color: rgba(14, 28, 66, 1);
+  font-weight: 900;
+  line-height: calc(100vw * 28.8 / 375);
+  color: rgba(0, 0, 0, 1);
 }
 
 .recharge-title-content {
   display: flex;
   justify-content: center;
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 18 / 375);
+  font-size: calc(100vw * 16 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 24.25 / 375);
-  color: rgba(0, 0, 0, 0.6);
-  padding: 0 calc(100vw * 67 / 375) 0 calc(100vw * 58 / 375);
+  line-height: calc(100vw * 30 / 375);
+  color: rgba(51, 51, 51, 1);
   text-align: center;
 }
 
 .recharge-button {
-  width: calc(100vw * 187 / 375);
-  height: calc(100vh * 58 / 812);
-  background-image: url('@/assets/rechargebgi.png');
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
-  background-repeat: no-repeat;
+  width: calc(100vw * 203 / 375);
+  height: calc(100vh * 53 / 812);
+  border-radius: calc(100vw * 40 / 375);
+  background: rgba(69, 241, 217, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Barlow', sans-serif;
+  font-size: calc(100vw * 20 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 24 / 375);
+  color: rgba(0, 0, 0, 1);
+  margin: calc(100vh * 20 / 812) 0 calc(100vh * 16 / 812);
 }
 </style>

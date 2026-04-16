@@ -30,37 +30,35 @@
           <div class="post-content-row">
             <!-- 用户内容 -->
             <div class="user-box">
-            <div class="avatar-border-box">
-              <div class="avatar" @click="goOtherHome(postUser.userId)">
-                <div class="avatar-img" :style="{ backgroundImage: postUser && `url(${postUser.avator})` }"></div>
+              <div class="avatar-border-box">
+                <div class="avatar" @click="goOtherHome(postUser.userId)">
+                  <div class="avatar-img" :style="{ backgroundImage: postUser && `url(${postUser.avator})` }"></div>
+                </div>
+              </div>
+              <div class="user-name" @click="goOtherHome(postUser.userId)">
+                {{ postUser && postUser.name }}
               </div>
             </div>
-            <div class="user-name" @click="goOtherHome(postUser.userId)">
-              {{ postUser && postUser.name }}
+            <!-- 帖子内容 -->
+            <div class="second-box">
+              <div class="post-desc">
+                {{ post.dynamicDesc }}
+              </div>
+              <div class="tag-box">
+                <div class="tag-text"># {{ postTag }}</div>
+              </div>
             </div>
-          </div>
-          <!-- 帖子内容 -->
-          <div class="second-box">
-            <div class="post-desc">
-              {{ post.dynamicDesc }}
-            </div>
-            <div class="tag-box">
-              <div class="tag-text"># {{ postTag }}</div>
-            </div>
-          </div>
           </div>
         </div>
         <!-- 点赞内容 -->
         <div class="like-box" @click="toggleLike">
           <img :src="currentUserStore.currentUser.postLikeIds.includes(postId.toString()) ? likeImage : disLikeImage" alt="like" class="like-icon" />
-          <div class="like-count">{{ post.dynamicLikeCount + (currentUserStore.currentUser.postLikeIds.includes(postId.toString()) ? 1 : 0) }}</div>
+          <div class="like-count">{{ post.dynamicLikeCount }}</div>
         </div>
       </div>
       <!-- Comments -->
       <div class="comments-title">
-        <div class="comments-box1"></div>
         <div class="comments-title-text">Comments</div>
-        <div class="comments-box2"></div>
       </div>
       <!-- 评论列表 -->
         <template v-if="comments.length">
@@ -214,10 +212,12 @@ function toggleLike() {
   if (likedIndex === -1) {
     // 未点赞，添加postId到postLikeIds
     postLikeIds.push(postId)
+    post.dynamicLikeCount += 1
   } else {
     // 已点赞，移除postId
     postLikeIds.splice(likedIndex, 1)
     // 点赞数不减少，保持原有逻辑
+    post.dynamicLikeCount -= 1
   }
 
   // 同步更新userStore，并回传iOS
@@ -396,16 +396,16 @@ function sendComment() {
 
 .post-content {
   display: flex;
-  padding: calc(100vh * 24 / 812) calc(100vw * 20 / 375) 0;
+  padding: calc(100vh * 24 / 812) calc(100vw * 20 / 375) 0 0;
 }
 
 .user-box {
-  width: calc(100vw * 50 / 375);
+  width: calc(100vw * 48 / 375);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: calc(100vh * 2 / 812);
-  margin-right: calc(100vw * 19 / 375); /* 左间距15 */
+  margin-right: calc(100vw * 19 / 375); /* 右间距15 */
 }
 
 .post-row {
@@ -424,7 +424,7 @@ function sendComment() {
   display: flex;
   flex-direction: column;
   align-items: flex-start; /* 左对齐 */
-  gap: calc(100vh * 7 / 812); /* 上下间距7 */
+  gap: calc(100vh * 12 / 812); /* 上下间距7 */
 }
 
 .post-desc {
@@ -433,10 +433,11 @@ function sendComment() {
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   color: rgb(255, 255, 255);
-  line-height: calc(100vw * 18.86 / 375);
+  line-height: calc(100vw * 16.8 / 375);
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2; /* 超过三行省略 */
+  line-clamp: 2;
   overflow: hidden;
   text-align: left;
 }
@@ -445,7 +446,7 @@ function sendComment() {
   display: inline-flex;
   height: calc(100vh * 29 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(142, 108, 219, 1);
+  background: rgba(69, 241, 217, 1);
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -455,8 +456,8 @@ function sendComment() {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
-  flex-shrink: calc(100vw * 16.16 / 375);
-  color: rgb(255, 255, 255);
+  flex-shrink: calc(100vw * 14.4 / 375);
+  color: rgba(25, 44, 65, 1);
   padding: 0 calc(100vw * 10 / 375);
   text-align: center;
 }
@@ -467,17 +468,15 @@ function sendComment() {
 } */
 
 .avatar-border-box {
-  background: rgba(142, 108, 219, 1);
   border-radius: 50%;
   display: flex;
   justify-content: center;
 }
 
 .avatar {
-  width: calc(100vw * 36 / 375);
-  height: calc(100vw * 36 / 375);
+  width: calc(100vw * 48 / 375);
+  height: calc(100vw * 48 / 375);
   border-radius: 50%;
-  padding: calc(100vh * 1 / 812) calc(100vw * 1 / 375);
   box-sizing: border-box;
   object-fit: cover;
   overflow: hidden;
@@ -492,12 +491,12 @@ function sendComment() {
 }
 
 .user-name {
-  width: calc(100vw * 50 / 375);
+  width: calc(100vw * 48 / 375);
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 16 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 21.55 / 375);
-  color: rgb(255, 255, 255);
+  font-size: calc(100vw * 18 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 21.6 / 375);
+  color: rgba(211, 238, 241, 1);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -507,19 +506,19 @@ function sendComment() {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: calc(100vh * 4 / 812);
+  gap: calc(100vh * 2 / 812);
 }
 
 .like-icon {
-  width: calc(100vw * 28 / 375);
-  height: calc(100vw * 28 / 375);
+  width: calc(100vw * 36 / 375);
+  height: calc(100vw * 36 / 375);
 }
 
 .like-count {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 14.84 / 375);
+  font-weight: 700;
+  line-height: calc(100vw * 16.8 / 375);
   color: rgb(255, 255, 255);
   text-align: center;
 }
@@ -527,8 +526,7 @@ function sendComment() {
 .comments-title {
   display: flex;
   align-items: center;
-  padding: calc(100vh * 20 / 812) calc(100vw * 34 / 375) 0 calc(100vw * 20 / 375);
-  gap: calc(100vw * 6 / 375);
+  padding: calc(100vh * 20 / 812) calc(100vw * 20 / 375) 0 calc(100vw * 20 / 375) ;
 }
 
 .comments-box1 {
@@ -539,10 +537,10 @@ function sendComment() {
 
 .comments-title-text {
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 16 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 21.55 / 375);
-  color: rgb(255, 255, 255);
+  font-size: calc(100vw * 20 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 24 / 375);
+  color: rgba(69, 241, 217, 1);
 }
 
 .comments-box2 {
@@ -562,10 +560,10 @@ function sendComment() {
   display: flex;
   flex-direction: column;
   gap: calc(100vh * 4 / 812); /* 评论上下间隔10 */
-  padding: calc(100vh * 14 / 812) calc(100vw * 16 / 375) calc(100vh * 15 / 812);
+  padding: calc(100vh * 14 / 812) calc(100vw * 16 / 375) calc(100vh * 17 / 812) calc(100vw * 16 / 375);
   border-radius: calc(100vw * 20 / 375);
-  background:rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(calc(100vw * 12 / 375));
+  background:rgba(255, 255, 255, 1);
+  backdrop-filter: blur(calc(100vw * 20 / 375));
 }
 
 .comment-list-top {
@@ -587,8 +585,8 @@ function sendComment() {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
-  flex-shrink: calc(100vw * 16.16 / 375);
-  color: rgb(255, 255, 255);
+  flex-shrink: calc(100vw * 14.4 / 375);
+  color: rgba(51, 51, 51, 1);
   text-align: left;
 }
 
@@ -597,7 +595,7 @@ function sendComment() {
   width: calc(100vw * 33 / 375);
   height: calc(100vw * 33 / 375);
   border-radius: 50%;
-  border: calc(100vw * 1 / 375) solid rgba(142, 108, 219, 1);
+  border: calc(100vw * 1 / 375) solid rgba(25, 44, 65, 1);
   box-sizing: border-box;
   display: flex;
 }
@@ -613,9 +611,9 @@ function sendComment() {
 .comment-user-name {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 21.55 / 375);
-  color: rgb(255, 255, 255);
+  font-weight: 900;
+  line-height: calc(100vw * 19.2 / 375);
+  color: rgba(0, 0, 0, 1);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -642,13 +640,14 @@ function sendComment() {
   bottom: calc(100vh * 29 / 812);
   width: auto;
   height: calc(100vh * 54 / 812);
-  background: rgba(244, 142, 90, 1);
+  background: rgba(219, 188, 255, 1);
   backdrop-filter: blur(calc(100vw * 32 / 375));  
   border-radius: calc(100vw * 40 / 375);
+  box-shadow: 0 0 calc(100vw * 4 / 375)  rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 calc(100vw * 5 / 375) 0 calc(100vw * 16 / 375);
+  padding: 0 calc(100vw * 9 / 375) 0 calc(100vw * 11 / 375);
   z-index: 20;
 }
 
@@ -661,9 +660,9 @@ function sendComment() {
   /* font-family: 'OPPOSansRegular', sans-serif; */
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 18.86 / 375);
+  line-height: calc(100vw * 16.8 / 375);
   letter-spacing: 0;
-  color: #fff;;
+  color: #fff;
 }
 
 .input-field::placeholder {
@@ -671,9 +670,9 @@ function sendComment() {
 }
 
 .send-btn {
-  width: calc(100vw * 44 / 375);
-  height: calc(100vw * 44 / 375);
-  background: #fff;
+  width: calc(100vw * 36 / 375);
+  height: calc(100vw * 36 / 375);
+  background: rgba(25, 44, 65, 1);
   border-radius: 50%;
   /* cursor: pointer; */
   display: flex;
@@ -684,7 +683,7 @@ function sendComment() {
 }
 
 .send-btn img {
-  width: calc(100vw * 22 / 375);
-  height: calc(100vw * 22 / 375);
+  width: calc(100vw * 28 / 375);
+  height: calc(100vw * 28 / 375);
 }
 </style>
