@@ -99,11 +99,11 @@ function handleSubmit() {
   width: calc(100vw * 32 / 375);
   height: calc(100vw * 32 / 375);
   border-radius: calc(100vw * 8 / 375) 0px calc(100vw * 20 / 375) 0px;
-  background: rgba(0, 0, 0, 0.12);
+  background: rgba(211, 238, 241, 1);
 }
 
 .grid-item.selected .choose-box {
-  background: rgba(244, 142, 90, 1);
+  background: rgba(69, 241, 217, 1);
 }
 
 .check-icon {
@@ -121,11 +121,11 @@ function handleSubmit() {
 
 .report-content {
   padding: calc(100vh * 12 / 812) calc(100vw * 12 / 375) 0;
-  color: rgb(0, 0, 0);
+  color: rgba(36, 24, 24, 1);
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 21.55 / 375);
+  line-height: calc(100vw * 19.2 / 375);
 }
 
 .input-title {
@@ -133,20 +133,20 @@ function handleSubmit() {
   padding-left: calc(100vw * 20 / 375);
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 26.94 / 375);
-  color: rgb(255, 255, 255);
+  font-weight: 900;
+  line-height: calc(100vw * 24 / 375);
+  color: rgba(255, 255, 255, 1);
 }
 
 .input-box {
   position: relative;
   margin: calc(100vh * 16 / 812) calc(100vw * 20 / 375) 0;
-  height: calc(100vh * 103 / 812);
+  height: calc(100vh * 124 / 812);
   border-radius: calc(100vw * 16 / 375);
   background: rgb(255, 255, 255);
   /* box-shadow: 0px 0px calc(100vw * 4 / 375)  rgba(0, 0, 0, 0.06); */
   backdrop-filter: calc(100vw * 12 / 375);
-  padding: calc(100vh * 12 / 812) calc(100vw * 12 / 375);
+  padding: calc(100vh * 14 / 812) calc(100vw * 16 / 375);
   box-sizing: border-box;
 }
 
@@ -161,39 +161,37 @@ function handleSubmit() {
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   color: rgb(0, 0, 0); /* 输入文本颜色 */
-  line-height: calc(100vw * 18.86 / 375);
+  line-height: calc(100vw * 16.8 / 375);
 }
 
 .input-field :placeholder {
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(153, 153, 153, 1);
 }
 
 .char-count {
   position: absolute;
-  right: calc(100vw * 8 / 375);
-  bottom: calc(100vh * 8 / 812);
+  right: calc(100vw * 5 / 375);
+  bottom: calc(100vh * 10 / 812);
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  color: rgba(0, 0, 0, 0.5);
-  line-height: calc(100vw * 18.86 / 375);
+  color: rgba(153, 153, 153, 1);
+  line-height: calc(100vw * 16.8 / 375);
 }
 
 .btn-box {
   margin: 0 auto; /* 新增：水平居中 */
   margin-top: calc(100vh * 37 / 812);
   margin-bottom: calc(100vh * 34 / 812);
-  width: calc(100vw * 264 / 375);
-  height: calc(100vh * 60 / 812);
-  background-image: url('@/assets/zhubtnbgi.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  width: calc(100vw * 198 / 375);
+  height: calc(100vh * 53 / 812);
+  background: rgba(69, 241, 217, 1);
+  border-radius: calc(100vw * 40 / 375);
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 24 / 375);
-  font-weight: 700;
+  font-size: calc(100vw * 20 / 375);
+  font-weight: 900;
   line-height: calc(100vw * 32.33 / 375);
-  color: #fff;
+  color: rgba(0, 0, 0, 1);
   display: flex;
   justify-content: center;
   align-items: center;

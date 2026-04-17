@@ -23,10 +23,10 @@
 .empty-text {
   /* margin-top: calc(100vh * 5 / 812);  */
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 16 / 375);
+  font-size: calc(100vw * 18 / 375);
   font-weight: 400;
   letter-spacing: 0px;
-  line-height: calc(100vw * 21.55 / 375);
+  line-height: calc(100vw * 21.6 / 375);
   color: rgb(255, 255, 255);
 }
 </style>

@@ -3,21 +3,29 @@
     <div class="bg-gradient" :style="{ backgroundImage: `url(${userInfo.avator})` }">
       <div class="bg-colors-111"></div>
     </div>
-    <!-- Top Avatar Container -->
-    <div class="avatar-outer">
-      <div class="avator-border-box">
-        <img :src="userInfo.avator" alt="User Avatar" />
-      </div>
-    </div>
-
-    <!-- Bottom Control Panel -->
-    <div class="hangup">
-      <div class="call-left">
+    <div class="content">
+      <div class="content-top">
+        <BackButton />
         <div class="user-name">{{ userInfo.name }}</div>
-        <div class="calling-text">{{ callingText }}</div>
+        <MoreButton @click="$emit('showReport')" />
       </div>
-      <div class="hangup-btn" @click="hangup">
-        <img src="@/assets/hangupicon.png" alt="hangup" />
+      <!-- Top Avatar Container -->
+      <div class="avatar-outer">
+        <div class="avator-border-box2">
+          <div class="avator-border-box1">
+            <div class="avator-border-box">
+              <img :src="userInfo.avator" alt="User Avatar" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Control Panel -->
+      <div class="hangup">
+        <div class="hangup-btn" @click="hangup">
+          <img src="@/assets/hangupicon.png" alt="hangup" />
+        </div>
+        <div class="calling-text">{{ callingText }}</div>
       </div>
     </div>
   </div>
@@ -26,9 +34,11 @@
 <script setup>
 import { defineProps, defineEmits, ref, onMounted, onUnmounted } from 'vue'
 import { useUserStore } from '@/stores/user'
+import BackButton from '@/components/back.vue'
+import MoreButton from '@/components/more.vue'
 
 const props = defineProps({ userId: String })
-const emits = defineEmits(['hangup'])
+const emits = defineEmits(['hangup','showReport'])
 
 const userStore = useUserStore()
 const userInfo = userStore.getUserById(props.userId)
@@ -77,7 +87,23 @@ function hangup() {
 .bg-colors-111 {
   width: 100%;
   height: 100%;
-  background: linear-gradient(0deg, rgba(142, 108, 219, 1) 0%, rgba(255, 255, 255, 0) 99.84%);
+  background: linear-gradient(180deg, rgba(219, 188, 255, 0) 0%, rgba(219, 188, 255, 1) 100%);
+}
+.content{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+  padding-top: calc(100vh * 55 / 812);
+}
+.content-top{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: calc(100vw * 6 / 375);
 }
 
 .video-call {
@@ -102,17 +128,37 @@ function hangup() {
   gap: calc(100vh * 20 / 812);
 }
 
-.avator-border-box {
+.avator-border-box2{
+  width: calc(100vw * 162 / 375);
+  height: calc(100vw * 162 / 375);
   display: flex;
   justify-content: center;
+  align-items: center;
   border-radius: 50%;
-  background: rgba(142, 108, 219, 1);
+  background: rgba(255, 255, 255, 0.2);
+}
+.avator-border-box1{
+  width: calc(100vw * 144 / 375);
+  height: calc(100vw * 144 / 375);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+}
+.avator-border-box {
+  width: calc(100vw * 126 / 375);
+  height: calc(100vw * 126 / 375);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
 }
 
 .avator-border-box img{
   width: calc(100vw * 104 / 375);
   height: calc(100vw * 104 / 375);
-  padding: calc(100vh * 1 / 812) calc(100vw * 1 / 375);
   border-radius: 50%;
   object-fit: cover;
   overflow: hidden;
@@ -164,50 +210,55 @@ function hangup() {
 
 .user-name {
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 20 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 26.94 / 375);
-  color: rgb(0, 0, 0);
+  font-size: calc(100vw * 16 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 19.2 / 375);
+  color: rgba(255, 255, 255, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 0;
+  flex-grow: 1;
+  text-align: center;
 }
 
 .calling-text {
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 14 / 375);
+  font-size: calc(100vw * 16 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 18.86 / 375);
-  color: rgb(0, 0, 0);
+  line-height: calc(100vw * 19.2 / 375);
+  color: rgba(255, 255, 255, 1);
 }
 
 .hangup {
   margin-bottom: calc(100vh * 40 / 812);
   width: calc(100vw * 313 / 375);
   /* height: calc(100vw * 91 / 375); */
-  border-radius: calc(100vw * 40 / 375);
   /* border: 1px solid rgba(255, 255, 255, 0.6); */
-  background: #fff;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375) calc(100vh * 10 / 812) calc(100vw * 20 / 375);
+  gap: calc(100vh * 12 / 812);
 }
 
 .hangup-btn {
   width: calc(100vw * 60 / 375);
   height: calc(100vw * 60 / 375);
   border-radius: 50%;
-  background: rgba(255, 28, 100, 1);
+  background: rgba(255, 60, 46, 1);
   display: flex;
   align-items: center;
   justify-content: center;
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
+  box-sizing: border-box;
 }
 
 .hangup-btn img {
-  width: calc(100vw * 28 / 375);
-  height: calc(100vw * 28 / 375);
+  width: calc(100vw * 38 / 375);
+  height: calc(100vw * 38 / 375);
   object-fit: cover;
   overflow: hidden;
+  margin: calc(100vw * 6 / 375) calc(100vw * 4 / 375) 0 0;
 }
 </style>

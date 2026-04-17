@@ -12,16 +12,14 @@
                     <div class="user-info">
                       <div class="avator-box-border">
                         <div class="avatar-box">
-                            <div class="avatar-inner">
-                                <img :src="item.avator" alt="avatar" />
-                            </div>
+                            <img class="avatar-inner" :src="item.avator" alt="avatar" />
                         </div>
                       </div>
                       <div class="user-name">{{ item.name }}</div>
                     </div>
                     <div class="user-intro">{{ item.about }}</div>
                 </div>
-                <div class="fan-right" @click="addFollow(item.userId)"></div>
+                <div class="fan-right" @click="addFollow(item.userId)">Follow</div>
             </div>
         </div>
         <Empty class="empty" v-else />
@@ -106,8 +104,8 @@ function addFollow(userId) {
 .edit-title {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 26.94 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 24 / 375);
   color: rgb(255, 255, 255);
   /* background: linear-gradient(
     141.29deg,
@@ -139,11 +137,10 @@ function addFollow(userId) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: calc(100vh * 79 / 812);
-  border-radius: calc(100vw * 20 / 375);
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06);
-  padding: 0 calc(100vw * 16 / 375);
+  height: calc(100vh * 73 / 812);
+  border-radius: calc(100vw * 40 / 375);
+  background: rgba(255, 255, 255);
+  padding: calc(100vh * 10 / 812) calc(100vw * 16 / 375);
   box-sizing: border-box;
 }
 
@@ -181,7 +178,7 @@ function addFollow(userId) {
   width: calc(100vw * 32 / 375);
   height: calc(100vw * 32 / 375);
   border-radius: 50%;
-  border: calc(100vw * 1 / 375) solid rgba(142, 108, 219, 1);
+  border: calc(100vw * 1 / 375) solid rgba(219, 188, 255, 1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -189,7 +186,7 @@ function addFollow(userId) {
   overflow: hidden;
 }
 
-.avatar-inner img {
+.avatar-inner {
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -200,8 +197,8 @@ function addFollow(userId) {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
   font-weight: 700;
-  line-height: calc(100vw * 21.55 / 375);
-  color: rgb(255, 255, 255);
+  line-height: calc(100vw * 19.2 / 375);
+  color: rgba(0, 0, 0, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -211,8 +208,8 @@ function addFollow(userId) {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 18.86 / 375);
-  color: rgb(255, 255, 255);
+  line-height: auto;
+  color: rgba(102, 102, 102, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -222,10 +219,14 @@ function addFollow(userId) {
   min-width: 0;
   width: calc(100vw * 63 / 375);
   height: calc(100vh * 28 / 812);
-  background-image: url('@/assets/addfollow.png');
-  background-size: cover; /* 等比缩放覆盖 */
-  background-position: center; /* 居中显示 */
-  background-repeat: no-repeat;
+  border-radius: calc(100vw * 40 / 375);
+  background: rgba(0, 0, 0, 1);
+  color: rgba(255, 255, 255, 1);
+  font-family: 'Barlow', sans-serif;
+  font-size: calc(100vw * 14 / 375);
+  font-weight: 400;
+  line-height: calc(100vh * 28 / 812);
+  text-align: center;
 }
 
 .empty {

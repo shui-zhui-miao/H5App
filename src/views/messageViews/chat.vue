@@ -20,7 +20,7 @@
           <div class="icon-group">
             <img src="@/assets/chatpicicon.png" class="icon" @click="selectImage" />
             <input ref="imageInput" type="file" accept="image/*" style="display:none" @change="handleImageChange" />
-            <img src="@/assets/chatvideoicon.png" class="icon" @click="openVideoCall" />
+            <!-- <img src="@/assets/chatvideoicon.png" class="icon" @click="openVideoCall" /> -->
           </div>
           <MoreButton @click="showReport = true" />
         </div>
@@ -61,11 +61,11 @@
     <!-- Video Call Sheet -->
     <transition name="slide-up">
       <div v-if="showVideoCall" class="video-call-sheet">
-        <VideoCall :userId="otherUser.userId" @hangup="closeVideoCall" />
+        <VideoCall :userId="otherUser.userId" @hangup="closeVideoCall" @showReport="showReport = true"/>
       </div>
     </transition>
 
-    <ReportDialog v-if="showReport" @close="showReport = false" @select="reportSelect" >
+    <ReportDialog v-if="showReport" @close="showReport = false" @select="reportSelect">
     </ReportDialog>
   </div>
 </template>
@@ -244,7 +244,8 @@ function reportSelect(value) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background: rgba(14, 8, 15, 1);
+  background: url('@/assets/pagebgc.png') no-repeat center center;
+  background-size: cover;
   overflow: hidden;
 }
 
@@ -252,7 +253,6 @@ function reportSelect(value) {
   height: calc(100vh * 162 / 812);
   /* background-image: url('@/assets/chattopbg.png');
   background-size: cover;  */
-  background: rgba(142, 108, 219, 1);
   overflow: hidden;
 }
 
@@ -279,7 +279,7 @@ function reportSelect(value) {
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: calc(100vw * 15 / 375);
+  gap: calc(100vw * 17 / 375);
 }
 
 .user-info {
@@ -287,7 +287,7 @@ function reportSelect(value) {
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: calc(100vw * 12 / 375);
+  gap: calc(100vw * 10 / 375);
 }
 
 .avatar-border-box {
@@ -311,8 +311,8 @@ function reportSelect(value) {
   min-width: 0; */
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 21.55 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 19.2 / 375);
   letter-spacing: 0;
   color: #fff;
   /* background: linear-gradient(
@@ -332,17 +332,17 @@ function reportSelect(value) {
 .right-part {
   display: flex;
   align-items: center;
-  gap: calc(100vw * 26 / 375);
+  gap: calc(100vw * 10 / 375);
 }
 
 .icon-group {
   display: flex;
-  gap: calc(100vw * 24 / 375);
+  gap: calc(100vw * 21 / 375);
 }
 
 .icon {
-  width: calc(100vw * 24 / 375);
-  height: calc(100vw * 24 / 375);
+  width: calc(100vw * 30 / 375);
+  height: calc(100vw * 30 / 375);
   cursor: pointer;
 }
 
@@ -363,8 +363,9 @@ function reportSelect(value) {
   display: flex;
   /* flex-direction: column; */
   align-items: flex-start;
+  justify-content: flex-start;
   gap: calc(100vh * 10 / 812);
-  margin: 0 calc(100vw * 74 / 375) 0 calc(100vw * 20 / 375); /* 默认靠左消息 */
+  margin: 0 calc(100vw * 100 / 375) 0 calc(100vw * 20 / 375); /* 默认靠左消息 */
 }
 
 .chat-left {
@@ -376,24 +377,24 @@ function reportSelect(value) {
 .chat-right {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: calc(100vh * 8 / 812);
 }
 
 .chat-avatar-border {
   border-radius: 50%;
-  background: rgba(244, 142, 90, 1);
+  background: rgba(69, 241, 217, 1);
   display: flex;
   justify-content: center;
 }
 
 .own-chat-avatar-border {
-  background: rgba(142, 108, 219, 1);
+  background: rgba(219, 188, 255, 1);
 }
 
 .chat-avatar {
-  width: calc(100vw * 44 / 375);
-  height: calc(100vw * 44 / 375);
+  width: calc(100vw * 38 / 375);
+  height: calc(100vw * 38 / 375);
   border-radius: 50%;
   padding: calc(100vh * 1 / 812) calc(100vw * 1 / 375);
   box-sizing: border-box;
@@ -413,20 +414,20 @@ function reportSelect(value) {
 
 .chat-message {
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 16 / 375);
+  font-size: calc(100vw * 12 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 21.55 / 375);
-  color: rgb(255, 255, 255);
+  line-height: calc(100vw * 14.4 / 375);
+  color: rgba(0, 0, 0, 1);
   padding: calc(100vh * 10 / 812) calc(100vw * 10 / 375);
   border-radius: 0px calc(100vw * 10 / 375) calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(244, 142, 90, 1);
+  background: rgba(69, 241, 217, 1);
 }
 
 .chat-time {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 12 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 16.16 / 375);
+  line-height: calc(100vw * 14.4 / 375);
   color: rgba(153, 153, 153, 1);
   text-align: right;
 }
@@ -434,29 +435,29 @@ function reportSelect(value) {
 .chat-item.own-message {
   /* flex-direction: row-reverse; */
   /* align-items: flex-end; */
-  margin: 0 calc(100vw * 20 / 375) 0 calc(100vw * 61 / 375); /* 自己消息靠右反转间距 */
+  margin: 0 calc(100vw * 20 / 375) 0 calc(100vw * 100 / 375); /* 自己消息靠右反转间距 */
+  justify-content: flex-end;
 }
 
 .chat-item.own-message .chat-right {
-  align-items: flex-start;
+  align-items: flex-end;
 }
 
 .chat-item.own-message .chat-message {
   border-radius: calc(100vw * 10 / 375) 0px calc(100vw * 10 / 375) calc(100vw * 10 / 375);
-  background: rgba(142, 108, 219, 1);
-  color: #fff;
+  background: rgba(219, 188, 255, 1);
+  color: rgba(0, 0, 0, 1);
 }
 
 /* image message styles */
 .chat-message-image .image-container {
   border-radius: calc(100vw * 20 / 375);
-  border: calc(100vw * 5 / 375) solid #ffffff;
   /* background: rgba(255, 255, 255, 1);
   padding: calc(100vw * 5 / 375); */
 }
 
 .chat-message-image .image-container img {
-  width: 100%;
+  width: calc(100vw * 110 / 375);
   height: auto;
   border-radius: calc(100vw * 20 / 375);
   object-fit: contain;
@@ -469,11 +470,11 @@ function reportSelect(value) {
   bottom: calc(100vh * 29 / 812);
   height: calc(100vh * 54 / 812);
   border-radius: calc(100vw * 40 / 375);
-  background: rgba(244, 142, 90, 1);
+  background: rgba(219, 188, 255, 1);
   backdrop-filter: blur(calc(100vw * 32 / 375));
   display: flex;
   align-items: center;
-  padding: 0 calc(100vw * 5 / 375) 0 calc(100vw * 16 / 375);
+  padding: 0 calc(100vw * 9 / 375) 0 calc(100vw * 11 / 375);
   gap: calc(100vw * 10 / 375);
   box-sizing: border-box;
 }
@@ -486,7 +487,7 @@ function reportSelect(value) {
   /* font-family: 'OPPOSansRegular', sans-serif; */
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 18.86 / 375);
+  line-height: calc(100vw * 16.8 / 375);
   letter-spacing: 0;
   color: #ffffff;
 }
@@ -496,10 +497,10 @@ function reportSelect(value) {
 }
 
 .send-btn {
-  width: calc(100vw * 44 / 375);
-  height: calc(100vw * 44 / 375);
+  width: calc(100vw * 36 / 375);
+  height: calc(100vw * 36 / 375);
   border-radius: 50%;
-  background: #fff;
+  background: rgba(25, 44, 65, 1);
   /* cursor: pointer; */
   display: flex;
   flex-direction: column;
@@ -509,8 +510,8 @@ function reportSelect(value) {
 }
 
 .send-btn img {
-  width: calc(100vw * 22 / 375);
-  height: calc(100vw * 22 / 375);
+  width: calc(100vw * 28 / 375);
+  height: calc(100vw * 28 / 375);
 }
 
 .video-call-sheet {
@@ -523,7 +524,7 @@ function reportSelect(value) {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  z-index: 1000;
+  z-index: 998;
 }
 
 .slide-up-enter-active, .slide-up-leave-active {

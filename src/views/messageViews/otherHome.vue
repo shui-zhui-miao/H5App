@@ -52,24 +52,19 @@
           <div class="post-item" v-for="post in userPosts" :key="post.dynamicId" @click="toPostDetail(post.dynamicId, post.dynamicType)">
             <!-- <div class="post-content"> -->
               <!-- Top row: avatar + name (left) and report button (right) -->
-              <div class="post-top">
-                  <div class="post-user">
-                    <div class="post-avatar-border">
-                      <div class="post-avatar">
-                        <div class="post-avatar-img" :style="{ backgroundImage: `url(${currentUser.avator})` }"></div>
-                      </div>
-                    </div>
-                    <div class="post-username" :title="currentUser.name">{{ currentUser.name }}</div>
-                  </div>
-                  <div class="post-report" v-if="userId !== currentUserStore.currentUser.userId" @click.stop="showReportFunc()"></div>
-              </div>
+              
               <!-- Middle image -->
               <div class="post-image" :style="{ backgroundImage: `url(${post.dynamicPic[0]})` }">
-                <div class="post-isvideo-icon" v-if="post.dynamicType === 1"></div>
+                <div class="post-top">
+                    <div class="post-username" :title="currentUser.name">{{ currentUser.name }}</div>
+                    <div class="post-report" v-if="userId !== currentUserStore.currentUser.userId" @click.stop="showReportFunc()"></div>
+                </div>
+                
                 <div class="post-content-button">
                   <div class="post-image-overlay">
                     <div class="overlay-item">
-                      <div class="overlay-icon overlay-like"></div>
+                      <div class="overlay-icon overlay-like" v-if="currentUserStore.currentUser.postLikeIds.includes(post.dynamicId)"></div>
+                      <div class="overlay-icon overlay-dislike" v-else></div>
                       <div class="overlay-count">{{ post.dynamicLikeCount || 0 }}</div>
                     </div>
                     <div class="overlay-item">
@@ -80,15 +75,13 @@
                   <!-- <div class="post_details">
                     <div>{{ post.dynamicDesc }}</div>
                   </div> -->
+                  <div class="post-isvideo-icon" v-if="post.dynamicType === 1"></div>
                 </div>
               </div>
               <!-- Bottom: post type -->
               <!-- <div class="post-type"># {{ otherStore.getTagByIndex(post.dynamicTitleType) }}</div> -->
             <!-- </div> -->
             <!-- 详情 -->
-            <div class="post_details">
-              <div>{{ post.dynamicDesc }}</div>
-            </div>
           </div>
         </template>
         <template v-else>
@@ -301,19 +294,19 @@ function toPostDetail(dynamicId, dynamicType) {
   width: 100%;
   position: absolute;
   top: 0;
-  height: calc(100vh * 348 / 812);
+  height: calc(100vh * 404 / 812);
   background: var(--avatar-url) no-repeat center;
   background-size: cover;
   /* 关键：渐隐 */
-  -webkit-mask-image: linear-gradient(to bottom, rgba(204, 204, 204, 0.82), rgba(204, 204, 204, 0.14));
-  mask-image: linear-gradient(to bottom, rgba(204, 204, 204, 0.82), rgba(204, 204, 204, 0.14));
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+  mask-image: linear-gradient(to bottom, black, transparent);
 }
 
 .scroll-content {
   position: relative;
-  padding-top: calc(100vh * 72 / 812); /* 自适应顶部间距 */
+  padding-top: calc(100vh * 92 / 812); /* 自适应顶部间距 */
   width: 100vw;
-  height: calc(100vh - calc(100vh * 72 / 812));
+  height: calc(100vh - calc(100vh * 92 / 812));
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
@@ -326,7 +319,7 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .top-avatar-border {
   border-radius: 50%;
-  background: rgba(241, 237, 224, 1);
+  background: rgba(219, 188, 255, 1);
   display: flex;
   justify-content: center;
 }
@@ -335,7 +328,7 @@ function toPostDetail(dynamicId, dynamicType) {
   width: calc(100vw * 66 / 375); /* 可以根据需要调整 */
   height: calc(100vw * 66 / 375);
   border-radius: 50%;
-  padding: calc(100vh * 1 / 812) calc(100vw * 1 / 375);
+  padding: calc(100vw * 2 / 375) calc(100vw * 2 / 375);
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -356,9 +349,9 @@ function toPostDetail(dynamicId, dynamicType) {
 .follow-btn {
   position: absolute;
   bottom: 0;
-  right: 0;
-  width: calc(100vw * 20 / 375);
-  height: calc(100vh * 20 / 812);
+  right: calc(100vw * 5 / 375);
+  width: calc(100vw * 14 / 375);
+  height: calc(100vh * 14 / 812);
   background-image: url('@/assets/follow.png');
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
@@ -369,8 +362,8 @@ function toPostDetail(dynamicId, dynamicType) {
 .top-name {
   padding: calc(100vh * 12 / 812) calc(100vw * 20 / 375) 0;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 26.94 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 24 / 375);
   font-family: 'Barlow', sans-serif;
   color: rgb(255, 255, 255);
   white-space: nowrap;
@@ -392,15 +385,15 @@ function toPostDetail(dynamicId, dynamicType) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: calc(100vh * 6 / 812); /* 上下结构间距6 */
+  gap: calc(100vh * 10 / 812); /* 上下结构间距6 */
   width: calc(100vw * 62 / 375);
 }
 
 .stat-number {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 26.94 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 24 / 375);
   color: rgb(255, 255, 255);
 }
 
@@ -408,7 +401,7 @@ function toPostDetail(dynamicId, dynamicType) {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 18.86 / 375);
+  line-height: calc(100vw * 16.8 / 375);
   color: rgb(255, 255, 255);
 }
 
@@ -427,9 +420,9 @@ function toPostDetail(dynamicId, dynamicType) {
 .intro-text {
   flex: 1;
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 14 / 375);
+  font-size: calc(100vw * 16 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 18.86 / 375);
+  line-height: calc(100vw * 19.2 / 375);
   color: rgb(255, 255, 255);
   word-break: break-word;
 }
@@ -438,12 +431,12 @@ function toPostDetail(dynamicId, dynamicType) {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: calc(100vw * 10 / 375); /* 两个元素间距10 */
-  width: calc(100vw * 119 / 375);
-  height: calc(100vh * 53 / 812);
-  background: rgba(255, 255, 255, 0.1);
+  gap: calc(100vw * 5 / 375); /* 两个元素间距10 */
+  width: calc(100vw * 98 / 375);
+  height: calc(100vh * 46 / 812);
+  background: rgba(219, 188, 255, 1);
   /* border: calc(100vw * 1 / 375) solid rgba(251, 226, 100, 1); */
-  border-radius: calc(100vw * 20 / 375);
+  border-radius: calc(100vw * 16 / 375);
   cursor: pointer;
 }
 
@@ -453,8 +446,8 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .chat-icon {
-  width: calc(100vw * 32 / 375);
-  height: calc(100vw * 32 / 375);
+  width: calc(100vw * 24 / 375);
+  height: calc(100vw * 24 / 375);
   background-image: url('@/assets/otherhomechaticon.png');
   background-size: cover;
   background-position: center;
@@ -463,15 +456,15 @@ function toPostDetail(dynamicId, dynamicType) {
 .chat-text {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 26.94 / 375);
-  color: rgba(255, 255, 255, 1);
+  font-weight: 500;
+  line-height: calc(100vw * 24 / 375);
+  color: rgba(0, 0, 0, 1);
 }
 
 .post-title-container {
   margin: calc(100vh * 20 / 812) calc(100vw * 20 / 375) 0;
-  width: calc(100vw * 91 / 375);
-  height: calc(100vw * 44 / 375);
+  width: calc(100vw * 70 / 375);
+  height: calc(100vw * 33 / 375);
   background-image: url('@/assets/posttitlebgi.png');
   background-size: cover;
   background-position: center;
@@ -503,16 +496,14 @@ function toPostDetail(dynamicId, dynamicType) {
 /* Post Item new layout */
 .post-item {
   height: calc(100vh * 272 / 812);
-  border-radius: calc(100vw * 20 / 375);
+  border-radius: calc(100vw * 40 / 375);
   background: rgba(255, 255, 255, 1);
   /* box-shadow: 0px 0px calc(100vw * 4 / 375)  rgba(0, 0, 0, 0.06); */
-  border: calc(100vw * 2 / 375) solid rgba(142, 108, 219, 1);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: calc(100vh * 17 / 812) calc(100vw * 12 / 375) calc(100vh * 10 / 812);
-  gap: calc(100vh * 10 / 812);
+  padding: calc(100vw * 8 / 375);
 }
 
 /* Post item new sections */
@@ -529,7 +520,7 @@ function toPostDetail(dynamicId, dynamicType) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: calc(100vw * 10 / 375);
+  margin: calc(100vh * 10 / 812) calc(100vw * 14 / 375) 0 calc(100vw * 14 / 375);
 }
 
 .post-user {
@@ -568,18 +559,18 @@ function toPostDetail(dynamicId, dynamicType) {
 .post-username {
   flex: 1;
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 14 / 375);
+  font-size: calc(100vw * 24 / 375);
   font-weight: 700;
-  line-height: calc(100vw * 18.86 / 375);
-  color: rgb(0, 0, 0);
+  line-height: calc(100vw * 28.8 / 375);
+  color: rgba(255, 255, 255, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .post-report {
-  width: calc(100vw * 24 / 375);
-  height: calc(100vw * 24 / 375);
+  width: calc(100vw * 22 / 375);
+  height: calc(100vw * 22 / 375);
   background-image: url('@/assets/postpiccommentreportblack.png');
   background-size: cover;
   background-position: center;
@@ -589,21 +580,19 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .post-image {
   flex: 1;
-  border-radius: calc(100vw * 14 / 375);
+  border-radius: calc(100vw * 34 / 375);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .post-isvideo-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: calc(100vw * 36 / 375);
-  height: calc(100vw * 36 / 375);
+  width: calc(100vw * 30 / 375);
+  height: calc(100vw * 30 / 375);
   background-image: url('@/assets/videopluse.png');
   background-size: cover;
   background-position: center;
@@ -613,36 +602,32 @@ function toPostDetail(dynamicId, dynamicType) {
 }
 
 .post-content-button {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
   display: flex;
-  flex-direction: column;
-  gap: calc(100vh * 10 / 812);
-  align-items: flex-end;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 calc(100vw * 12 / 375) calc(100vh * 10 / 812) calc(100vw * 12 / 375);
 }
 
 .post-image-overlay {
   display: flex;
   justify-content: end;
-  gap: calc(100vh * 10 / 812);
-  margin: 0 calc(100vw * 6 / 375) calc(100vh * 6 / 812) 0;
+  gap: calc(100vh * 9 / 812);
 }
 
 .overlay-item {
   border-radius: calc(100vw * 20 / 375);
-  background: rgb(0, 0, 0);
+  background: rgba(255, 255, 255, 1);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: calc(100vh * 4 / 812) calc(100vw * 10 / 375);
-  gap: calc(100vw * 4 / 375);
+  gap: calc(100vw * 6 / 375);
   /* margin-right: calc(100vw * 10 / 375); */
 }
 
 .overlay-icon {
-  width: calc(100vw * 28 / 375);
-  height: calc(100vw * 28 / 375);
+  width: calc(100vw * 20 / 375);
+  height: calc(100vw * 20 / 375);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -651,6 +636,9 @@ function toPostDetail(dynamicId, dynamicType) {
 .overlay-like {
   background-image: url('@/assets/likepic.png');
 }
+.overlay-dislike {
+  background-image: url('@/assets/tinjlrmbeuhnd.png');
+}
 
 .overlay-comment {
   background-image: url('@/assets/chaticon.png');
@@ -658,10 +646,10 @@ function toPostDetail(dynamicId, dynamicType) {
 
 .overlay-count {
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 16 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 21.55 / 375);
-  color: rgb(255, 255, 255);
+  font-size: calc(100vw * 12 / 375);
+  font-weight: 600;
+  line-height: calc(100vw * 14.4 / 375);
+  color: rgba(0, 0, 0, 1);
 }
 
 /* .post_details {

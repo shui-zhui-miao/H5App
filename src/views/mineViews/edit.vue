@@ -194,23 +194,23 @@ onMounted(() => {
   border-radius: 50%;
   background-size: cover;
   background-position: center;
-  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
   position: relative;
   margin-top: calc(100vh * 20 / 812);
 }
 
 .camera-corner {
   position: absolute;
-  top: 0;
+  bottom: 0;
   right: 0;
   width: calc(100vw * 28 / 375);
   height: calc(100vw * 28 / 375);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 1);
+  background: rgba(0, 0, 0, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  /* transform: translate(calc(100vw * 4 / 375), calc(100vw * 4 / 812)); */
+  box-sizing: border-box;
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
 }
 
 .camera-corner img {
@@ -230,8 +230,8 @@ onMounted(() => {
 .label {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 26.94 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 24 / 375);
   color: rgb(255, 255, 255);
 }
 
@@ -255,14 +255,14 @@ onMounted(() => {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 18.86 / 375);
+  line-height: calc(100vw * 16.8 / 375);
   letter-spacing: 0;
   color: #000000;
   background: transparent;
 }
 
 .input-box input::placeholder {
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(153, 153, 153, 1);
 }
 
 .third-section {
@@ -275,7 +275,7 @@ onMounted(() => {
 }
 
 .about-me-box {
-  height: calc(100vh * 111 / 812);
+  height: calc(100vh * 54 / 812);
 }
 
 .about-me-box textarea {
@@ -303,17 +303,15 @@ onMounted(() => {
 }
 
 .save-btn {
-  width: calc(100vw * 264 / 375);
-  height: calc(100vh * 60 / 812);
-  background-image: url('@/assets/zhubtnbgi.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  width: calc(100vw * 198 / 375);
+  height: calc(100vh * 53 / 812);
+  border-radius: calc(100vw * 40 / 375);
+  background: rgba(69, 241, 217, 1);
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 24 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 32.33 / 375);
-  color: #fff;
+  font-size: calc(100vw * 20 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 24 / 375);
+  color: rgba(0, 0, 0, 1);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -115,8 +115,8 @@ h1 {
 .title {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 26.94 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 24 / 375);
   color: rgb(255, 255, 255);
   /* background: linear-gradient(
     141.29deg,
@@ -141,27 +141,27 @@ h1 {
 }
 
 .option {
-  height: calc(100vh * 52 / 812);
-  background: rgba(142, 108, 219, 1);
-  border-radius: calc(100vw * 20 / 375);
+  height: calc(100vh * 56 / 812);
+  background: rgba(255, 255, 255, 1);
+  border-radius: calc(100vw * 40 / 375);
   box-shadow: 0 calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 calc(100vw * 10 / 375);
+  padding: 0 calc(100vw * 16 / 375);
 }
 
 .option-text {
   font-family: 'Barlow', sans-serif;
-  color: rgb(255, 255, 255);
+  color: rgba(0, 0, 0, 1);
   font-size: calc(100vw * 16 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 21.55 / 375);
+  line-height: calc(100vw * 19.2 / 375);
 }
 
 .option-right .arrow-placeholder {
-  width: calc(100vw * 24 / 375);
-  height: calc(100vw * 24 / 375);
+  width: calc(100vw * 20 / 375);
+  height: calc(100vw * 20 / 375);
   background-image: url('@/assets/seetinggoicon.png');
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
@@ -180,28 +180,25 @@ h1 {
 }
 
 .footer-btn {
-  width: calc(100vw * 264 / 375);
-  height: calc(100vh * 60 / 812);
-  background-image: url('@/assets/zhubtnbgi.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  width: calc(100vw * 198 / 375);
+  height: calc(100vh * 53 / 812);
+  border-radius: calc(100vw * 40 / 375);
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 26.94 / 375);
-  color: #fff;
+  font-weight: 900;
+  line-height: calc(100vw * 24 / 375);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* .delete-btn {
-  background: linear-gradient(135deg, rgba(255, 159, 142, 1) 0%, rgba(241, 213, 160, 1) 32.13%, rgba(201, 255, 221, 1) 67.84%, rgba(157, 255, 255, 1) 100%);
-  color: rgba(74, 32, 25, 1);
-} */
+.delete-btn {
+  background: rgba(69, 241, 217, 1);
+  color: rgba(0, 0, 0, 1);
+}
 
 .logout-btn {
-  background-image: url('@/assets/logoutbtnbgi.png');
+  background: rgba(219, 188, 255, 1);
+  color: rgba(255, 255, 255, 1);
 }
 </style>

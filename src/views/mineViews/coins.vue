@@ -1,5 +1,6 @@
 <template>
   <div class="page">
+    <div class="ortubjsnbiud" ></div>
     <div class="top-header">
       <BackButton />
       <span class="edit-title">My diamonds</span>
@@ -12,7 +13,7 @@
         <div class="coin-bg-right"></div>
         <div class="coin-bg-button"></div> -->
         <div class="coin-box-content">
-          <div>My diamonds</div>
+          <div>Wallet Balance:</div>
           <div class="coin-box-right-box">
             <div class="coin-box-right-icon"></div>
             <span class="coin-number">{{ currentUserStore.currentUser.coins }}</span>
@@ -29,22 +30,23 @@
           :key="index"
           class="coin-item"
           :class="{ 'coin-item-selected': selectedIndex === index }"
-          @click="() => { selectedIndex = index; handleCoinClick(item) }"
+          @click="() => { selectedIndex = index;}"
         >
           <div class="coin-left">
-              <img src="@/assets/coin.png" class="coin-item-icon" />
-              <span class="coin-count" :class="{ 'coin-count-selected': selectedIndex === index }">{{ item.cions }}</span>
-            </div>
+            <img src="@/assets/coin.png" class="coin-item-icon" />
+            <span class="coin-count" :class="{ 'coin-count-selected': selectedIndex === index }">{{ item.cions }}</span>
+          </div>
 
-            <div class="coin-right">
-              <span class="coin-price" :class="{ 'coin-price-selected': selectedIndex === index }">{{ item.money }}$</span>
-              <div :class="{ 'coin-radio-selected': selectedIndex === index, 'coin-radio': selectedIndex!== index }">
-                <div v-if="selectedIndex === index" class="coin-radio-inner"></div>
-              </div>
+          <div class="coin-right">
+            <span class="coin-price" :class="{ 'coin-price-selected': selectedIndex === index }">${{ item.money }}</span>
+            <div :class="{ 'coin-radio-selected': selectedIndex === index, 'coin-radio': selectedIndex!== index }">
+              <div v-if="selectedIndex === index" class="coin-radio-inner"></div>
             </div>
+          </div>
         </div>
       </div>
     </div>
+    <div class="recharge" @click="handleRecharge">Recharge</div>
   </div>
 </template>
 
@@ -62,18 +64,18 @@ const userStore =  useUserStore()
 
 const selectedIndex = ref(-1)
 
-function handleCoinClick(item) {
-  // item.key 或 item.id 作为支付标识
-  const payKey = item.key
-
-  // 调用 iOS 支付
-  sendPaymentToIOS(payKey)
+function handleRecharge() {
+  if (selectedIndex.value === -1) return
+  const selectedItem = otherStore.other.coinsSetting[selectedIndex.value]
+  if (selectedItem?.key) {
+    sendPaymentToIOS(selectedItem.key)
+  }
 }
 </script>
 
 <style scoped>
 .page {
-  /* position: relative; */
+  position: relative;
   width: 100%;
   height: 100vh;
   background: url('@/assets/pagebgc.png') no-repeat center center;
@@ -82,6 +84,16 @@ function handleCoinClick(item) {
   display: flex;
   flex-direction: column;
   /* box-sizing: border-box; */
+}
+
+.ortubjsnbiud{
+  position: absolute;
+  right: calc(100vw * 25 / 375);
+  top: calc(100vh * 26 / 812);
+  width: calc(100vw * 168 / 375);
+  height: calc(100vh * 240 / 812);
+  background: url('@/assets/ortubjsnbiud.png') no-repeat center center;
+  background-size: contain;
 }
 
 .top-header {
@@ -94,8 +106,8 @@ function handleCoinClick(item) {
 .edit-title {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 26.94 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 24 / 375);
   color: rgb(255, 255, 255);
   /* background: linear-gradient(
     141.29deg,
@@ -111,20 +123,19 @@ function handleCoinClick(item) {
 .coin-container {
   display: flex;
   justify-content: center;
-  margin: calc(100vh * 20 / 812) 0 0;
+  margin: calc(100vh * 47 / 812) 0 0;
 }
 
 /* 金币盒子外层 */
 .coin-box {
   width: calc(100vw * 339 / 375);
   height: calc(100vh * 85 / 812);
-  background-image: url('@/assets/coinbgc.png');
-  background-size: cover; /* 等比缩放覆盖 */
   /* overflow: hidden; */
   /* position: relative; */
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: calc(100vw * 10 / 375);
 }
 
 .coin-bg-top {
@@ -171,31 +182,27 @@ function handleCoinClick(item) {
   display: flex;       /* 内部内容水平排列 */
   /* flex-direction: column; */
   align-items: flex-start;
-  justify-content: space-between;
+  flex-direction: column;
   padding: 0 calc(100vw * 14 / 375);
   /* gap: calc(100vh * 9 / 812); */
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 24 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 32.33 / 375);
+  font-size: calc(100vw * 20 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 24 / 375);
   color: #fff;
   z-index: 4;
 }
 
 .coin-box-right-box {
-  border-radius: calc(100vw * 40 / 375);
-  background: rgba(0, 0, 0, 1);
-  border: calc(100vw * 2 / 375) solid rgba(142, 108, 219, 1);
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: calc(100vw * 8 / 375);
-  padding: calc(100vw * 10 / 375) calc(100vw * 16 / 375) calc(100vw * 10 / 375) calc(100vw * 16 / 375);
+  gap: calc(100vw * 6 / 375);
 }
 
 .coin-box-right-icon {
-  width: calc(100vw * 40 / 375);
-  height: calc(100vh * 28 / 812);
+  width: calc(100vw * 36 / 375);
+  height: calc(100vh * 36 / 812);
   background-image: url('@/assets/coin.png');
   background-size: cover;
   background-position: center;
@@ -228,8 +235,8 @@ function handleCoinClick(item) {
  
 .coins {
   flex: 1;
-  margin-top: calc(100vh * 20 / 812);
-  padding: 0 calc(100vw * 20 / 375) calc(100vh * 34 / 812);
+  margin-top: calc(100vh * 36 / 812);
+  padding: 0 calc(100vw * 20 / 375) calc(100vh * 90 / 812);
   overflow-y: auto;
 }
 
@@ -244,17 +251,15 @@ function handleCoinClick(item) {
   height: calc(100vh * 64 / 812);
   border-radius: calc(100vw * 20 / 375);
   background-color: #fff;
-  box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375) rgba(0, 0, 0, 0.06);
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 calc(100vw * 10 / 375);
-  border: calc(100vw * 1 / 375) solid #fff;
 }
 
 .coin-item-selected {
-  background: rgba(244, 142, 90, 1);
+  background: rgba(219, 188, 255, 1);
 }
 
 .coin-left {
@@ -264,15 +269,15 @@ function handleCoinClick(item) {
 }
 
 .coin-item-icon {
-  width: calc(100vw * 44 / 375);
-  height: calc(100vh * 31 / 812);
+  width: calc(100vw * 36 / 375);
+  height: calc(100vh * 36 / 812);
 }
 
 .coin-count {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 16 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 21.55 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 19.2 / 375);
   color: #000000;
 }
 
@@ -290,8 +295,8 @@ function handleCoinClick(item) {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 18.86 / 375);
-  color: rgb(0, 0, 0);
+  line-height: auto;
+  color: rgba(36, 24, 24, 1);
 }
 
 .coin-price-selected {
@@ -299,15 +304,17 @@ function handleCoinClick(item) {
 }
 
 .coin-radio {
-  width: calc(100vw * 16 / 375);
-  height: calc(100vw * 16 / 375);
+  width: calc(100vw * 14 / 375);
+  height: calc(100vw * 14 / 375);
   border-radius: 50%;
-  background: rgb(0, 0, 0);
+  background: rgba(232, 232, 232, 1);
+  border: calc(100vw * 1 / 375) solid rgba(85, 85, 85, 1);
+  box-sizing: border-box;
 }
 
 .coin-radio-selected {
-  width: calc(100vw * 15 / 375);
-  height: calc(100vw * 15 / 375);
+  width: calc(100vw * 14 / 375);
+  height: calc(100vw * 14 / 375);
   border-radius: 50%;
   background: rgb(255, 255, 255);
   display: flex;
@@ -317,9 +324,27 @@ function handleCoinClick(item) {
 }
 
 .coin-radio-inner {
-  width: calc(100vw * 10 / 375);
-  height: calc(100vw * 10 / 375);
+  width: calc(100vw * 9 / 375);
+  height: calc(100vw * 9 / 375);
   border-radius: 50%;
-  background: rgba(244, 142, 90, 1);
+  background: rgba(69, 241, 217, 1);
+}
+
+.recharge{
+  position: absolute;
+  bottom: calc(100vh * 35 / 812);
+  left: 0;
+  right: 0;
+  margin: 0 auto; 
+  width: calc(100vw * 198 / 375);
+  height: calc(100vh * 53 / 812);
+  border-radius: calc(100vw * 40 / 375);
+  background: rgba(69, 241, 217, 1);
+  font-family: 'Barlow', sans-serif;
+  font-size: calc(100vw * 20 / 375);
+  font-weight: 900;
+  line-height: calc(100vh * 53 / 812);
+  color: #000000;
+  text-align: center;
 }
 </style>
