@@ -396,7 +396,7 @@ function sendComment() {
 
 .post-content {
   display: flex;
-  padding: calc(100vh * 24 / 812) calc(100vw * 20 / 375) 0 0;
+  padding: calc(100vh * 24 / 812) calc(100vw * 20 / 375) 0 calc(100vw * 20 / 375);
 }
 
 .user-box {
