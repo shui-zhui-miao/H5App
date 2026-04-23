@@ -202,7 +202,7 @@ export function sendShowToLoginToIOS() {
             window.webkit.messageHandlers &&
             window.webkit.messageHandlers.showToLogin
         ) {
-            window.webkit.messageHandlers.showToLogin.postMessage()
+            window.webkit.messageHandlers.showToLogin.postMessage({})
         } else {
             console.warn('iOS handler showToLogin not found')
         }
