@@ -357,7 +357,7 @@ const saveProfile = async () => {
 
 .gender-woman-icon {
   width: calc(100vw * 41 / 375);
-  height: calc(100vh * 41 / 812);
+  height: calc(100vw * 41 / 375);
   background-image: url('@/assets/registerwomanicon.png');
   background-size: cover;
   background-position: center;
@@ -366,7 +366,7 @@ const saveProfile = async () => {
 
 .gender-man-icon {
   width: calc(100vw * 37 / 375);
-  height: calc(100vh * 41 / 812);
+  height: calc(100vw * 41 / 375);
   background-image: url('@/assets/registermanicon.png');
   background-size: cover;
   background-position: center;
