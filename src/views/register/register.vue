@@ -166,18 +166,17 @@ const saveProfile = async () => {
       ? 0
       : Math.floor(Math.random() * 1500) + 500
 
-      setTimeout(() => {
-        userStore.updateUser(currentUserStore.currentUser.userId, {
-          avator: avatarUrl,
-          name: name.value,
-        })
+    setTimeout(() => {
+      userStore.updateUser(currentUserStore.currentUser.userId, {
+        avator: avatarUrl,
+        name: name.value,
+      })
 
-        sendShowLoadingToIOS(false)
-        goBackOrClose()
+      sendShowLoadingToIOS(false)
+      goBackOrClose()
 
-        sendShowToastToIOS('Profile updated')
-      }, delay) 
-
+      sendShowToastToIOS('Profile updated')
+    }, delay) 
   } catch (e) {
     console.error(e)
     sendShowLoadingToIOS(false)
@@ -385,7 +384,7 @@ const saveProfile = async () => {
 
 .gender-box {
   width: calc(100vw * 60 / 375);
-  height: calc(100vh * 60 / 812);
+  height: calc(100vw * 60 / 375);
   background: rgba(255, 255, 255, 1);
   border-radius: 50%;
   display: flex;
