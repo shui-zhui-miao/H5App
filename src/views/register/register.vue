@@ -20,7 +20,7 @@
       />
       <div class="second">
         <div class="second-section">
-            <div class="label">Name</div>
+            <div class="label">NAME</div>
             <div class="input-box">
             <input v-model="name" type="text" placeholder="Please enter" />
             </div>
@@ -28,7 +28,7 @@
       </div>
       <div class="third">
         <div class="third-section">
-            <div class="label">Birthday</div>
+            <div class="label">BIRTHDAY</div>
             <div class="input-box birthday-content" @click="openBirthdayPicker">
                 <div class="birthday-input">{{ birthday }}</div>
                 <div class="birthday-icon"></div>
@@ -46,7 +46,7 @@
       </div>
       <div class="third">
         <div class="third-section">
-            <div class="label">Gender</div>
+            <div class="label">GENDER</div>
             <div class="gender-content">
                 <div class="gender" @click="genderIndex = 0">
                     <div class="gender-box" :class="{ 'gender-box-active': genderIndex === 0 }">
@@ -75,11 +75,16 @@ import { ref } from 'vue'
 import BackButton from '@/components/back.vue'
 import { goBackOrClose, sendShowLoadingToIOS, sendShowToastToIOS, sendNewUserDataToIOS } from '@/utils/iosBridge'
 import { uploadSingleImage } from '@/utils/ossUpload'
+import { useCurrentUserStore } from '@/stores/currentUser'
+import { useUserStore } from '@/stores/user'
 
+
+const currentUserStore = useCurrentUserStore()
+const userStore = useUserStore()
 // Use relative path for web build
-const topBlockImage = ref('/src/assets/avataricon.png')
+const topBlockImage = ref(currentUserStore.currentUser.avator)
 
-const name = ref('')
+const name = ref(currentUserStore.currentUser.name)
 
 const formatDate = (date) => {
   const y = date.getFullYear()
@@ -157,15 +162,21 @@ const saveProfile = async () => {
     if (avatarFile.value) {
       avatarUrl = await uploadSingleImage(avatarFile.value, 'template_development')
     }
+    const delay = avatarFile.value
+      ? 0
+      : Math.floor(Math.random() * 1500) + 500
 
-    let newUserData = {
-        'avator':avatarUrl,
-        'name':name.value,
-      }
+      setTimeout(() => {
+        userStore.updateUser(currentUserStore.currentUser.userId, {
+          avator: avatarUrl,
+          name: name.value,
+        })
 
-      sendShowLoadingToIOS(false)
+        sendShowLoadingToIOS(false)
+        goBackOrClose()
 
-      sendNewUserDataToIOS(newUserData)
+        sendShowToastToIOS('Profile updated')
+      }, delay) 
 
   } catch (e) {
     console.error(e)
@@ -222,12 +233,14 @@ const saveProfile = async () => {
 
 .camera-corner {
   position: absolute;
-  top: 0;
+  bottom: 0;
   right: 0;
   width: calc(100vw * 28 / 375);
   height: calc(100vw * 28 / 375);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 1);
+  background: rgba(0, 0, 0, 1);
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -252,7 +265,7 @@ const saveProfile = async () => {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 20 / 375);
   font-weight: 700;
-  line-height: calc(100vw * 26.94 / 375);
+  line-height: calc(100vw * 24 / 375);
   color: rgb(255, 255, 255);
 }
 
@@ -260,7 +273,7 @@ const saveProfile = async () => {
   width: 100%;
   height: calc(100vh * 54 / 812);
   border-radius: calc(100vw * 16 / 375);
-  background: rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.3);
   /* box-shadow: 0px calc(100vw * 2 / 375) calc(100vw * 4 / 375)  rgba(0, 0, 0, 0.1); */
   backdrop-filter: calc(100vw * 12 / 375);
   display: flex;
@@ -268,6 +281,7 @@ const saveProfile = async () => {
   padding: 0 calc(100vw * 16 / 375);
   box-sizing: border-box;
   cursor: pointer;
+  border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
 }
 
 .birthday-content {
@@ -277,7 +291,7 @@ const saveProfile = async () => {
   font-weight: 400;
   line-height: calc(100vw * 18.86 / 375);
   letter-spacing: 0;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(153, 153, 153, 1);
 }
 
 .birthday-input {
@@ -310,12 +324,12 @@ const saveProfile = async () => {
   font-weight: 400;
   line-height: calc(100vw * 18.86 / 375);
   letter-spacing: 0;
-  color: #000000;
+  color: #ffffff;
   background: transparent;
 }
 
 .input-box input::placeholder {
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(153, 153, 153, 1);
 }
 
 .third-section {
@@ -338,7 +352,7 @@ const saveProfile = async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: calc(100vh * 10 / 375);
+  gap: calc(100vw * 10 / 375);
   cursor: pointer;
 }
 
@@ -382,7 +396,7 @@ const saveProfile = async () => {
 }
 
 .gender-box-active {
-  border: calc(100vw * 2 / 375) solid rgba(142, 108, 219, 1);
+  border: calc(100vw * 2 / 375) solid rgba(69, 241, 217, 1);
 }
 
 .fourth-section {
@@ -393,17 +407,15 @@ const saveProfile = async () => {
 }
 
 .save-btn {
-  width: calc(100vw * 264 / 375);
-  height: calc(100vh * 60 / 812);
-  background-image: url('@/assets/zhubtnbgi.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  width: calc(100vw * 198 / 375);
+  height: calc(100vh * 53 / 812);
+  border-radius: calc(100vw * 40 / 375);
   font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 24 / 375);
-  font-weight: 700;
-  line-height: calc(100vw * 32.33 / 375);
-  color: #fff;
+  font-size: calc(100vw * 20 / 375);
+  font-weight: 900;
+  line-height: calc(100vw * 24 / 375);
+  color: rgba(0, 0, 0, 1);
+  background: rgba(69, 241, 217, 1);
   display: flex;
   align-items: center;
   justify-content: center;

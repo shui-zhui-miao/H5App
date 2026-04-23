@@ -351,7 +351,7 @@ function toPostDetail(dynamicId, dynamicType) {
   bottom: 0;
   right: calc(100vw * 5 / 375);
   width: calc(100vw * 14 / 375);
-  height: calc(100vh * 14 / 812);
+  height: calc(100vw * 14 / 375);
   background-image: url('@/assets/follow.png');
   background-size: cover; /* 等比缩放覆盖 */
   background-position: center; /* 居中显示 */
