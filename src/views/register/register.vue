@@ -28,10 +28,11 @@
       </div>
       <div class="third">
         <div class="third-section">
-            <div class="label">BIRTHDAY</div>
-            <div class="input-box birthday-content" @click="openBirthdayPicker">
-                <div class="birthday-input">{{ birthday }}</div>
-                <div class="birthday-icon"></div>
+          <div class="label">BIRTHDAY</div>
+          <div class="birthday-wrapper">
+            <div class="input-box birthday-content">
+              <div class="birthday-input">{{ birthday }}</div>
+              <div class="birthday-icon"></div>
             </div>
             <input
               ref="birthdayInput"
@@ -40,8 +41,16 @@
               class="birthday-native-input"
               type="date"
               lang="en-US"
-              @click.stop
             />
+          </div>
+        </div>
+      </div>
+      <div class="third">
+        <div class="third-section">
+          <div class="label">LOCATION</div>
+          <div class="input-box">
+            <input v-model="location" type="text" placeholder="Please enter" />
+          </div>
         </div>
       </div>
       <div class="third">
@@ -83,8 +92,8 @@ const currentUserStore = useCurrentUserStore()
 const userStore = useUserStore()
 // Use relative path for web build
 const topBlockImage = ref(currentUserStore.currentUser.avator)
-
 const name = ref(currentUserStore.currentUser.name)
+const location = ref('')
 
 const formatDate = (date) => {
   const y = date.getFullYear()
@@ -151,6 +160,10 @@ const onFileChange = (e) => {
 const saveProfile = async () => {
   if (!name.value.trim()) {
     sendShowToastToIOS('Please enter name')
+    return
+  }
+  if (!location.value.trim()) {
+    sendShowToastToIOS('Please enter location')
     return
   }
 
@@ -282,27 +295,33 @@ const saveProfile = async () => {
   cursor: pointer;
   border: calc(100vw * 1 / 375) solid rgba(255, 255, 255, 1);
 }
-
-.birthday-content {
-  justify-content: space-between;
-  font-family: 'Barlow', sans-serif;
-  font-size: calc(100vw * 14 / 375);
-  font-weight: 400;
-  line-height: calc(100vw * 18.86 / 375);
-  letter-spacing: 0;
-  color: rgba(153, 153, 153, 1);
-}
-
 .birthday-input {
   flex: 1;
+  color: #ffffff;
+  font-family: 'Barlow', sans-serif;
+  font-size: calc(100vw * 14 / 375);
+  font-weight: 600;
+  line-height: calc(100vw * 18.86 / 375);
 }
-
+.birthday-wrapper {
+  position: relative;
+  width: 100%;
+}
+.birthday-content {
+  position: relative;
+  z-index: 1;
+}
 .birthday-native-input {
   position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   opacity: 0;
-  pointer-events: none;
-  width: 0;
-  height: 0;
+  z-index: 2;
+  border: none;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .birthday-icon {
@@ -321,7 +340,7 @@ const saveProfile = async () => {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
-  line-height: calc(100vw * 18.86 / 375);
+  line-height: calc(100vw * 19.2 / 375);
   letter-spacing: 0;
   color: #ffffff;
   background: transparent;
@@ -376,7 +395,7 @@ const saveProfile = async () => {
 .gender-text {
   font-family: 'Barlow', sans-serif;
   font-size: calc(100vw * 14 / 375);
-  font-weight: 400;
+  font-weight: 600;
   line-height: calc(100vw * 18.86 / 375);
   letter-spacing: 0;
   color: #ffffff;
