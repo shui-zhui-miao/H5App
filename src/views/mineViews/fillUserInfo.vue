@@ -66,7 +66,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { goBackOrClose } from '@/utils/iosBridge'
 import { useUIStore } from '@/stores/ui'
 import BackButton from '@/components/back.vue'
@@ -85,7 +85,7 @@ const avatarFile = ref(null)
 const fileInput = ref(null)
 const currentUserStore = useCurrentUserStore()
 const userStore = useUserStore()
-const avatarPreview = ref(currentUserStore.currentUser.avator)
+const avatarPreview = ref('')
 
 const chooseAvatar = () => {
   fileInput.value?.click()
@@ -157,6 +157,18 @@ const handleSave = async () => {
     uiStore.showToast('Updated failed, please check your network.')
   }
 }
+
+onMounted(() => {
+  const user = currentUserStore.currentUser
+  if (!user) return
+
+  name.value = user.name || ''
+  birthday.value = user.birthday || ''
+  location.value = user.location || ''
+  isgender.value = user.gender === 0 || user.gender === 'Female' ? 0 : 1
+  avatarPreview.value = user.avator || ''
+})
+
 const toggleRotatebirthday = () => {
     isRotatedbirthday.value = !isRotatedbirthday.value
 }
