@@ -101,6 +101,11 @@ const router = createRouter({
       name: 'privacyPolicy',
       component: () => import('../views/mineViews/privacyPolicy.vue'),
     },
+    {
+      path: '/fillUserInfo',
+      name: 'fillUserInfo',
+      component: () => import('../views/mineViews/fillUserInfo.vue'),
+    },
   ],
 })
 
