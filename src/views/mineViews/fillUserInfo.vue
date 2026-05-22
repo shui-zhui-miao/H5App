@@ -368,7 +368,6 @@ const isValidBirthday = (dateStr) => {
 .input-box-img {
     width: calc(100vw * 20 / 375);
     height: calc(100vw * 20 / 375);
-    background-image: url('@/assets/augrmtwijijxojep.png');
     background-size: cover;
     background-position: center;
     transition: transform 0.3s ease;
