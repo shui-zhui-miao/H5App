@@ -284,7 +284,7 @@ const isValidBirthday = (dateStr) => {
 
 .text{
     margin-bottom: calc(100vh * 12 / 812);
-    font-family: 'JetBrainsMono', sans-serif;
+    font-family: 'Lato', sans-serif;
     font-size: calc(100vw * 16 / 375);
     font-weight: 700;
     line-height: 1.3;
@@ -305,7 +305,7 @@ const isValidBirthday = (dateStr) => {
   width: 100%;
   border: none;
   outline: none;
-  font-family: 'JetBrainsMono', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: calc(100vw * 14 / 375);
   font-weight: 400;
   line-height: 1.3;
@@ -331,7 +331,7 @@ const isValidBirthday = (dateStr) => {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'JetBrainsMono', sans-serif;
+    font-family: 'Lato', sans-serif;
     font-size: calc(100vw * 14 / 375);
     font-weight: 400;
     color: rgba(255, 255, 255, 1);
@@ -356,7 +356,7 @@ const isValidBirthday = (dateStr) => {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'JetBrainsMono', sans-serif;
+    font-family: 'Lato', sans-serif;
     font-size: calc(100vw * 18 / 375);
     font-weight: 700;
     letter-spacing: 0.02em;
