@@ -56,9 +56,6 @@ function handleOption(index) {
       router.push({ name: 'block' })
       break
     case 3:
-      router.push({ name: 'coins' })
-      break
-    case 4:
       router.push({ name: 'edit' })
       break
     default:
